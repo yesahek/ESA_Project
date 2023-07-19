@@ -3,7 +3,7 @@ import 'package:e_sup_app/widget/my_appBar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../utils/colors.dart';
-import '../../../utils/global_variables.dart';
+// import '../../../utils/global_variables.dart';
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});

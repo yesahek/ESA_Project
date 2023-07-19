@@ -1,7 +1,7 @@
 import 'package:e_sup_app/models/post.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+// import 'package:flutter/src/widgets/framework.dart';
+// import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../utils/colors.dart';
 import 'choice.dart';

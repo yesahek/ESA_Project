@@ -6,6 +6,8 @@ import '../screens/home_screens/friends_screen.dart';
 import '../screens/home_screens/messages_screen.dart';
 import '../screens/home_screens/saves_screen.dart';
 import '../screens/home_screens/todo_screen.dart';
+import '../screens/profile_screen.dart';
+import '../screens/profile_screen2.dart';
 import 'home_button.dart';
 import '../screens/home_screens/activity_screens/activity_screen.dart';
 import '../screens/feed_screen.dart';
@@ -19,7 +21,7 @@ const homeScreenItems = [
   MaterialsScreen(),
   ActivityScreen(),
   LikesScreen(),
-  Text("Profile"),
+  ProfileScreen2(),
 ];
 
 List<HomeButtons> tools = [

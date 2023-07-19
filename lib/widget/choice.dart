@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/post.dart';
-import '../utils/colors.dart';
+// import '../utils/colors.dart';
 
 class Choice extends StatefulWidget {
   final Post item;
