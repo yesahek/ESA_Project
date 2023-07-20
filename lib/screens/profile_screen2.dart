@@ -5,12 +5,11 @@ class ProfileScreen2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var userData = {};
+    // var userData = {};
     int postLen = 0;
     int followers = 0;
     int following = 0;
-    bool isFollowing = false;
-    bool isLoading = false;
+
     return Scaffold(
       // appBar: AppBar(
       //   backgroundColor: mobileBackgroundColor,
@@ -52,7 +51,7 @@ class ProfileScreen2 extends StatelessWidget {
                             children: [
                               // FirebaseAuth.instance.currentUser!.uid ==
                               //         widget.uid
-                              //     ? 
+                              //     ?
                               // FollowButton(
                               //         text: 'Sign Out',
                               //         backgroundColor: mobileBackgroundColor,
@@ -151,29 +150,37 @@ class ProfileScreen2 extends StatelessWidget {
           //       );
           //     }
 
-          //     return GridView.builder(
-          //       shrinkWrap: true,
-          //       itemCount: (snapshot.data! as dynamic).docs.length,
-          //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          //         crossAxisCount: 3,
-          //         crossAxisSpacing: 5,
-          //         mainAxisSpacing: 1.5,
-          //         childAspectRatio: 1,
-          //       ),
-          //       itemBuilder: (context, index) {
-          //         DocumentSnapshot snap =
-          //             (snapshot.data! as dynamic).docs[index];
+          // return
+          ListView.separated(
+            shrinkWrap: true,
 
-          //         return SizedBox(
-          //           child: Image(
-          //             image: NetworkImage(snap['postUrl']),
-          //             fit: BoxFit.cover,
-          //           ),
-          //         );
-          //       },
-          //     );
-          //   },
-          // )
+            itemCount: 8,
+            // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            //   crossAxisCount: 3,
+            //   crossAxisSpacing: 5,
+            //   mainAxisSpacing: 1.5,
+            //   childAspectRatio: 1,
+            // ),
+            itemBuilder: (context, index) {
+              // DocumentSnapshot snap =
+              //     (snapshot.data! as dynamic).docs[index];
+
+              return Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    width: double.infinity,
+                    child: Image(
+                      image: NetworkImage('assets/tumb.jpg'),
+                      //fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
+          ),
         ],
       ),
     );
