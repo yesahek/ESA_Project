@@ -4,12 +4,13 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final int maxLines;
+  final IconData icon;
   const CustomTextField({
-    Key? key,
     required this.controller,
     required this.hintText,
     this.maxLines = 1,
-  }) : super(key: key);
+    this.icon = Icons.face_unlock_outlined,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +18,7 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
           hintText: hintText,
+          icon: Icon(icon, color: Colors.deepPurple),
           border: const OutlineInputBorder(
               borderSide: BorderSide(
             color: Colors.black38,

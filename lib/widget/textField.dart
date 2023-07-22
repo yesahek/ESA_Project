@@ -5,11 +5,13 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final int maxLines;
-  const MyTextField({
-    super.key,
+  final IconData icon;
+   MyTextField(
+    {
     required this.hintText,
     required this.maxLines,
-    required this.controller,
+    required this.controller, 
+    this.icon = Icons.search_outlined,
   });
 
   @override
@@ -20,6 +22,7 @@ class MyTextField extends StatelessWidget {
         controller: controller,
         decoration: InputDecoration(
           hintText: hintText,
+          icon: Icon(icon),
           border: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black87),
             borderRadius: BorderRadius.circular(15),

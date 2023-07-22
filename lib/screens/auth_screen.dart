@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../utils/colors.dart';
 import '../widget/button.dart';
 import '../widget/custom_textField.dart';
-import '../widget/dropdown.dart';
 
 enum Auth {
   signin,
@@ -41,7 +40,7 @@ class _AuthScreenState extends State<AuthScreen> {
     '12'
   ];
   List<String> _sex = ['Male', 'Female'];
-  List<String> _userTypes = ['Student', 'Techer', "School", "Staff", "Guest"];
+  List<String> _userTypes = ['Student', 'Teacher', "School", "Staff", "Guest"];
 
   Auth _auth = Auth.signup;
   final _signUpFormKey = GlobalKey<FormState>();
@@ -57,6 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
   String? _gradeValue = "___Select Your Grade___";
   String? _userTypeValue = "";
 
+  bool _isTeacher = false;
   bool _isLoading = false;
 
   @override
@@ -146,32 +146,41 @@ class _AuthScreenState extends State<AuthScreen> {
                           CustomTextField(
                             controller: _emailController,
                             hintText: 'Email',
+                            icon: Icons.email_outlined,
                           ),
                           const SizedBox(height: 10),
                           CustomTextField(
                             controller: _firstNameController,
                             hintText: 'First name',
+                            icon: Icons.abc,
                           ),
                           const SizedBox(height: 10),
                           CustomTextField(
                             controller: _lastNameController,
                             hintText: 'Last name',
+                            icon: Icons.person,
                           ),
                           const SizedBox(height: 10),
                           CustomTextField(
                             controller: _phoneNumberController,
                             hintText: 'Phone Number',
+                            icon: Icons.phone_enabled_outlined,
                           ),
                           const SizedBox(height: 10),
                           CustomTextField(
                             controller: _passwordController,
                             hintText: 'Password',
+                            icon: Icons.password,
                           ),
                           const SizedBox(height: 10),
                           Column(
                             children: [
                               userTypeDropDown(),
                               SizedBox(height: 10),
+                              //if signing was a techer add sebjects filled
+                              _is
+                                  ? userTypeDropDown()
+                                  : SizedBox(height: 10),
                               schoolDropDown(),
                               SizedBox(height: 10),
                               sexDropDown(),
@@ -222,12 +231,13 @@ class _AuthScreenState extends State<AuthScreen> {
                           CustomTextField(
                             controller: _emailController,
                             hintText: 'Email',
+                            icon: Icons.email_outlined,
                           ),
                           const SizedBox(height: 10),
                           CustomTextField(
-                            controller: _passwordController,
-                            hintText: 'Password',
-                          ),
+                              controller: _passwordController,
+                              hintText: 'Password',
+                              icon: Icons.password),
                           const SizedBox(height: 10),
                           MyButton(
                               onTap: () {
@@ -271,6 +281,10 @@ class _AuthScreenState extends State<AuthScreen> {
         setState(() {
           _userTypeValue = value.toString();
         });
+        if (_userTypeValue == "Techer")
+          setState(() {
+            _isTeacher = true;
+          });
       },
     );
   }
