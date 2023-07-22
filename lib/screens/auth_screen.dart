@@ -21,9 +21,12 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   _AuthScreenState() {
     _schoolValue = _schools[0];
+    _sexValue = _schools[0];
+    _gradeValue = _Grade[0];
+    _userTypeValue = _userTypes[0];
   }
   List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
-  List<String> _Grade = <String>[
+  List<String> _Grade = [
     '1',
     '2',
     '3',
@@ -37,7 +40,8 @@ class _AuthScreenState extends State<AuthScreen> {
     '11',
     '12'
   ];
-  List<String> _sex = <String>['Male', 'Female'];
+  List<String> _sex = ['Male', 'Female'];
+  List<String> _userTypes = ['Student', 'Techer', "School", "Staff", "Guest"];
 
   Auth _auth = Auth.signup;
   final _signUpFormKey = GlobalKey<FormState>();
@@ -48,9 +52,10 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  String? _schoolValue = "";
-  String? _sexValue = "";
-  String? _gradeValue = "";
+  String? _schoolValue = "___Select Your School___";
+  String? _sexValue = "___Select Your Gender___";
+  String? _gradeValue = "___Select Your Grade___";
+  String? _userTypeValue = "";
 
   bool _isLoading = false;
 
@@ -70,13 +75,16 @@ class _AuthScreenState extends State<AuthScreen> {
     });
     // signup user using out atuhethods
     String res = await AuthMethods().signUpUser(
-        email: _emailController.text,
-        firstname: _firstNameController.text,
-        lastname: _lastNameController.text,
-        password: _passwordController.text,
-        surnname: "",
-        sex: 'Male',
-        type: 'Student');
+      email: _emailController.text,
+      firstname: _firstNameController.text,
+      lastname: _lastNameController.text,
+      password: _passwordController.text,
+      surnname: "",
+      sex: _sexValue.toString(),
+      type: 'Student',
+      sId: _schoolValue,
+    );
+
     if (res == "sucess") {
       setState(() {
         _isLoading = false;
@@ -160,69 +168,18 @@ class _AuthScreenState extends State<AuthScreen> {
                             hintText: 'Password',
                           ),
                           const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Column(
                             children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    "School ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  DropdownButton(
-                                    items: _schools
-                                        .map((e) => DropdownMenuItem(
-                                              child: Text(e),
-                                              value: e,
-                                            ))
-                                        .toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _schoolValue = value.toString();
-                                      });
-                                    },
-                                  )
-                                  // Dropdown(
-                                  //   drValue: schools,
-                                  //   // valueNotifier: _schoolValueNotifier,
-                                  // ),
-                                ],
-                              ),
-                              const SizedBox(width: 30),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Sex ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Dropdown(
-                                    drValue: sex,
-                                    //valueNotifier: _sexValueNotifier,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(width: 30),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Grade ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Dropdown(
-                                    drValue: Grade,
-                                    // valueNotifier: _gradeValueNotifier,
-                                  ),
-                                ],
-                              ),
+                              userTypeDropDown(),
+                              SizedBox(height: 10),
+                              schoolDropDown(),
+                              SizedBox(height: 10),
+                              sexDropDown(),
+                              SizedBox(height: 10),
+                              gradeDropDown(),
                             ],
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(width: 30),
                           MyButton(
                               onTap: () {
                                 if (_signUpFormKey.currentState!.validate()) {
@@ -288,6 +245,112 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
       ),
+    );
+  }
+
+// Dropdown widget for school
+  DropdownButtonFormField<String> userTypeDropDown() {
+    return DropdownButtonFormField(
+      icon: const Icon(
+        Icons.arrow_drop_down_circle,
+        color: Colors.deepPurple,
+      ),
+      decoration: InputDecoration(
+          labelText: "User Type",
+          prefixIcon: Icon(
+            Icons.home_max_sharp,
+            color: Colors.deepPurple,
+          )),
+      items: _userTypes
+          .map((e) => DropdownMenuItem(
+                child: Text(e),
+                value: e,
+              ))
+          .toList(),
+      onChanged: (value) {
+        setState(() {
+          _userTypeValue = value.toString();
+        });
+      },
+    );
+  }
+
+// Dropdown widget for school
+  DropdownButtonFormField<String> schoolDropDown() {
+    return DropdownButtonFormField(
+      icon: const Icon(
+        Icons.arrow_drop_down_circle,
+        color: Colors.deepPurple,
+      ),
+      decoration: InputDecoration(
+          labelText: "School",
+          prefixIcon: Icon(
+            Icons.home_max_sharp,
+            color: Colors.deepPurple,
+          )),
+      items: _schools
+          .map((e) => DropdownMenuItem(
+                child: Text(e),
+                value: e,
+              ))
+          .toList(),
+      onChanged: (value) {
+        setState(() {
+          _schoolValue = value.toString();
+        });
+      },
+    );
+  }
+
+// Dropdown widget for
+  DropdownButtonFormField<String> sexDropDown() {
+    return DropdownButtonFormField(
+      icon: const Icon(
+        Icons.arrow_drop_down_circle,
+        color: Colors.deepPurple,
+      ),
+      decoration: InputDecoration(
+          labelText: "Sex",
+          prefixIcon: Icon(
+            Icons.home_max_sharp,
+            color: Colors.deepPurple,
+          )),
+      items: _sex
+          .map((e) => DropdownMenuItem(
+                child: Text(e),
+                value: e,
+              ))
+          .toList(),
+      onChanged: (value) {
+        setState(() {
+          _sexValue = value.toString();
+        });
+      },
+    );
+  }
+
+// Dropdown widget for grade
+  DropdownButtonFormField<String> gradeDropDown() {
+    return DropdownButtonFormField(
+      icon: const Icon(
+        Icons.arrow_drop_down_circle,
+        color: Colors.deepPurple,
+      ),
+      decoration: InputDecoration(
+          labelText: "Grade",
+          prefixIcon: Icon(
+            Icons.home_max_sharp,
+            color: Colors.deepPurple,
+          )),
+      items: _Grade.map((e) => DropdownMenuItem(
+            child: Text(e),
+            value: e,
+          )).toList(),
+      onChanged: (value) {
+        setState(() {
+          _gradeValue = value.toString();
+        });
+      },
     );
   }
 }
