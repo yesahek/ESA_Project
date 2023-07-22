@@ -67,7 +67,21 @@ class User {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  //String toJson() => json.encode(toMap());
+  Map<String, dynamic> toJson() => {
+        'uid': uid,
+        'username': username,
+        'firstname': firstname,
+        'lastname': lastname,
+        'surnname': surnname,
+        'type': type,
+        'sex': sex,
+        'sId': sId,
+        'photoUrl': photoUrl,
+        'email': email,
+        'followers': followers,
+        'following': following,
+      };
 
   factory User.fromJson(String source) =>
       User.fromMap(json.decode(source) as Map<String, dynamic>);

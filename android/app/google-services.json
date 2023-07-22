@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1081573793838",
+    "project_id": "esa-project-99df9",
+    "storage_bucket": "esa-project-99df9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081573793838:android:461d9563267dd890997fbf",
+        "android_client_info": {
+          "package_name": "com.example.e_sup_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081573793838-vu45sgi6g20f6qd7frouvqpeu72e8qhk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD63AuxBbDkS8rSH10ELCTXO2tFvIrHbFE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081573793838-vu45sgi6g20f6qd7frouvqpeu72e8qhk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

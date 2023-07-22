@@ -19,13 +19,11 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  List<String> schools = <String>[
-    'Medhanialem',
-    'Addis Ketema',
-    'Holysavior',
-    'Enat'
-  ];
-  List<String> Grade = <String>[
+  _AuthScreenState() {
+    _schoolValue = _schools[0];
+  }
+  List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
+  List<String> _Grade = <String>[
     '1',
     '2',
     '3',
@@ -39,7 +37,7 @@ class _AuthScreenState extends State<AuthScreen> {
     '11',
     '12'
   ];
-  List<String> sex = <String>['Male', 'Female'];
+  List<String> _sex = <String>['Male', 'Female'];
 
   Auth _auth = Auth.signup;
   final _signUpFormKey = GlobalKey<FormState>();
@@ -50,9 +48,9 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  late final ValueNotifier<String> _schoolValueNotifier;
-  late final ValueNotifier<String> _sexValueNotifier;
-  late final ValueNotifier<String> _gradeValueNotifier;
+  String? _schoolValue = "";
+  String? _sexValue = "";
+  String? _gradeValue = "";
 
   bool _isLoading = false;
 
@@ -64,9 +62,6 @@ class _AuthScreenState extends State<AuthScreen> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _phoneNumberController.dispose();
-    _schoolValueNotifier.dispose();
-    _sexValueNotifier.dispose();
-    _gradeValueNotifier.dispose();
   }
 
   void signUpuser() async {
@@ -74,19 +69,20 @@ class _AuthScreenState extends State<AuthScreen> {
       _isLoading = true;
     });
     // signup user using out atuhethods
-    String res = await AuthMethods.signUpUser(
+    String res = await AuthMethods().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
         password: _passwordController.text,
         surnname: "",
-        sex: _schoolValueNotifier.value,
+        sex: 'Male',
         type: 'Student');
     if (res == "sucess") {
       setState(() {
         _isLoading = false;
       });
     }
+    print(res);
   }
 
   @override
@@ -175,10 +171,23 @@ class _AuthScreenState extends State<AuthScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Dropdown(
-                                    drValue: schools,
-                                    valueNotifier: _schoolValueNotifier,
-                                  ),
+                                  DropdownButton(
+                                    items: _schools
+                                        .map((e) => DropdownMenuItem(
+                                              child: Text(e),
+                                              value: e,
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _schoolValue = value.toString();
+                                      });
+                                    },
+                                  )
+                                  // Dropdown(
+                                  //   drValue: schools,
+                                  //   // valueNotifier: _schoolValueNotifier,
+                                  // ),
                                 ],
                               ),
                               const SizedBox(width: 30),
@@ -192,7 +201,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                   Dropdown(
                                     drValue: sex,
-                                    valueNotifier: _sexValueNotifier,
+                                    //valueNotifier: _sexValueNotifier,
                                   ),
                                 ],
                               ),
@@ -207,7 +216,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                   Dropdown(
                                     drValue: Grade,
-                                    valueNotifier: _gradeValueNotifier,
+                                    // valueNotifier: _gradeValueNotifier,
                                   ),
                                 ],
                               ),
@@ -266,7 +275,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           MyButton(
                               onTap: () {
                                 if (_signInFormKey.currentState!.validate()) {
-                                  //signInUser();
+                                  // signInUser();
                                 }
                               },
                               text: 'Sign In'),

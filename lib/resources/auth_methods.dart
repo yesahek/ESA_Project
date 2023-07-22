@@ -29,20 +29,20 @@ class AuthMethods {
           sex.isNotEmpty ||
           password.isNotEmpty) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+            email: email, password: password);
+
+        print(cred.user!);
+        String profilePicUrl = "_default";
         //School id fetch from database using school name
-        sId = "mukera_School_Id_001";
-        String pUrl = "";
-        model.User user = model.User(
+
+         model.User user = model.User(
           email: email,
           firstname: firstname,
           followers: [],
           following: [],
           lastname: lastname,
-          photoUrl: pUrl,
-          sId: sId,
+          photoUrl: profilePicUrl,
+          sId: "mukera_school_Id",
           sex: sex,
           surnname: surnname,
           type: "student",
@@ -51,21 +51,18 @@ class AuthMethods {
           password: password,
         );
 
-//adding user in database
         await _firestore
             .collection("users")
             .doc(cred.user!.uid)
-            .set(user.toJson() as Map<String, dynamic>);
+            .set(user.toJson());
+
         res = "success";
-      } else {
-        res = "Please enter all the fields";
       }
     } catch (err) {
-      return err.toString();
+      res = err.toString();
     }
     return res;
   }
 
 // logging in user
-
 }
