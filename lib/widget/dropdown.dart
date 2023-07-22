@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Dropdown extends StatefulWidget {
   final List<String> drValue; // Receive the drValue as a parameter
+  final ValueNotifier<String> valueNotifier;
 
-  const Dropdown({required this.drValue, Key? key})
+  const Dropdown({required this.drValue, Key? key, required this.valueNotifier})
       : super(key: key);
 
   @override
@@ -20,8 +21,18 @@ class _DropdownState extends State<Dropdown> {
         .first; // Initialize dropdownValue with the first item from the received list
   }
 
+  String selectedValue = ""; // Create a variable to store the selected value
+
+  String onDropdownChanged(String newValue) {
+    // Callback function to handle the selected value
+    selectedValue = newValue;
+    return newValue;
+    print("Selected Value: $newValue");
+  }
+
   @override
   Widget build(BuildContext context) {
+    ValueNotifier<String> valueNotifier = widget.valueNotifier;
     return DropdownButton<String>(
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
@@ -36,11 +47,17 @@ class _DropdownState extends State<Dropdown> {
         setState(() {
           dropdownValue = value!;
         });
+
+        valueNotifier.value = value!;
       },
       items: widget.drValue.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
+          onTap: () {
+            valueNotifier.value = value;
+            valueNotifier.notifyListeners();
+          },
         );
       }).toList(),
     );

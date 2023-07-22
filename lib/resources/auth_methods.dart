@@ -7,45 +7,49 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //sign up user
-  signUpUser({
-    required String username,
+  Future<String> signUpUser({
+    String? username,
     required String firstname,
     required String lastname,
     required String surnname,
     required String type,
     required String sex,
-    required String sId,
-    required String photoUrl,
+    String? sId,
+    String? photoUrl,
     required String email,
     required String password,
   }) async {
     String res = "Some error occurred";
     try {
       if (email.isNotEmpty ||
-          username.isNotEmpty ||
           firstname.isNotEmpty ||
           lastname.isNotEmpty ||
           surnname.isNotEmpty ||
           type.isNotEmpty ||
           sex.isNotEmpty ||
-          sId.isNotEmpty ||
           password.isNotEmpty) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
+          email: email,
+          password: password,
+        );
+        //School id fetch from database using school name
+        sId = "mukera_School_Id_001";
         String pUrl = "";
         model.User user = model.User(
-            email: email,
-            firstname: firstname,
-            followers: [],
-            following: [],
-            lastname: lastname,
-            photoUrl: pUrl,
-            sId: sId,
-            sex: sex,
-            surnname: surnname,
-            type: "student",
-            uid: cred.user!.uid,
-            username: '');
+          email: email,
+          firstname: firstname,
+          followers: [],
+          following: [],
+          lastname: lastname,
+          photoUrl: pUrl,
+          sId: sId,
+          sex: sex,
+          surnname: surnname,
+          type: "student",
+          uid: cred.user!.uid,
+          username: '',
+          password: password,
+        );
 
 //adding user in database
         await _firestore
@@ -61,4 +65,7 @@ class AuthMethods {
     }
     return res;
   }
+
+// logging in user
+
 }
