@@ -11,31 +11,35 @@ class AuthMethods {
     String? username,
     required String firstname,
     required String lastname,
-    required String surnname,
+    String? surnname,
     required String type,
     required String sex,
     String? sId,
     String? photoUrl,
     required String email,
     required String password,
+    required String grade,
+    required String school,
+    List<String>? subjects,
   }) async {
     String res = "Some error occurred";
     try {
       if (email.isNotEmpty ||
           firstname.isNotEmpty ||
           lastname.isNotEmpty ||
-          surnname.isNotEmpty ||
+          grade.isNotEmpty ||
           type.isNotEmpty ||
           sex.isNotEmpty ||
-          password.isNotEmpty) {
+          password.isNotEmpty ||
+          school.isNotEmpty) {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
-        print(cred.user!);
+        // print(cred.user!);
         String profilePicUrl = "_default";
         //School id fetch from database using school name
 
-         model.User user = model.User(
+        model.User user = model.User(
           email: email,
           firstname: firstname,
           followers: [],
@@ -44,11 +48,14 @@ class AuthMethods {
           photoUrl: profilePicUrl,
           sId: "mukera_school_Id",
           sex: sex,
-          surnname: surnname,
-          type: "student",
+          surnname: surnname!,
+          type: type,
           uid: cred.user!.uid,
           username: '',
           password: password,
+          subjectes: subjects!,
+          grade: grade,
+          school: school,
         );
 
         await _firestore
@@ -65,4 +72,25 @@ class AuthMethods {
   }
 
 // logging in user
+  Future<String> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    String res = "Some error Occurred";
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        //logging in user with email and password
+        await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        res = "success";
+      } else {
+        res = "Please enter all the fields";
+      }
+    } catch (err) {
+      return err.toString();
+    }
+    return res;
+  }
 }

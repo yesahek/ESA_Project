@@ -14,8 +14,11 @@ class User {
   final String email;
   final String password;
 
+  final List<String> subjectes;
   final List followers;
   final List following;
+  final String grade;
+  final String school;
   User({
     required this.uid,
     required this.username,
@@ -28,8 +31,11 @@ class User {
     required this.photoUrl,
     required this.email,
     required this.password,
+    required this.subjectes,
     required this.followers,
     required this.following,
+    required this.grade,
+    required this.school,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,8 +50,12 @@ class User {
       'sId': sId,
       'photoUrl': photoUrl,
       'email': email,
+      'password': password,
+      'subjectes': subjectes,
       'followers': followers,
       'following': following,
+      'grade': grade,
+      'school': school,
     };
   }
 
@@ -61,13 +71,15 @@ class User {
       sId: map['sId'] as String,
       photoUrl: map['photoUrl'] as String,
       email: map['email'] as String,
+      password: map['password'] as String,
+      subjectes: List<String>.from(map['subjectes'] as List<String>),
       followers: List.from(map['followers'] as List),
       following: List.from(map['following'] as List),
-      password: '',
+      grade: map['grade'] as String,
+      school: map['school'] as String,
     );
   }
 
-  //String toJson() => json.encode(toMap());
   Map<String, dynamic> toJson() => {
         'uid': uid,
         'username': username,
@@ -81,6 +93,9 @@ class User {
         'email': email,
         'followers': followers,
         'following': following,
+        'subjects': subjectes,
+        'grade': grade,
+        'school': school,
       };
 
   factory User.fromJson(String source) =>
