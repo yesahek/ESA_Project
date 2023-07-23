@@ -14,6 +14,7 @@ class MessagesScreen extends StatelessWidget {
             MyAppBar(
               backArrow: true,
               title: "Messages",
+              name: "",
             ),
           ],
         ),

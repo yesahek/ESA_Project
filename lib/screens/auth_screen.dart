@@ -1,9 +1,13 @@
 import 'package:e_sup_app/resources/auth_methods.dart';
+import 'package:e_sup_app/screens/waiting_screen.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout.dart';
+import '../responsive/web_screen_layout.dart';
 import '../utils/colors.dart';
-import '../widget/button.dart';
+import '../widget/my_button.dart';
 import '../widget/custom_textField.dart';
 import '../widget/show_subjects.dart';
 
@@ -45,7 +49,7 @@ class _AuthScreenState extends State<AuthScreen> {
   List<String> _userTypes = ['Student', 'Teacher', "School", "Staff", "Guest"];
   List<String> _selectedItems = [];
 
-  Auth _auth = Auth.signup;
+  Auth _auth = Auth.signin;
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -150,6 +154,9 @@ class _AuthScreenState extends State<AuthScreen> {
     if (res != 'success') {
       showSnackBar(context, res);
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   // signIning a users
@@ -161,8 +168,23 @@ class _AuthScreenState extends State<AuthScreen> {
       email: _emailController.text,
       password: _passwordController.text,
     );
-    if (res == "") {
+    if (res == "success") {
+      showSnackBar(context, res);
+      setState(() {
+        _isLoading = false;
+      });
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
+      );
     } else {
+      setState(() {
+        _isLoading = false;
+      });
       showSnackBar(context, res);
     }
   }
@@ -263,34 +285,22 @@ class _AuthScreenState extends State<AuthScreen> {
                             ],
                           ),
                           const SizedBox(width: 30),
-                          InkWell(
+                          MyButton(
                             onTap: () {
                               if (_signUpFormKey.currentState!.validate()) {
                                 signUpuser(_isTeacher);
                               }
                             },
-                            child: Container(
-                              width: double.infinity,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              decoration: const ShapeDecoration(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4)),
-                                ),
-                                color: Colors.blue,
-                              ),
-                              child: _isLoading
-                                  ? CircularProgressIndicator(
+                            content: _isLoading
+                                ? CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Text(
+                                    "Sign Up",
+                                    style: TextStyle(
                                       color: Colors.white,
-                                    )
-                                  : Text(
-                                      "Sign Up",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                      ),
                                     ),
-                            ),
+                                  ),
                           ),
                         ],
                       ),
@@ -336,12 +346,13 @@ class _AuthScreenState extends State<AuthScreen> {
                               icon: Icons.password),
                           const SizedBox(height: 10),
                           MyButton(
-                              onTap: () {
-                                if (_signInFormKey.currentState!.validate()) {
-                                  signInUser();
-                                }
-                              },
-                              text: 'Sign In'),
+                            onTap: () {
+                              if (_signInFormKey.currentState!.validate()) {
+                                signInUser();
+                              }
+                            },
+                            content: Text('Sign In'),
+                          ),
                         ],
                       ),
                     ),
@@ -353,10 +364,6 @@ class _AuthScreenState extends State<AuthScreen> {
       ),
     );
   }
-
-
-
-
 
 //************************************************************
 //

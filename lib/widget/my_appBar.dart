@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 class MyAppBar extends StatelessWidget {
   final bool backArrow;
   final String title;
+  final String name;
   const MyAppBar({
     Key? key,
     required this.backArrow,
     required this.title,
+    required this.name,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class MyAppBar extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              'Hi Isaac,',
+                              name,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 24,

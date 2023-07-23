@@ -27,6 +27,7 @@ class _ActivityScreenState extends State<ActivityScreen>
               MyAppBar(
                 backArrow: false,
                 title: "Activity",
+                name: "",
               ),
               Container(
                 alignment: Alignment.topLeft,

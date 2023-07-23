@@ -14,6 +14,7 @@ class SavesScreen extends StatelessWidget {
             MyAppBar(
               backArrow: true,
               title: "Saves",
+              name: "",
             ),
           ],
         ),

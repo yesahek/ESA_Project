@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class User {
   final String uid;
@@ -12,13 +14,13 @@ class User {
   final String sId;
   final String photoUrl;
   final String email;
-  final String password;
-
   final List<String> subjectes;
   final List followers;
   final List following;
   final String grade;
   final String school;
+  final bool status;
+  final String state;
   User({
     required this.uid,
     required this.username,
@@ -30,12 +32,13 @@ class User {
     required this.sId,
     required this.photoUrl,
     required this.email,
-    required this.password,
     required this.subjectes,
     required this.followers,
     required this.following,
     required this.grade,
     required this.school,
+    required this.status,
+    required this.state,
   });
 
   Map<String, dynamic> toMap() {
@@ -50,12 +53,13 @@ class User {
       'sId': sId,
       'photoUrl': photoUrl,
       'email': email,
-      'password': password,
       'subjectes': subjectes,
       'followers': followers,
       'following': following,
       'grade': grade,
       'school': school,
+      'status': status,
+      'state': state,
     };
   }
 
@@ -71,12 +75,13 @@ class User {
       sId: map['sId'] as String,
       photoUrl: map['photoUrl'] as String,
       email: map['email'] as String,
-      password: map['password'] as String,
       subjectes: List<String>.from(map['subjectes'] as List<String>),
       followers: List.from(map['followers'] as List),
       following: List.from(map['following'] as List),
       grade: map['grade'] as String,
       school: map['school'] as String,
+      status: map['status'],
+      state: map['state'] as String,
     );
   }
 
@@ -96,8 +101,34 @@ class User {
         'subjects': subjectes,
         'grade': grade,
         'school': school,
+        'status': status,
+        'state': state,
       };
 
   factory User.fromJson(String source) =>
       User.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  static User fromSnap(DocumentSnapshot snap) {
+    var snapshot = snap.data() as Map<String, dynamic>;
+
+    return User(
+      uid: snapshot['uid'],
+      username: snapshot['username'],
+      firstname: snapshot['firstname'],
+      lastname: snapshot['lastname'],
+      surnname: snapshot['surnname'],
+      type: snapshot['type'],
+      sex: snapshot['sex'],
+      sId: snapshot['sId'],
+      photoUrl: snapshot['photoUrl'],
+      email: snapshot['email'],
+      subjectes: snapshot['subjectes'] ?? [],
+      followers: snapshot['followers'] ?? [],
+      following: snapshot['following'] ?? [],
+      grade: snapshot['grade'],
+      school: snapshot['school'],
+      status: snapshot['status'],
+      state: snapshot['state'],
+    );
+  }
 }

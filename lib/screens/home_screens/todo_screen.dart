@@ -14,6 +14,7 @@ class TodoScreen extends StatelessWidget {
             MyAppBar(
               backArrow: true,
               title: "Todo",
+              name: "",
             ),
           ],
         ),

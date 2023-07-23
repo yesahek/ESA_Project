@@ -14,6 +14,7 @@ class EventsScreen extends StatelessWidget {
             MyAppBar(
               backArrow: true,
               title: "Events",
+              name: "",
             ),
           ],
         ),

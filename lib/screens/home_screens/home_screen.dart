@@ -28,6 +28,7 @@ class HomeScreen extends StatelessWidget {
               MyAppBar(
                 backArrow: false,
                 title: "Home",
+                name: "",
               ),
               const SizedBox(
                 height: 20,

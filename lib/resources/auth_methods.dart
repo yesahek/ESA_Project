@@ -6,6 +6,13 @@ class AuthMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<model.User> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot snap =
+        await _firestore.collection("users").doc(currentUser.uid).get();
+    return model.User.fromSnap(snap);
+  }
+
   //sign up user
   Future<String> signUpUser({
     String? username,
@@ -52,10 +59,11 @@ class AuthMethods {
           type: type,
           uid: cred.user!.uid,
           username: '',
-          password: password,
           subjectes: subjects!,
           grade: grade,
           school: school,
+          status: false,
+          state: 'Active',
         );
 
         await _firestore
@@ -92,5 +100,11 @@ class AuthMethods {
       return err.toString();
     }
     return res;
+  }
+
+  // signOut
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

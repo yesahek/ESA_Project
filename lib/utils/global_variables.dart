@@ -15,6 +15,8 @@ import '../screens/likes_screen.dart';
 import '../screens/materials_screen.dart';
 import 'colors.dart';
 
+const webScreenSize = 600;
+
 const homeScreenItems = [
   HomeScreen(),
   FeedScreen(),

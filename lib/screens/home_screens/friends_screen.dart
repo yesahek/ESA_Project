@@ -14,6 +14,7 @@ class FriendsScreen extends StatelessWidget {
             MyAppBar(
               backArrow: true,
               title: "Friends",
+              name: "",
             ),
           ],
         ),

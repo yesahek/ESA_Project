@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
-  final String text;
+  //final String text;
   final VoidCallback onTap;
+  final Widget content;
   const MyButton({
     super.key,
     required this.onTap,
-    required this.text,
+     required this.content,
   });
 
   @override
@@ -16,9 +17,7 @@ class MyButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 50),
       ),
-      child: Text(
-        text,
-      ),
+      child: content,
     );
   }
 }

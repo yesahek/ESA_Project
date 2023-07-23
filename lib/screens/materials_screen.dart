@@ -66,7 +66,7 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
           padding: const EdgeInsets.only(left: 5, right: 5),
           child: SingleChildScrollView(
             child: Column(children: [
-              MyAppBar(backArrow: false, title: "Material"),
+              MyAppBar(backArrow: false, title: "Material",name: ""),
               Search(
                 searchController: searchController,
                 textHint: textHint,

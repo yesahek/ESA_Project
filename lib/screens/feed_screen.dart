@@ -20,7 +20,7 @@ class FeedScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 5, right: 5),
           child: Column(
             children: [
-              MyAppBar(backArrow: false,title: "Feed"),
+              MyAppBar(backArrow: false,title: "Feed",name: ""),
               Search(
                 searchController: searchController,
                 textHint: textHint,
