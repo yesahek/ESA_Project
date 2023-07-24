@@ -4,7 +4,6 @@ import '../utils/colors.dart';
 
 class materialItem extends StatelessWidget {
   final String title;
-  final String authorSchool;
   final String author;
   final String dept;
   final int gr;
@@ -12,7 +11,6 @@ class materialItem extends StatelessWidget {
   const materialItem({
     super.key,
     required this.title,
-    required this.authorSchool,
     required this.author,
     required this.dept,
     required this.gr,
@@ -58,7 +56,7 @@ class materialItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  authorSchool,
+                  "authorSchool",
                 ),
                 Text(" Gr $gr"),
               ],

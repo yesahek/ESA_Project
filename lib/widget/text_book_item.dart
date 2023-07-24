@@ -21,7 +21,9 @@ class TextBookItem extends StatelessWidget {
           Container(
             width: 50,
             height: 50,
-            child: Image.network(bookCover),
+            child: Image(
+              image: AssetImage(bookCover),
+            ),
           ),
           Text(bookTitle)
         ],

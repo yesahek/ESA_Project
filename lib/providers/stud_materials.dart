@@ -7,62 +7,62 @@ class StudMaterials with ChangeNotifier {
     StudMaterial(
       id: 'm1',
       title: 'Learn the besic Maths',
-      author: "Desalgna",
+      authorId: "Desalgna",
       dept: "Matimatics",
       date: DateTime(2023, 05, 12),
       grade: 8,
-      authorSchool: "Medhanialem",
       fileType: "pdf",
+      fileUrl: '',
     ),
     StudMaterial(
       id: 'm2',
       title: 'English For Ethiopia',
-      author: "Dr.Getachew",
+      authorId: "Dr.Getachew",
       dept: "English",
       date: DateTime(2023, 05, 12),
       grade: 8,
-      authorSchool: "Addis Ketema",
       fileType: "Docx",
+      fileUrl: '',
     ),
     StudMaterial(
       id: 'm3',
       title: 'Learn the besic Maths',
-      author: "Dr.Getachew",
+      authorId: "Dr.Getachew",
       dept: "Matimatics",
       date: DateTime(2023, 05, 12),
       grade: 2,
-      authorSchool: "Medehanialem",
       fileType: "ppt",
+      fileUrl: '',
     ),
     StudMaterial(
       id: 'm4',
       title: 'Fundamental of Maths',
-      author: "Desalgna",
+      authorId: "Desalgna",
       dept: "Matimatics",
       date: DateTime(2023, 05, 12),
       grade: 5,
-      authorSchool: "Addis Ketema",
       fileType: "Pdf",
+      fileUrl: '',
     ),
     StudMaterial(
       id: 'm5',
       title: 'Ethiopia',
-      author: "Dr.Teferi",
+      authorId: "Dr.Teferi",
       dept: "History",
       date: DateTime(2023, 05, 12),
       grade: 7,
-      authorSchool: "Kelem Amba",
       fileType: "pdf",
+      fileUrl: '',
     ),
     StudMaterial(
       id: 'm6',
       title: 'Learn the besic Maths',
-      author: "Dr.Getachew",
+      authorId: "Dr.Getachew",
       dept: "Matimatics",
       date: DateTime(2023, 05, 12),
       grade: 3,
-      authorSchool: "Addis Ketema",
       fileType: "docx",
+      fileUrl: '',
     ),
   ];
 
@@ -74,6 +74,7 @@ class StudMaterials with ChangeNotifier {
 
   void addMaterial(newMaterial) {
     _items.add(newMaterial);
+    notifyListeners();
   }
 
   notifyListeners();

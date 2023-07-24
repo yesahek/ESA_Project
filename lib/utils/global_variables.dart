@@ -19,8 +19,8 @@ const webScreenSize = 600;
 
 const homeScreenItems = [
   HomeScreen(),
-  FeedScreen(),
   MaterialsScreen(),
+  FeedScreen(),
   ActivityScreen(),
   LikesScreen(),
   ProfileScreen2(),

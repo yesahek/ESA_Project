@@ -43,9 +43,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   Widget build(BuildContext context) {
     model.User user = Provider.of<UserProvider>(context).getUser;
-    bool _isAproved = user.status;
 
-    return !_isAproved
+    return !user.status
         ? waitingScreen(
             name: user.firstname,
             school: user.school,
@@ -68,15 +67,15 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.newspaper,
-                    color: _page == 1 ? appColor : secondaryColor,
+                    Icons.library_books_outlined,
+                    color: _page == 2 ? appColor : secondaryColor,
                   ),
                   label: '',
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.library_books_outlined,
-                    color: _page == 2 ? appColor : secondaryColor,
+                    Icons.newspaper,
+                    color: _page == 1 ? appColor : secondaryColor,
                   ),
                   label: '',
                 ),

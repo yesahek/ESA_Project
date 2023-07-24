@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -5,17 +6,21 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final int maxLines;
   final IconData icon;
+  final bool isHidden;
   const CustomTextField({
+    Key? key,
     required this.controller,
     required this.hintText,
     this.maxLines = 1,
     this.icon = Icons.face_unlock_outlined,
-  });
+    this.isHidden = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      obscureText: isHidden,
       decoration: InputDecoration(
           hintText: hintText,
           icon: Icon(icon, color: Colors.deepPurple),
