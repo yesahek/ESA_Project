@@ -23,20 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
     _userTypeValue = _userTypes[0];
   }
   List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
-  List<String> _Grade = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12'
-  ];
+  List<int> _Grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   List<String> _sex = ['Male', 'Female'];
   List<String> _userTypes = ['Student', 'Teacher', "School", "Staff", "Guest"];
   List<String> _selectedItems = [];
@@ -50,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   String _schoolValue = "___Select Your School___";
   String _sexValue = "___Select Your Gender___";
-  String _gradeValue = "___Select Your Grade___";
+  int _gradeValue = 0;
   String _userTypeValue = "";
 
   bool _isTeacher = false;
@@ -463,13 +450,13 @@ class _SignupScreenState extends State<SignupScreen> {
             Icons.home_max_sharp,
             color: Colors.deepPurple,
           )),
-      items: _Grade.map((e) => DropdownMenuItem(
-            child: Text(e),
-            value: e,
+      items: _Grade.map((e) => DropdownMenuItem<String>(
+            child: Text(e as String),
+            value: e as String,
           )).toList(),
       onChanged: (value) {
         setState(() {
-          _gradeValue = value.toString();
+          _gradeValue = value as int;
         });
       },
     );

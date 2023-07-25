@@ -18,7 +18,7 @@ class UserProvider with ChangeNotifier {
     subjectes: [],
     followers: [],
     following: [],
-    grade: '',
+    grade: 0,
     school: '',
     status: false,
     state: '',

@@ -46,25 +46,17 @@ class _LoginScreenState extends State<LoginScreen> {
       password: _passwordController.text,
     );
     if (res == "success") {
-      // UserProvider userProvider =
-      //     Provider.of<UserProvider>(context, listen: false);
-      // await userProvider.refreshUser();
-      // var userDetail = userProvider.getUser;
-      // bool _isApprovedUser = userDetail.status;
-      // String userName = userDetail.firstname;
-      // String schoolName = userDetail.school;
-      //String   _ValidationState = userProvider.getUser.state;
-
       setState(() {
         _isLoading = false;
       });
       showSnackBar(context, res);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-            builder: (context) => ResponsiveLayout(
-                  webScreenLayout: WebScreenLayout(),
-                  mobileScreenLayout: MobileScreenLayout(),
-                )),
+          builder: (context) => ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
       );
     } else {
       setState(() {

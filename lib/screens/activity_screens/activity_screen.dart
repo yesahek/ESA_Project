@@ -1,8 +1,8 @@
-import 'package:e_sup_app/screens/home_screens/activity_screens/leaderboard_screen.dart';
+import 'package:e_sup_app/screens/activity_screens/leaderboard_screen.dart';
 import 'package:e_sup_app/widget/my_appBar.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/colors.dart';
+import '../../utils/colors.dart';
 // import '../../../utils/global_variables.dart';
 
 class ActivityScreen extends StatefulWidget {

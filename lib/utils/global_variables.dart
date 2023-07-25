@@ -9,10 +9,10 @@ import '../screens/home_screens/todo_screen.dart';
 //import '../screens/profile_screen.dart';
 import '../screens/profile_screen2.dart';
 import 'home_button.dart';
-import '../screens/home_screens/activity_screens/activity_screen.dart';
+import '../screens/activity_screens/activity_screen.dart';
 import '../screens/feed_screen.dart';
 import '../screens/likes_screen.dart';
-import '../screens/materials_screen.dart';
+import '../screens/courses_screen/courses_screen.dart';
 import 'colors.dart';
 
 const webScreenSize = 600;

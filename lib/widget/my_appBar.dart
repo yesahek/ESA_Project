@@ -1,5 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:e_sup_app/models/user.dart';
+import 'package:e_sup_app/providers/users.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../resources/auth_methods.dart';
+import '../screens/login_screen.dart';
 
 class MyAppBar extends StatelessWidget {
   final bool backArrow;
@@ -14,6 +20,8 @@ class MyAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User userDetaile =
+        Provider.of<UserProvider>(context, listen: false).getUser;
     return Padding(
       //padding: const EdgeInsets.only(left: 4.0, right: 8.0, top: 5, bottom: 8),
       padding: const EdgeInsets.all(3),
@@ -39,7 +47,7 @@ class MyAppBar extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              name,
+                              userDetaile.firstname,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 24,
@@ -47,7 +55,7 @@ class MyAppBar extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'Student',
+                              userDetaile.type,
                             ),
                           ],
                         ),
@@ -57,7 +65,10 @@ class MyAppBar extends StatelessWidget {
             if (backArrow)
               Text(
                 title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                    color: Colors.black),
               ),
             Container(
               decoration: BoxDecoration(
@@ -65,8 +76,16 @@ class MyAppBar extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.all(12),
-              child: const Icon(
-                Icons.notifications,
+              child: IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () async {
+                  await AuthMethods().signOut();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                  );
+                },
                 color: Colors.white,
               ),
             ),

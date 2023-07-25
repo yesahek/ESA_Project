@@ -42,67 +42,60 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    model.User user = Provider.of<UserProvider>(context).getUser;
-
-    return !user.status
-        ? waitingScreen(
-            name: user.firstname,
-            school: user.school,
-          )
-        : Scaffold(
-            body: PageView(
-              children: homeScreenItems,
-              onPageChanged: onPageChanged,
-              controller: pageController,
+    return Scaffold(
+      body: PageView(
+        children: homeScreenItems,
+        onPageChanged: onPageChanged,
+        controller: pageController,
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: _page == 0 ? appColor : secondaryColor,
             ),
-            bottomNavigationBar: CupertinoTabBar(
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: _page == 0 ? appColor : secondaryColor,
-                  ),
-                  label: '',
-                  backgroundColor: appColor,
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.library_books_outlined,
-                    color: _page == 2 ? appColor : secondaryColor,
-                  ),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.newspaper,
-                    color: _page == 1 ? appColor : secondaryColor,
-                  ),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.leaderboard_outlined,
-                    color: _page == 3 ? appColor : secondaryColor,
-                  ),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.favorite,
-                    color: _page == 4 ? appColor : secondaryColor,
-                  ),
-                  label: '',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.person,
-                    color: _page == 5 ? appColor : secondaryColor,
-                  ),
-                  label: '',
-                ),
-              ],
-              onTap: navigationTapped,
+            label: '',
+            backgroundColor: appColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.library_books_outlined,
+              color: _page == 2 ? appColor : secondaryColor,
             ),
-          );
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.newspaper,
+              color: _page == 1 ? appColor : secondaryColor,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.leaderboard_outlined,
+              color: _page == 3 ? appColor : secondaryColor,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+              color: _page == 4 ? appColor : secondaryColor,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: _page == 5 ? appColor : secondaryColor,
+            ),
+            label: '',
+          ),
+        ],
+        onTap: navigationTapped,
+      ),
+    );
   }
 }

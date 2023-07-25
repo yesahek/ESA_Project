@@ -3,9 +3,9 @@ import 'package:e_sup_app/providers/leaders.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../utils/global_variables.dart';
-import '../../../widget/leader_item.dart';
-import '../../../widget/leaderboard_item.dart';
+import '../../utils/global_variables.dart';
+import '../../widget/leader_item.dart';
+import '../../widget/leaderboard_item.dart';
 
 class LeaderBoard extends StatelessWidget {
   const LeaderBoard({super.key});

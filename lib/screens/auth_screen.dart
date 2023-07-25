@@ -31,19 +31,19 @@ class _AuthScreenState extends State<AuthScreen> {
     _userTypeValue = _userTypes[0];
   }
   List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
-  List<String> _Grade = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12'
+  List<int> _Grade = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
   ];
   List<String> _sex = ['Male', 'Female'];
   List<String> _userTypes = ['Student', 'Teacher', "School", "Staff", "Guest"];
@@ -60,7 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   String _schoolValue = "___Select Your School___";
   String _sexValue = "___Select Your Gender___";
-  String _gradeValue = "___Select Your Grade___";
+  int _gradeValue = 0;
   String _userTypeValue = "";
 
   bool _isTeacher = false;
@@ -550,13 +550,13 @@ class _AuthScreenState extends State<AuthScreen> {
             Icons.home_max_sharp,
             color: Colors.deepPurple,
           )),
-      items: _Grade.map((e) => DropdownMenuItem(
-            child: Text(e),
-            value: e,
+      items: _Grade.map((e) => DropdownMenuItem<String>(
+            child: Text(e.toString()),
+            value: e.toString(),
           )).toList(),
       onChanged: (value) {
         setState(() {
-          _gradeValue = value.toString();
+          _gradeValue = value as int;
         });
       },
     );

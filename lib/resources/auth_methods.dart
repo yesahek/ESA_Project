@@ -25,7 +25,7 @@ class AuthMethods {
     String? photoUrl,
     required String email,
     required String password,
-    required String grade,
+    required int grade,
     required String school,
     List<String>? subjects,
   }) async {
@@ -34,7 +34,7 @@ class AuthMethods {
       if (email.isNotEmpty ||
           firstname.isNotEmpty ||
           lastname.isNotEmpty ||
-          grade.isNotEmpty ||
+          grade.isNaN ||
           type.isNotEmpty ||
           sex.isNotEmpty ||
           password.isNotEmpty ||

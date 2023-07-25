@@ -1,4 +1,6 @@
+import 'package:e_sup_app/models/user.dart';
 import 'package:e_sup_app/providers/users.dart';
+import 'package:e_sup_app/screens/waiting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,7 @@ class ResponsiveLayout extends StatefulWidget {
 }
 
 class _ResponsiveLayoutState extends State<ResponsiveLayout> {
+  late UserProvider userProvider;
   @override
   void initState() {
     super.initState();
@@ -26,19 +29,24 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   }
 
   addData() async {
-    UserProvider userProvider =
-        Provider.of<UserProvider>(context, listen: false);
+    userProvider = Provider.of<UserProvider>(context, listen: false);
     await userProvider.refreshUser();
   }
 
   @override
   Widget build(BuildContext context) {
+    User userDetaile = userProvider.getUser;
+    bool isApprovedUser = userDetaile.status;
+
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > webScreenSize) {
           return widget.webScreenLayout;
         } else {
-          return widget.mobileScreenLayout;
+          return isApprovedUser
+              ? widget.mobileScreenLayout
+              : waitingScreen(
+                  name: userDetaile.firstname, school: userDetaile.school);
         }
       },
     );

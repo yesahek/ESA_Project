@@ -17,7 +17,7 @@ class User {
   final List<String> subjectes;
   final List followers;
   final List following;
-  final String grade;
+  final int grade;
   final String school;
   final bool status;
   final String state;
@@ -78,7 +78,7 @@ class User {
       subjectes: List<String>.from(map['subjectes'] as List<String>),
       followers: List.from(map['followers'] as List),
       following: List.from(map['following'] as List),
-      grade: map['grade'] as String,
+      grade: map['grade'] as int,
       school: map['school'] as String,
       status: map['status'],
       state: map['state'] as String,
