@@ -1,11 +1,7 @@
-import 'package:e_sup_app/providers/users.dart';
 import 'package:e_sup_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../models/user.dart' as model;
-import '../screens/waiting_screen.dart';
 import '../utils/global_variables.dart';
 
 class MobileScreenLayout extends StatefulWidget {

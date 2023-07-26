@@ -12,7 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'providers/courses.dart';
+import 'providers/courses_provider.dart';
 import 'providers/text_books.dart';
 //import 'screens/main_screen.dart';
 import 'screens/login_screen.dart';
@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           create: (_) => UserProvider(),
         ),
         ChangeNotifierProvider.value(
-          value:  CoursesProvider(),
+          value: CoursesProvider(),
         ),
       ],
       child: MaterialApp(

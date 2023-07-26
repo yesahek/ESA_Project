@@ -3,16 +3,14 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_sup_app/models/stud_material.dart';
 import 'package:e_sup_app/resources/storage_methods.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:mime/mime.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 import '../providers/stud_materials.dart';
 
 class FireStoreMethods {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  
+  // upload materials in storage and firstore
   Future<String> uploadMaterial(String title, String description, int grade,
       String dept, String uid, File file) async {
        String? fileType = lookupMimeType(file.path); 
@@ -40,4 +38,7 @@ class FireStoreMethods {
     }
     return res;
   }
+
+  //fetch And Set courses
+
 }

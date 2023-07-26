@@ -1,17 +1,12 @@
 import 'dart:io';
 
 import 'package:e_sup_app/resources/firestore_methods.dart';
-import 'package:e_sup_app/resources/storage_methods.dart';
 import 'package:e_sup_app/utils/utils.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:flutter/services.dart';
 import 'package:path/path.dart' as path;
 import 'package:e_sup_app/widget/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_document_picker/flutter_document_picker.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/stud_materials.dart';
 
 class AddNewMaterial extends StatefulWidget {
   final String sId;

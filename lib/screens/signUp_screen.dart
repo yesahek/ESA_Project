@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../resources/auth_methods.dart';
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout.dart';
+import '../responsive/web_screen_layout.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
 import '../widget/custom_textField.dart';
@@ -25,7 +28,7 @@ class _SignupScreenState extends State<SignupScreen> {
   List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
   List<int> _Grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   List<String> _sex = ['Male', 'Female'];
-  List<String> _userTypes = ['Student', 'Teacher', "School", "Staff", "Guest"];
+  List<String> _userTypes = ['Student', 'Educator', "School", "Staff", "Guest"];
   List<String> _selectedItems = [];
 
   final _signUpFormKey = GlobalKey<FormState>();
@@ -40,7 +43,7 @@ class _SignupScreenState extends State<SignupScreen> {
   int _gradeValue = 0;
   String _userTypeValue = "";
 
-  bool _isTeacher = false;
+  bool _isEducator = false;
   bool _isStaff = false;
   bool _isStudent = false;
   bool _isGuest = false;
@@ -85,12 +88,12 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
 // signuping a user
-  void signUpuser(bool isTeacher) async {
+  void signUpuser(bool isEducator) async {
     setState(() {
       _isLoading = true;
     });
     String res = '';
-    if (isTeacher) {
+    if (isEducator) {
       // signup for Techers using auth_methods
       res = await AuthMethods().signUpUser(
         email: _emailController.text,
@@ -123,6 +126,15 @@ class _SignupScreenState extends State<SignupScreen> {
     }
 
     if (res == "success") {
+      showSnackBar(context, res);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
+      );
       setState(() {
         _isLoading = false;
       });
@@ -142,8 +154,6 @@ class _SignupScreenState extends State<SignupScreen> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
-          //padding: const EdgeInsets.symmetric(horizontal: 8),
-          // width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -154,12 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              // Flexible(
-              //   flex: 2,
-              //   child: Container(),
-              // ),
               Container(
-                //padding: const EdgeInsets.all(8.0),
                 padding: EdgeInsets.only(left: 35, right: 35, top: 30),
                 color: backgroundColor,
                 child: Form(
@@ -201,7 +206,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           userTypeDropDown(),
                           // SizedBox(height: 10),
                           //if signing was a techer add sebjects filled
-                          _isTeacher ? teacherSubjects() : SizedBox(height: 10),
+                          _isEducator
+                              ? EducatorSubjects()
+                              : SizedBox(height: 10),
                           schoolDropDown(),
                           SizedBox(height: 10),
                           sexDropDown(),
@@ -213,7 +220,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       MyButton(
                         onTap: () {
                           if (_signUpFormKey.currentState!.validate()) {
-                            signUpuser(_isTeacher);
+                            signUpuser(_isEducator);
                           }
                         },
                         content: _isLoading
@@ -272,8 +279,8 @@ class _SignupScreenState extends State<SignupScreen> {
 //
 //
 ////
-//Teachers Subject
-  Padding teacherSubjects() {
+//Educators Subject
+  Padding EducatorSubjects() {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -315,10 +322,10 @@ class _SignupScreenState extends State<SignupScreen> {
           _userTypeValue = value.toString();
         });
         switch (_userTypeValue) {
-          case "Teacher":
+          case "Educator":
             setState(() {
-              _isTeacher = true;
-              _isTeacher = false;
+              _isEducator = true;
+              _isEducator = false;
               _isStaff = false;
               _isStudent = false;
               _isGuest = false;
@@ -327,8 +334,8 @@ class _SignupScreenState extends State<SignupScreen> {
             break;
           case "Student":
             setState(() {
-              _isTeacher = false;
-              _isTeacher = false;
+              _isEducator = false;
+              _isEducator = false;
               _isStaff = false;
               _isStudent = true;
               _isGuest = false;
@@ -337,8 +344,8 @@ class _SignupScreenState extends State<SignupScreen> {
             break;
           case "Staff":
             setState(() {
-              _isTeacher = false;
-              _isTeacher = false;
+              _isEducator = false;
+              _isEducator = false;
               _isStaff = true;
               _isStudent = false;
               _isGuest = false;
@@ -347,8 +354,8 @@ class _SignupScreenState extends State<SignupScreen> {
             break;
           case "Guest":
             setState(() {
-              _isTeacher = false;
-              _isTeacher = false;
+              _isEducator = false;
+              _isEducator = false;
               _isStaff = false;
               _isStudent = false;
               _isGuest = true;
@@ -357,8 +364,8 @@ class _SignupScreenState extends State<SignupScreen> {
             break;
           case "Staff":
             setState(() {
-              _isTeacher = false;
-              _isTeacher = false;
+              _isEducator = false;
+              _isEducator = false;
               _isStaff = false;
               _isStudent = false;
               _isGuest = false;
@@ -367,17 +374,17 @@ class _SignupScreenState extends State<SignupScreen> {
             break;
           default:
             setState(() {
-              _isTeacher = false;
-              _isTeacher = false;
+              _isEducator = false;
+              _isEducator = false;
               _isStaff = false;
               _isStudent = false;
               _isGuest = false;
               _isSchool = false;
             });
         }
-        if (_userTypeValue == "Teacher")
+        if (_userTypeValue == "Educator")
           setState(() {
-            _isTeacher = !_isTeacher;
+            _isEducator = !_isEducator;
           });
       },
     );
@@ -451,12 +458,12 @@ class _SignupScreenState extends State<SignupScreen> {
             color: Colors.deepPurple,
           )),
       items: _Grade.map((e) => DropdownMenuItem<String>(
-            child: Text(e as String),
-            value: e as String,
+            child: Text(e.toString()),
+            value: e.toString(),
           )).toList(),
       onChanged: (value) {
         setState(() {
-          _gradeValue = value as int;
+          _gradeValue = int.parse(value!);
         });
       },
     );

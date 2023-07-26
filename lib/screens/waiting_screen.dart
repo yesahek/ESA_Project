@@ -7,7 +7,6 @@ import 'package:e_sup_app/screens/login_screen.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../resources/auth_methods.dart';
-import '../widget/my_appBar.dart';
 import '../widget/my_button.dart';
 
 class waitingScreen extends StatefulWidget {
@@ -25,7 +24,7 @@ class waitingScreen extends StatefulWidget {
 }
 
 class _waitingScreenState extends State<waitingScreen> {
-  void _refresh() async {}
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

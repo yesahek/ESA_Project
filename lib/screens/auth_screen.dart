@@ -1,5 +1,4 @@
 import 'package:e_sup_app/resources/auth_methods.dart';
-import 'package:e_sup_app/screens/waiting_screen.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 

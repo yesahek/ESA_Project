@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:e_sup_app/models/course.dart';
-import 'package:e_sup_app/providers/users.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/courses.dart';
+import '../providers/courses_provider.dart';
 import 'course_item.dart';
 
 class Courses extends StatefulWidget {

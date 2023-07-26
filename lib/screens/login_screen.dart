@@ -1,12 +1,6 @@
-import 'package:e_sup_app/screens/auth_screen.dart';
 import 'package:e_sup_app/screens/signUp_screen.dart';
-import 'package:e_sup_app/screens/waiting_screen.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:e_sup_app/widget/textField.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/users.dart';
 import '../resources/auth_methods.dart';
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout.dart';
