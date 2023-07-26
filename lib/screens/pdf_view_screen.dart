@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 //import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart';
 //import 'package:path_provider/path_provider.dart';
 
 class PdfViewerScreen extends StatefulWidget {
@@ -29,8 +28,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
     final response = await http.get(Uri.parse(widget.fileUrl));
     final bytes = response.bodyBytes;
-    final filename = basename(widget.fileUrl);
-    final dir;
+    //final filename = basename(widget.fileUrl);
+    //final dir;
     //= await getApplicationDocumentsDirectory();
     var file ;
     //= File('${dir.path}/$filename');

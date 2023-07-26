@@ -1,4 +1,3 @@
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -10,6 +9,7 @@ class StorageMethods {
   // adding file to firebase storage
   Future<String> uploadFileToStorage(
       String firstDir, String secDir, String fileName, File file) async {
+    // ignore: unnecessary_null_comparison
     if (file == null) {
       return "null";
     }

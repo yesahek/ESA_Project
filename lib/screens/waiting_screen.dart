@@ -1,12 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/responsive/mobile_screen_layout.dart';
 import 'package:e_sup_app/responsive/responsive_layout.dart';
 import 'package:e_sup_app/responsive/web_screen_layout.dart';
 import 'package:e_sup_app/screens/login_screen.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import '../resources/auth_methods.dart';
 import '../widget/my_button.dart';
 
 class waitingScreen extends StatefulWidget {
@@ -92,7 +92,7 @@ class _waitingScreenState extends State<waitingScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    await AuthMethods().signOut();
+                    await UserProvider().signOut();
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => LoginScreen(),

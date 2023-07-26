@@ -1,7 +1,7 @@
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/screens/signUp_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../resources/auth_methods.dart';
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout.dart';
 import '../responsive/web_screen_layout.dart';
@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       _isLoading = true;
     });
-    String res = await AuthMethods().loginUser(
+    String res = await UserProvider().loginUser(
       email: _emailController.text,
       password: _passwordController.text,
     );
@@ -81,11 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     image: AssetImage('assets/Images/moeLogo.png'),
                   ),
                 ),
-                // SvgPicture.asset(
-                //   "img/moeLogo.png",
-                //   //color: primaryColor,
-                //   height: 64,
-                // ),
                 SizedBox(
                   height: 20,
                 ),

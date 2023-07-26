@@ -1,7 +1,7 @@
 import 'package:e_sup_app/providers/leaders.dart';
 import 'package:e_sup_app/providers/posts.dart';
-import 'package:e_sup_app/providers/stud_materials.dart';
-import 'package:e_sup_app/providers/users.dart';
+import 'package:e_sup_app/providers/course_materials_provider.dart';
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/responsive/responsive_layout.dart';
 import 'package:e_sup_app/responsive/web_screen_layout.dart';
 import 'package:e_sup_app/responsive/mobile_screen_layout.dart';
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: StudMaterials(),
+          value: courseMaterialProvider(),
         ),
         ChangeNotifierProvider.value(
           value: Posts(),
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Edu-Sup',
+        title: 'ESA',
         theme: ThemeData(
           scaffoldBackgroundColor: primaryColor,
           //primarySwatch: Colors.blue,

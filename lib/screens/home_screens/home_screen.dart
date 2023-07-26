@@ -179,8 +179,10 @@ class ToosButton extends StatelessWidget {
                     // color: Theme.of(context).accentColor,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color:
-                          color != null ? color : Theme.of(context).accentColor,
+                      // ignore: unnecessary_null_comparison
+                      color: color != null
+                          ? color
+                          : Theme.of(context).colorScheme.secondary,
                     ),
                     constraints: const BoxConstraints(
                       minWidth: 25,

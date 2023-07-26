@@ -1,4 +1,6 @@
-import 'package:e_sup_app/resources/auth_methods.dart';
+// ignore_for_file: unused_field
+
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -30,20 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
     _userTypeValue = _userTypes[0];
   }
   List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
-  List<int> _Grade = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12
-  ];
+  List<int> _Grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   List<String> _sex = ['Male', 'Female'];
   List<String> _userTypes = ['Student', 'Teacher', "School", "Staff", "Guest"];
   List<String> _selectedItems = [];
@@ -114,7 +103,7 @@ class _AuthScreenState extends State<AuthScreen> {
     String res = '';
     if (isTeacher) {
       // signup for Techers using auth_methods
-      res = await AuthMethods().signUpUser(
+      res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
@@ -129,7 +118,7 @@ class _AuthScreenState extends State<AuthScreen> {
       );
     } else {
       // signup user using authethods for students
-      res = await AuthMethods().signUpUser(
+      res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
@@ -163,7 +152,7 @@ class _AuthScreenState extends State<AuthScreen> {
     setState(() {
       _isLoading = true;
     });
-    String res = await AuthMethods().loginUser(
+    String res = await UserProvider().loginUser(
       email: _emailController.text,
       password: _passwordController.text,
     );

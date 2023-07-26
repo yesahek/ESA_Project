@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
 
-class materialItem extends StatelessWidget {
+class courseMaterialItem extends StatelessWidget {
   final String title;
   final String author;
-  final String dept;
+  final String courseId;
   final int gr;
   final String fileType;
-  const materialItem({
+  const courseMaterialItem({
     super.key,
     required this.title,
     required this.author,
-    required this.dept,
+    required this.courseId,
     required this.gr,
     required this.fileType,
   });
@@ -63,7 +63,7 @@ class materialItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('Dept of $dept'),
+                Text('Dept of $courseId'),
                 Text('by $author'),
               ],
             ),

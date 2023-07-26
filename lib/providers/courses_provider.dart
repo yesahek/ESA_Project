@@ -4,33 +4,34 @@ import 'package:flutter/material.dart';
 import '../models/course.dart';
 
 class CoursesProvider with ChangeNotifier {
-  List<Course> _items = [
-    Course(
-      courseId: "c001",
-      title: "English",
-      grade: 12,
-    ),
-    Course(
-      courseId: "c001",
-      title: "Maths",
-      grade: 12,
-    ),
-    Course(
-      courseId: "c001",
-      title: "Amharic",
-      grade: 12,
-    ),
-    Course(
-      courseId: "c001",
-      title: "English",
-      grade: 10,
-    ),
-    Course(
-      courseId: "c001",
-      title: "Amharic",
-      grade: 10,
-    ),
-  ];
+  List<Course> _items = [];
+  //  List<Course> _items = [
+  //   Course(
+  //     courseId: "c001",
+  //     title: "English",
+  //     grade: 12,
+  //   ),
+  //   Course(
+  //     courseId: "c001",
+  //     title: "Maths",
+  //     grade: 12,
+  //   ),
+  //   Course(
+  //     courseId: "c001",
+  //     title: "Amharic",
+  //     grade: 12,
+  //   ),
+  //   Course(
+  //     courseId: "c001",
+  //     title: "English",
+  //     grade: 10,
+  //   ),
+  //   Course(
+  //     courseId: "c001",
+  //     title: "Amharic",
+  //     grade: 10,
+  //   ),
+  //];
   List<Course> get allItems {
     return [..._items];
   }
@@ -40,14 +41,14 @@ class CoursesProvider with ChangeNotifier {
       final snapshot =
           await FirebaseFirestore.instance.collection('courses').get();
       _items = snapshot.docs.map((doc) {
-        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        Map<String, dynamic> data = doc.data();
         return Course(
           courseId: doc.id,
           title: data['title'] ?? '',
           grade: data['grade'] ?? 0,
         );
       }).toList();
-      print(_items.toList());
+      //print(_items);
       notifyListeners();
     } catch (e) {
       // Handle any errors that occur during fetching.

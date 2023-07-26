@@ -1,6 +1,9 @@
+// ignore_for_file: unused_field
+
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 
-import '../resources/auth_methods.dart';
+//import '../resources/auth_methods.dart';
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout.dart';
 import '../responsive/web_screen_layout.dart';
@@ -95,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
     String res = '';
     if (isEducator) {
       // signup for Techers using auth_methods
-      res = await AuthMethods().signUpUser(
+      res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
@@ -110,7 +113,7 @@ class _SignupScreenState extends State<SignupScreen> {
       );
     } else {
       // signup user using authethods for students
-      res = await AuthMethods().signUpUser(
+      res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,

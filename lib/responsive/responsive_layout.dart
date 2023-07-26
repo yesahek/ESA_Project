@@ -1,5 +1,5 @@
 import 'package:e_sup_app/models/user.dart';
-import 'package:e_sup_app/providers/users.dart';
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/screens/waiting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

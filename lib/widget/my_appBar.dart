@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:e_sup_app/models/user.dart';
-import 'package:e_sup_app/providers/users.dart';
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../resources/auth_methods.dart';
 import '../screens/login_screen.dart';
 
 class MyAppBar extends StatelessWidget {
@@ -79,7 +78,7 @@ class MyAppBar extends StatelessWidget {
               child: IconButton(
                 icon: Icon(Icons.logout),
                 onPressed: () async {
-                  await AuthMethods().signOut();
+                  await UserProvider().signOut();
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => LoginScreen(),
