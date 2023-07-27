@@ -9,35 +9,35 @@ import '../models/course_material.dart';
 import '../providers/course_materials_provider.dart';
 
 class FireStoreMethods {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // upload materials in storage and firstore
-  Future<String> uploadMaterial(String title, String description, int grade,
-      String courseId, String uid, File file) async {
-       String? fileType = lookupMimeType(file.path); 
-    String res = "Some error occurred";
-    try {
-      String FileUrl = await StorageMethods()
-          .uploadFileToStorage("Student Materials", uid, title, file);
-      String studMaterialId =
-          const Uuid().v1(); // creates unique id based on time
-      courseMaterial studMaterial = courseMaterial(
-          id: studMaterialId,
-          title: title,
-          grade: grade,
-          authorId: uid,
-          date: DateTime.now(),
-          courseId: courseId,
-          fileType: fileType!,
-          fileUrl:FileUrl.toString()  );
-      _firestore.collection("Student Materials").doc(studMaterialId).set(studMaterial.toJson());
-       courseMaterialProvider().addMaterial(studMaterial);
+  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // // upload materials in storage and firstore
+  // Future<String> uploadMaterial(String title, String description, int grade,
+  //     String courseId, String uid, File file) async {
+  //      String? fileType = lookupMimeType(file.path); 
+  //   String res = "Some error occurred";
+  //   try {
+  //     String FileUrl = await StorageMethods()
+  //         .uploadFileToStorage("Student Materials", uid, title, file);
+  //     String studMaterialId =
+  //         const Uuid().v1(); // creates unique id based on time
+  //     courseMaterial CourseMaterial = courseMaterial(
+  //         id: studMaterialId,
+  //         title: title,
+  //         grade: grade,
+  //         authorId: uid,
+  //         date: DateTime.now().,
+  //         courseId: courseId,
+  //         fileType: fileType!,
+  //         fileUrl:FileUrl.toString()  );
+  //     _firestore.collection("Course Materials").doc(studMaterialId).set(CourseMaterial.toJson());
+  //      courseMaterialProvider().addMaterial(CourseMaterial);
       
-      res = "success";
-    } catch (err) {
-      res = err.toString();
-    }
-    return res;
-  }
+  //     res = "success";
+  //   } catch (err) {
+  //     res = err.toString();
+  //   }
+  //   return res;
+  // }
 
   //fetch And Set courses
 

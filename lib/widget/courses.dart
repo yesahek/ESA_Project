@@ -12,6 +12,7 @@ class Courses extends StatefulWidget {
   final int grade;
 
   const Courses({
+
     Key? key,
     required this.enrolled,
     required this.grade,
@@ -35,27 +36,28 @@ class _CoursesState extends State<Courses> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const courseMaterialScreen("courseId"),
-                ),
-              );
-            },
-            child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: _items.length,
-              itemBuilder: (_, i) => Column(
-                children: [
-                  courseItem(
+          ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: _items.length,
+            itemBuilder: (_, i) => Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            courseMaterialScreen(_items[i].courseId,_items[i].title),
+                      ),
+                    );
+                  },
+                  child: courseItem(
                     title: _items[i].title,
                   ),
-                  Divider(),
-                ],
-              ),
+                ),
+                Divider(),
+              ],
             ),
           ),
         ],

@@ -1,13 +1,15 @@
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class courseMaterial {
   final String id;
   final String title;
   final int grade;
   final String authorId;
-  final DateTime date;
+  final Timestamp date;
   final String courseId;
   final String fileType;
   final String fileUrl;
@@ -28,24 +30,11 @@ class courseMaterial {
       'title': title,
       'grade': grade,
       'authorId': authorId,
-      'date': date.millisecondsSinceEpoch,
+      'date': date,
       'courseId': courseId,
       'fileType': fileType,
       'fileUrl': fileUrl,
     };
-  }
-
-  factory courseMaterial.fromMap(Map<String, dynamic> map) {
-    return courseMaterial(
-      id: map['id'] as String,
-      title: map['title'] as String,
-      grade: map['grade'] as int,
-      authorId: map['authorId'] as String,
-      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
-      fileType: map['fileType'] as String,
-      fileUrl: map['fileUrl'] as String, 
-      courseId: map[''] as String,
-    );
   }
 
   Map<String, dynamic> toJson() => {
@@ -53,13 +42,9 @@ class courseMaterial {
         'title': title,
         'grade': grade,
         'authorId': authorId,
-        'date': date.millisecondsSinceEpoch,
+        'date': date,
         'courseId': courseId,
         'fileType': fileType,
         'fileUrl': fileUrl,
       };
-
-  factory courseMaterial.fromJson(String source) =>
-      courseMaterial.fromMap(json.decode(source) as Map<String, dynamic>);
-
 }

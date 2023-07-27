@@ -51,18 +51,18 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
     super.didChangeDependencies();
   }
 
-  void _startAddNewMaterial(BuildContext ctx, String sId, String uid) {
-    showModalBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: AddNewMaterial(sId, uid),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
-  }
+  // void _startAddNewMaterial(BuildContext ctx, String sId, String uid) {
+  //   showModalBottomSheet(
+  //     context: ctx,
+  //     builder: (_) {
+  //       return GestureDetector(
+  //         onTap: () {},
+  //         child: AddNewMaterial(sId, uid),
+  //         behavior: HitTestBehavior.opaque,
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -149,18 +149,18 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                 ),
               ),
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => _startAddNewMaterial(
-                context,
-                userDetail.sId,
-                userDetail.uid,
-              ),
-              backgroundColor: Color.fromARGB(255, 243, 211, 115),
-              child: Icon(
-                Icons.add,
-              ),
-            ),
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () => _startAddNewMaterial(
+            //     context,
+            //     userDetail.sId,
+            //     userDetail.uid,
+            //   ),
+            //   backgroundColor: Color.fromARGB(255, 243, 211, 115),
+            //   child: Icon(
+            //     Icons.add,
+            //   ),
+            // ),
           );
   }
 }

@@ -16,21 +16,6 @@ class CoursesProvider with ChangeNotifier {
   //     title: "Maths",
   //     grade: 12,
   //   ),
-  //   Course(
-  //     courseId: "c001",
-  //     title: "Amharic",
-  //     grade: 12,
-  //   ),
-  //   Course(
-  //     courseId: "c001",
-  //     title: "English",
-  //     grade: 10,
-  //   ),
-  //   Course(
-  //     courseId: "c001",
-  //     title: "Amharic",
-  //     grade: 10,
-  //   ),
   //];
   List<Course> get allItems {
     return [..._items];
@@ -58,6 +43,10 @@ class CoursesProvider with ChangeNotifier {
 
   List<Course> findByGrade(int gr) {
     return _items.where((course) => course.grade == gr).toList();
+  }
+
+  List<Course> findByCourseId(int cId) {
+    return _items.where((course) => course.courseId == cId).toList();
   }
 
   notifyListeners();

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:e_sup_app/providers/course_materials_provider.dart';
 import 'package:e_sup_app/resources/firestore_methods.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:path/path.dart' as path;
@@ -7,19 +8,19 @@ import 'package:e_sup_app/widget/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_document_picker/flutter_document_picker.dart';
 
-
 class AddNewMaterial extends StatefulWidget {
   final String sId;
   final String uid;
-  AddNewMaterial(this.sId, this.uid);
+  final String courseId;
+  final int grade;
+  AddNewMaterial(this.sId, this.uid, this.courseId, this.grade);
   @override
   State<AddNewMaterial> createState() => _AddNewMaterialState();
 }
 
 class _AddNewMaterialState extends State<AddNewMaterial> {
   final titleController = TextEditingController();
-  final gradeController = TextEditingController();
-  final DeptController = TextEditingController();
+  final CourseController = TextEditingController();
   final DescController = TextEditingController();
   bool _isLoading = false;
   File? _file;
@@ -44,19 +45,20 @@ class _AddNewMaterialState extends State<AddNewMaterial> {
 
   void submitData() async {
     final enterdTitle = titleController.text;
-    final enteredGrade = int.parse(gradeController.text);
-    final enteredDept = DeptController.text;
+
+    final CourseId = widget.courseId;
     final description = DescController.text;
 
-    if (enterdTitle.isEmpty || enteredGrade < 0 || enteredDept.isEmpty) {
+    if (enterdTitle.isEmpty || CourseId.isEmpty) {
       return;
     }
     setState(() {
       _isLoading = true;
     });
     String forSnack = "";
-    String res = await FireStoreMethods().uploadMaterial(enterdTitle,
-        description, enteredGrade, enteredDept, widget.uid, _file!);
+    String res = await courseMaterialProvider().uploadCourseMaterial(
+        enterdTitle, description, widget.grade, CourseId, widget.uid, _file!);
+        
     setState(() {
       _isLoading = false;
     });
@@ -83,17 +85,18 @@ class _AddNewMaterialState extends State<AddNewMaterial> {
               controller: titleController,
               onSubmitted: (_) => submitData(),
             ),
-            TextField(
-              decoration: InputDecoration(labelText: 'grade'),
-              controller: gradeController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitData(),
-            ),
-            TextField(
-              decoration: InputDecoration(labelText: 'Departement'),
-              controller: DeptController,
-              onSubmitted: (_) => submitData(),
-            ),
+            // TextField(
+            //   decoration: InputDecoration(labelText: 'grade'),
+            //   controller: gradeController,
+            //   keyboardType: TextInputType.number,
+            //   onSubmitted: (_) => submitData(),
+            // ),
+            // TextField(
+            //   decoration: InputDecoration(labelText: widget.courseId),
+            //   controller: CourseController,
+
+            //   onSubmitted: (_) => submitData(),
+            // ),
             TextField(
               decoration: InputDecoration(labelText: 'Description'),
               controller: DescController,
