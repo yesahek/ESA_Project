@@ -1,4 +1,4 @@
-import 'package:e_sup_app/providers/posts.dart';
+import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:e_sup_app/widget/searchBar.dart';
 import 'package:e_sup_app/widget/post_card.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final postData = Provider.of<Posts>(context, listen: false);
+    final postData = Provider.of<PostProvider>(context, listen: false);
     final searchController = TextEditingController();
     final String textHint = "search post";
     return Scaffold(
@@ -20,7 +20,7 @@ class FeedScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 5, right: 5),
           child: Column(
             children: [
-              MyAppBar(backArrow: false,title: "Feed",name: ""),
+              MyAppBar(backArrow: false, title: "Feed", name: ""),
               Search(
                 searchController: searchController,
                 textHint: textHint,

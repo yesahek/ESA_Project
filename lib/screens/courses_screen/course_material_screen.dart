@@ -82,6 +82,8 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
     _courseMaterials = Provider.of<courseMaterialProvider>(context,
             listen: false)
         .getCourseMaterialByCourseAndGrade(widget.courseId, userDetail.grade);
+    bool isEducator = userDetail.type == "Educator";
+    //print(isEducator);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -163,20 +165,24 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
         ),
       ),
       //button for adding new course material
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _startAddNewMaterial(
-          context,
-          userDetail.sId,
-          userDetail.uid,
-          widget.courseId,
-          userDetail.grade,
-        ),
-        backgroundColor: Color.fromARGB(255, 243, 211, 115),
-        child: Icon(
-          Icons.add,
-        ),
-      ),
+
+      floatingActionButtonLocation:
+          isEducator ? FloatingActionButtonLocation.endFloat : null,
+      floatingActionButton: isEducator
+          ? FloatingActionButton(
+              onPressed: () => _startAddNewMaterial(
+                context,
+                userDetail.sId,
+                userDetail.uid,
+                widget.courseId,
+                userDetail.grade,
+              ),
+              backgroundColor: Color.fromARGB(255, 243, 211, 115),
+              child: Icon(
+                Icons.add,
+              ),
+            )
+          : null,
     );
   }
 }

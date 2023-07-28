@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_sup_app/models/question.dart';
 
 class Post {
@@ -19,4 +20,16 @@ class Post {
     required this.datePublished,
     this.question = null,
   });
+ Map<String, dynamic> toJson() => {
+        'id': postId,
+        'description':description,
+        'imageUrl':imageUrl,
+        'likes':likes,
+        'uid':uid,
+        'username': username ,
+        'datePublished': datePublished,
+        'question' : question,
+
+      };
 }
+

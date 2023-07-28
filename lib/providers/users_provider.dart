@@ -14,7 +14,7 @@ class UserProvider with ChangeNotifier {
     type: '',
     sex: '',
     sId: '',
-    photoUrl: '',
+    photoUrl: 'gs://esa-project-99df9.appspot.com/playground/default.jpg',
     email: '',
     subjectes: [],
     followers: [],

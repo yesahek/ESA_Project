@@ -1,5 +1,5 @@
 import 'package:e_sup_app/providers/leaders.dart';
-import 'package:e_sup_app/providers/posts.dart';
+import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:e_sup_app/providers/course_materials_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/responsive/responsive_layout.dart';
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           value: courseMaterialProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: Posts(),
+          value: PostProvider(),
         ),
         ChangeNotifierProvider.value(
           value: TextBooks(),

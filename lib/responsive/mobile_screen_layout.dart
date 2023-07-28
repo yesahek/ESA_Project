@@ -49,16 +49,17 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
     model.User user = userProvider.getUser;
-const homeScreenItems = [
-  HomeScreen(),
-  MaterialsScreen(),
-  //FeedScreen(),
-  // ActivityScreen(),
-  LikesScreen(),
-  ProfileScreen2(),
-];
+    const homeScreenItems = [
+      HomeScreen(),
+      MaterialsScreen(),
+      //FeedScreen(),
+      // ActivityScreen(),
+      //LikesScreen(),
+      ProfileScreen2(),
+    ];
 
     return Scaffold(
       body: PageView(
@@ -117,8 +118,6 @@ const homeScreenItems = [
     );
   }
 }
-
-
 
 // Home buttons class
 class HomeButtons {
