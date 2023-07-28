@@ -1,20 +1,49 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:e_sup_app/screens/book_reader_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
 
-class courseItem extends StatelessWidget {
+class courseMaterialItem extends StatefulWidget {
+  final String materialId;
+  final String fileUrl;
+  final DateTime date;
   final String title;
-  final int grade;
-  const courseItem({
+  final String author;
+  final String courseId;
+  final int gr;
+  final String fileType;
+  final String courseName;
+  const courseMaterialItem({
     Key? key,
+    required this.materialId,
+    required this.fileUrl,
+    required this.date,
     required this.title,
-    required this.grade,
+    required this.author,
+    required this.courseId,
+    required this.gr,
+    required this.fileType,
+    required this.courseName,
   }) : super(key: key);
 
   @override
+  State<courseMaterialItem> createState() => _courseMaterialItemState();
+}
+
+class _courseMaterialItemState extends State<courseMaterialItem> {
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    void _press() {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => bookReaderScreen(
+              courseTitle: widget.courseName, firstName: widget.author, materialTitle: widget.title),
+        ),
+      );
+    }
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
       margin: EdgeInsets.only(bottom: 16),
@@ -36,7 +65,7 @@ class courseItem extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: title,
+                  text: widget.title,
                   style: TextStyle(
                     fontSize: 16,
                     color: kBlackColor,
@@ -44,16 +73,19 @@ class courseItem extends StatelessWidget {
                   ),
                 ),
                 TextSpan(
-                  text: "-- grade $grade",
+                  text: widget.courseName,
                   style: TextStyle(color: kLightBlackColor),
                 ),
               ],
             ),
           ),
           Spacer(),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 18,
+          IconButton(
+            icon: Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+            ),
+            onPressed: _press,
           )
         ],
       ),

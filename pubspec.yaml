@@ -47,6 +47,7 @@ dependencies:
   uuid: ^3.0.7
   mime: ^1.0.4
   pdf: ^3.10.4
+  flutter_pdfview: ^1.3.1
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,8 @@ flutter:
   assets:
     - assets/Images/moeLogo.png
     - assets/Images/waiting.jpg
+    - assets/Images/material.jpg
+    - assets/Images/book.avif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

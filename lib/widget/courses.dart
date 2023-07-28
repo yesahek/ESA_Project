@@ -54,6 +54,7 @@ class _CoursesState extends State<Courses> {
                   },
                   child: courseItem(
                     title: _items[i].title,
+                    grade: _items[i].grade,
                   ),
                 ),
                 Divider(),

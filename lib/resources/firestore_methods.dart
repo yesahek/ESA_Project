@@ -1,12 +1,12 @@
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:e_sup_app/resources/storage_methods.dart';
-import 'package:mime/mime.dart';
-import 'package:uuid/uuid.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:e_sup_app/resources/storage_methods.dart';
+// import 'package:mime/mime.dart';
+// import 'package:uuid/uuid.dart';
 
-import '../models/course_material.dart';
-import '../providers/course_materials_provider.dart';
+// import '../models/course_material.dart';
+// import '../providers/course_materials_provider.dart';
 
 class FireStoreMethods {
   // final FirebaseFirestore _firestore = FirebaseFirestore.instance;

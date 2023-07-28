@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:e_sup_app/providers/course_materials_provider.dart';
-import 'package:e_sup_app/resources/firestore_methods.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:e_sup_app/widget/my_button.dart';
@@ -58,7 +57,7 @@ class _AddNewMaterialState extends State<AddNewMaterial> {
     String forSnack = "";
     String res = await courseMaterialProvider().uploadCourseMaterial(
         enterdTitle, description, widget.grade, CourseId, widget.uid, _file!);
-        
+
     setState(() {
       _isLoading = false;
     });

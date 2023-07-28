@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../providers/courses_provider.dart';
 import '../../utils/colors.dart';
-import '../../widget/add_new_material.dart';
 import '../../widget/courses.dart';
 
 enum Course {
