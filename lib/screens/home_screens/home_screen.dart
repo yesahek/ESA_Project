@@ -1,9 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:e_sup_app/utils/home_button.dart';
-import 'package:flutter/material.dart';
 
+import 'package:e_sup_app/providers/users_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/user.dart';
 import '../../utils/colors.dart';
-import '../../utils/global_variables.dart';
+import '../../utils/home_button.dart';
 import '../../widget/announsement_card.dart';
 import '../../widget/my_appBar.dart';
 import '../../widget/searchBar.dart';
@@ -15,8 +19,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //*******Home Screen Buttens List******* */
-
+    UserProvider userProvider =
+        Provider.of<UserProvider>(context, listen: false);
+    User userDetail = userProvider.getUser;
+    var isEducator = userDetail.type == "Educator";
+    var isStudent = userDetail.type == "Student";
+    var isAdmin = userDetail.type == "Admin";
+    //print(isEducator);
     final searchController = TextEditingController();
     final String textHint = "subject";
     return Scaffold(
@@ -65,13 +74,38 @@ class HomeScreen extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: tools.length,
                     itemBuilder: (context, i) {
-                      return ToosButton(
-                        color: Colors.red,
-                        value: tools[i].notifcation,
-                        icon: tools[i].icon,
-                        index: i,
-                        widget: tools[i].widget,
-                      );
+                      return isStudent
+                          ? ToosButton(
+                              isAdmin: isAdmin,
+                              isEducator: isEducator,
+                              isStudent: isStudent,
+                              color: Colors.red,
+                              value: tools[i].notifcation,
+                              icon: tools[i].icon,
+                              index: i,
+                              widget: tools[i].widget,
+                            )
+                          : isEducator
+                              ? ToosButton(
+                                  isAdmin: isAdmin,
+                                  isEducator: isEducator,
+                                  isStudent: isStudent,
+                                  color: Colors.red,
+                                  value: toolsForAdmin[i].notifcation,
+                                  icon: toolsForAdmin[i].icon,
+                                  index: i,
+                                  widget: toolsForAdmin[i].widget,
+                                )
+                              : ToosButton(
+                                  isAdmin: isAdmin,
+                                  isEducator: isEducator,
+                                  isStudent: isStudent,
+                                  color: Colors.red,
+                                  value: toolsForAdmin[i].notifcation,
+                                  icon: toolsForAdmin[i].icon,
+                                  index: i,
+                                  widget: toolsForAdmin[i].widget,
+                                );
                     }),
               ),
 
@@ -122,6 +156,9 @@ class HomeScreen extends StatelessWidget {
 }
 
 class ToosButton extends StatelessWidget {
+  final bool isStudent;
+  final bool isEducator;
+  final bool isAdmin;
   final Widget widget;
   final int index;
   final Icon icon;
@@ -130,6 +167,9 @@ class ToosButton extends StatelessWidget {
 
   const ToosButton({
     Key? key,
+    required this.isStudent,
+    required this.isEducator,
+    required this.isAdmin,
     required this.widget,
     required this.index,
     required this.icon,
@@ -201,7 +241,11 @@ class ToosButton extends StatelessWidget {
             ],
           ),
           Text(
-            tools[index].name,
+            isEducator
+                ? toolsForEducator[index].name
+                : isAdmin
+                    ? toolsForAdmin[index].name
+                    : tools[index].name,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,

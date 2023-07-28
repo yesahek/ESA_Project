@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:e_sup_app/models/course.dart';
-import 'package:e_sup_app/screens/course_material_screen.dart';
+import 'package:e_sup_app/screens/courses_screen/course_material_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

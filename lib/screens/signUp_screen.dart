@@ -31,7 +31,7 @@ class _SignupScreenState extends State<SignupScreen> {
   List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
   List<int> _Grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   List<String> _sex = ['Male', 'Female'];
-  List<String> _userTypes = ['Student', 'Educator', "School", "Staff", "Guest"];
+  List<String> _userTypes = ['Student', 'Educator', "Admin"];
   List<String> _selectedItems = [];
 
   final _signUpFormKey = GlobalKey<FormState>();

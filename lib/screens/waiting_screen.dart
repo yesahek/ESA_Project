@@ -71,7 +71,7 @@ class _waitingScreenState extends State<waitingScreen> {
                   // margin: EdgeInsets.only(left: 100, right: 100),
                   child: MyButton(
                     onTap: () async {
-                      showSnackBar(context, "Refrashed!");
+                      showSnackBar(context, "Refresh!");
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => ResponsiveLayout(
@@ -82,7 +82,7 @@ class _waitingScreenState extends State<waitingScreen> {
                       );
                     },
                     content: Text(
-                      "Refrash",
+                      "Refresh",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),

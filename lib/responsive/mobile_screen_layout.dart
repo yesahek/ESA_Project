@@ -1,8 +1,19 @@
+import 'package:e_sup_app/models/user.dart' as model;
 import 'package:e_sup_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../utils/global_variables.dart';
+import '../providers/users_provider.dart';
+import '../screens/courses_screen/courses_screen.dart';
+import '../screens/home_screens/events_screen.dart';
+import '../screens/home_screens/friends_screen.dart';
+import '../screens/home_screens/home_screen.dart';
+import '../screens/home_screens/messages_screen.dart';
+import '../screens/home_screens/saves_screen.dart';
+import '../screens/home_screens/todo_screen.dart';
+import '../screens/likes_screen.dart';
+import '../screens/profile_screen2.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({super.key});
@@ -38,6 +49,17 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
+UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+    model.User user = userProvider.getUser;
+const homeScreenItems = [
+  HomeScreen(),
+  MaterialsScreen(),
+  //FeedScreen(),
+  // ActivityScreen(),
+  LikesScreen(),
+  ProfileScreen2(),
+];
+
     return Scaffold(
       body: PageView(
         children: homeScreenItems,
@@ -61,31 +83,31 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             ),
             label: '',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.newspaper,
-              color: _page == 1 ? appColor : secondaryColor,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.leaderboard_outlined,
-              color: _page == 3 ? appColor : secondaryColor,
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite,
-              color: _page == 4 ? appColor : secondaryColor,
-            ),
-            label: '',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(
+          //     Icons.newspaper,
+          //     color: _page == 1 ? appColor : secondaryColor,
+          //   ),
+          //   label: '',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(
+          //     Icons.leaderboard_outlined,
+          //     color: _page == 3 ? appColor : secondaryColor,
+          //   ),
+          //   label: '',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(
+          //     Icons.favorite,
+          //     color: _page == 4 ? appColor : secondaryColor,
+          //   ),
+          //   label: '',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.person,
-              color: _page == 5 ? appColor : secondaryColor,
+              color: _page == 3 ? appColor : secondaryColor,
             ),
             label: '',
           ),
@@ -94,4 +116,20 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       ),
     );
   }
+}
+
+
+
+// Home buttons class
+class HomeButtons {
+  String name;
+  Icon icon;
+  Widget widget;
+  int notifcation;
+  HomeButtons({
+    required this.name,
+    required this.icon,
+    required this.widget,
+    required this.notifcation,
+  });
 }

@@ -75,7 +75,7 @@ flutter:
     - assets/Images/moeLogo.png
     - assets/Images/waiting.jpg
     - assets/Images/material.jpg
-    - assets/Images/book.avif
+    - assets/Images/book.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
