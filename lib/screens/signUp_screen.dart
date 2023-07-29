@@ -1,12 +1,14 @@
 // ignore_for_file: unused_field
 
 import 'package:e_sup_app/models/course.dart';
+import 'package:e_sup_app/models/school.dart';
 import 'package:e_sup_app/providers/courses_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 //import '../resources/auth_methods.dart';
+import '../providers/school_provider.dart';
 import '../responsive/mobile_screen_layout.dart';
 import '../responsive/responsive_layout.dart';
 import '../responsive/web_screen_layout.dart';
@@ -25,17 +27,19 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  _SignupScreenState() {
-    _schoolValue = _schools[0];
-    _sexValue = _schools[0];
-    _gradeValue = _Grade[0];
-    _userTypeValue = _userTypes[0];
+  @override
+  void initState() {
+    super.initState();
+    setSchoolNames();
   }
-  List<String> _schools = ['Medhanialem', 'Addis Ketema', 'Holysavior', 'Enat'];
+
+  late schoolProvider SchoolProvider;
+
   List<int> _Grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   List<String> _sex = ['Male', 'Female'];
   List<String> _userTypes = ['Student', 'Educator', "Admin"];
   List<String> _selectedItems = [];
+  List<String> _selectedItemsCourseCode = [];
 
   final _signUpFormKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -43,18 +47,20 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _customSchoolController = TextEditingController();
 
   String _schoolValue = "";
+  String _customSchoolName = "";
   String _sexValue = "";
   int _gradeValue = 0;
   String _userTypeValue = "";
   List<Course> _course = [];
   List _grades = [];
+  List<String> _schools = [];
 
   bool _isEducator = false;
   bool _isAdmin = false;
   bool _isStudent = false;
-
   bool _isLoading = false;
 
   @override
@@ -67,26 +73,14 @@ class _SignupScreenState extends State<SignupScreen> {
     _phoneNumberController.dispose();
   }
 
-//show subjects
-  void _showSubjects() async {
-    List<String> items = [];
-    for (int i = 0; i < _course.length; i++) {
-      items = [_course[i].title];
-    }
-
-    final List<String>? results = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return showSubjects(items: items);
-        });
-
-    if (results != null) {
-      setState(() {
-        _selectedItems = results;
-      });
-    }
+  //seting school names for dropbox
+  Future<void> setSchoolNames() async {
+    SchoolProvider = Provider.of<schoolProvider>(context, listen: false);
+    await SchoolProvider.fetchSchools();
+    _schools = await SchoolProvider.getAllSchoolNames();
   }
 
+  //seting courses and grades for educator signup
   _setCoursesAndGrades() async {
     List<Course> _temp =
         await Provider.of<CoursesProvider>(context, listen: false)
@@ -94,7 +88,6 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _course = _temp;
     });
-    // print(_course[1].title);
   }
 
 // signuping a user
@@ -113,13 +106,15 @@ class _SignupScreenState extends State<SignupScreen> {
         surnname: "",
         sex: _sexValue.toString(),
         type: _userTypeValue,
-        sId: _schoolValue,
-        subjects: _selectedItems,
+        sId: schoolProvider().findSchoolIdByName(_schoolValue),
+        subjects: _selectedItemsCourseCode,
         grade: _gradeValue,
         school: _schoolValue,
       );
     } else {
       // signup user using authethods for students
+      String schoolId = schoolProvider().findSchoolIdByName(_schoolValue);
+      print(schoolId);
       res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
@@ -128,10 +123,10 @@ class _SignupScreenState extends State<SignupScreen> {
         surnname: "",
         sex: _sexValue.toString(),
         type: _userTypeValue,
-        sId: _schoolValue,
+        sId: schoolId,
         subjects: [],
         grade: _gradeValue,
-        school: _schoolValue,
+        school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
       );
     }
 
@@ -217,15 +212,33 @@ class _SignupScreenState extends State<SignupScreen> {
                           userTypeDropDown(),
                           // SizedBox(height: 10),
                           //if signing was a techer add sebjects filled
-                          schoolDropDown(),
+                          !_isAdmin && !_isStudent
+                              ? schoolDropDown()
+                              : adminButtonFormField(),
+                          if (_schoolValue == "Other")
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                decoration:
+                                    InputDecoration(labelText: "Custom School"),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _customSchoolName = value;
+                                  });
+                                },
+                              ),
+                            ),
 
-                          _isEducator && _course.isNotEmpty
+                          !_isAdmin &&
+                                  !_isStudent &&
+                                  _isEducator &&
+                                  _course.isNotEmpty
                               ? buildGridLayoutBuilder(_course)
                               : SizedBox(height: 10),
                           SizedBox(height: 10),
                           sexDropDown(),
-                          SizedBox(height: 10),
-                          gradeDropDown(),
+                          _isEducator ? SizedBox(height: 10) : gradeDropDown(),
                         ],
                       ),
                       const SizedBox(width: 30),
@@ -284,6 +297,54 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
+//Admin dropDown button
+  DropdownButtonFormField<String> adminButtonFormField() {
+    return DropdownButtonFormField(
+      icon: const Icon(
+        Icons.arrow_drop_down_circle,
+        color: Colors.deepPurple,
+      ),
+      decoration: InputDecoration(
+        labelText: "School",
+        prefixIcon: Icon(
+          Icons.home_max_sharp,
+          color: Colors.deepPurple,
+        ),
+      ),
+      items: _schools
+          .map((e) => DropdownMenuItem(
+                child: Text(e),
+                value: e,
+              ))
+          .toList(),
+      value: _schoolValue,
+      onChanged: (value) {
+        setState(() {
+          _schoolValue = value.toString();
+
+          // Check if "Other" is selected
+          if (_schoolValue == "Other") {
+            _customSchoolController.text = ""; // Clear the text field
+          }
+
+          _setCoursesAndGrades();
+        });
+      },
+    );
+  }
+
+  TextField customSchoolTextField() {
+    return TextField(
+      controller: _customSchoolController,
+      decoration: InputDecoration(labelText: "Custom School"),
+      onChanged: (value) {
+        setState(() {
+          _customSchoolName = value;
+        });
+      },
+    );
+  }
+
 //************************************************************
 //
 //
@@ -313,8 +374,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           Colors.red, // Optional: Set the icon color
                       onDeleted: () {
                         setState(() {
-                          _selectedItems
-                              .remove(e); // Remove the item from the set
+                          _selectedItems.remove(e) &&
+                              _selectedItemsCourseCode.remove(e);
+                          ; // Remove the item from the set
                         });
                       },
                     ),
@@ -346,6 +408,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         for (var subject in results) {
                           if (!_selectedItems.contains(subject)) {
                             _selectedItems.add(subject);
+                            _selectedItemsCourseCode
+                                .add(_course[index].courseId);
                           }
                         }
                       });
@@ -367,81 +431,36 @@ class _SignupScreenState extends State<SignupScreen> {
 // Dropdown widget for school
   DropdownButtonFormField<String> userTypeDropDown() {
     return DropdownButtonFormField(
-      icon: const Icon(
-        Icons.arrow_drop_down_circle,
-        color: Colors.deepPurple,
-      ),
-      decoration: InputDecoration(
-          labelText: "User Type",
-          prefixIcon: Icon(
-            Icons.home_max_sharp,
-            color: Colors.deepPurple,
-          )),
-      items: _userTypes
-          .map((e) => DropdownMenuItem(
-                child: Text(e),
-                value: e,
-              ))
-          .toList(),
-      onChanged: (value) {
-        setState(() {
-          _userTypeValue = value.toString();
-        });
-        // switch (_userTypeValue) {
-        //   case "Educator":
-        //     setState(() {
-        //       _isEducator = true;
-        //       _isEducator = false;
-        //       _isAdmin = false;
-        //       _isStudent = false;
-        //     });
-        //     break;
-        //   case "Student":
-        //     setState(() {
-        //       _isEducator = false;
-        //       _isEducator = false;
-        //       _isAdmin = false;
-        //       _isStudent = true;
-        //     });
-        //     break;
-        //   case "Admin":
-        //     setState(() {
-        //       _isEducator = false;
-        //       _isEducator = false;
-        //       _isAdmin = true;
-        //       _isStudent = false;
-        //     });
-        //     break;
-        //   case "Guest":
-        //     setState(() {
-        //       _isEducator = false;
-        //       _isEducator = false;
-        //       _isAdmin = false;
-        //       _isStudent = false;
-        //     });
-        //     break;
-        //   case "Staff":
-        //     setState(() {
-        //       _isEducator = false;
-        //       _isEducator = false;
-        //       _isAdmin = false;
-        //       _isStudent = false;
-        //     });
-        //     break;
-        //   default:
-        //     setState(() {
-        //       _isEducator = false;
-        //       _isEducator = false;
-        //       _isAdmin = false;
-        //       _isStudent = false;
-        //     });
-        // }
-        if (_userTypeValue == "Educator")
+        icon: const Icon(
+          Icons.arrow_drop_down_circle,
+          color: Colors.deepPurple,
+        ),
+        decoration: InputDecoration(
+            labelText: "User Type",
+            prefixIcon: Icon(
+              Icons.home_max_sharp,
+              color: Colors.deepPurple,
+            )),
+        items: _userTypes
+            .map((e) => DropdownMenuItem(
+                  child: Text(e),
+                  value: e,
+                ))
+            .toList(),
+        onChanged: (value) {
           setState(() {
-            _isEducator = !_isEducator;
+            _userTypeValue = value.toString();
           });
-      },
-    );
+          if (_userTypeValue == "Educator") {
+            setState(() {
+              _isEducator = true;
+            });
+          } else if (_userTypeValue == "Admin")
+            setState(() {
+              _schools.add("Other");
+              _isAdmin = true;
+            });
+        });
   }
 
 // Dropdown widget for school

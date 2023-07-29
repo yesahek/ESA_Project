@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import '../../providers/courses_provider.dart';
 import '../../utils/colors.dart';
+import '../../widget/add_new_course.dart';
+import '../../widget/add_new_material.dart';
 import '../../widget/courses.dart';
 
 enum Course {
@@ -50,24 +52,29 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
     super.didChangeDependencies();
   }
 
-  // void _startAddNewMaterial(BuildContext ctx, String sId, String uid) {
-  //   showModalBottomSheet(
-  //     context: ctx,
-  //     builder: (_) {
-  //       return GestureDetector(
-  //         onTap: () {},
-  //         child: AddNewMaterial(sId, uid),
-  //         behavior: HitTestBehavior.opaque,
-  //       );
-  //     },
-  //   );
-  // }
+  void _startAddNewCourse(
+    BuildContext ctx,
+    String schoolName,
+    String uid,
+  ) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: AddNewCourse(schoolName, uid),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final userDetail =
         Provider.of<UserProvider>(context, listen: false).getUser;
-
+    var _isEducator = userDetail.type == "Educator";
+    print(_isEducator);
     return _isLoading
         ? Center(
             child: CircularProgressIndicator(
@@ -83,18 +90,20 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                     children: [
                       MyAppBar(
                         backArrow: false,
-                        title: "Cources",
+                        title: !_isEducator ? "Cources" : "Subjects",
                         name: userDetail.firstname,
                       ),
                       Search(
-                          searchController: searchController,
-                          textHint: "Search course"),
+                        searchController: searchController,
+                        textHint:
+                            !_isEducator ? "Search Course" : "Search Subjects",
+                      ),
                       ListTile(
                         tileColor: _course == Course.enrolled
                             ? backgroundColor
                             : greyBackgroundColor,
                         title: Text(
-                          "Enrolled Courses",
+                          !_isEducator ? "Enrolled Courses" : "Your Subjects",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         leading: Radio(
@@ -115,8 +124,8 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                         ),
                       ),
                       ListTile(
-                        title: const Text(
-                          'All Courses',
+                        title: Text(
+                          !_isEducator ? 'All Courses' : "All Subjects",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -148,18 +157,18 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                 ),
               ),
             ),
-            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            // floatingActionButton: FloatingActionButton(
-            //   onPressed: () => _startAddNewMaterial(
-            //     context,
-            //     userDetail.sId,
-            //     userDetail.uid,
-            //   ),
-            //   backgroundColor: Color.fromARGB(255, 243, 211, 115),
-            //   child: Icon(
-            //     Icons.add,
-            //   ),
-            // ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () => _startAddNewCourse(
+                context,
+                userDetail.sId,
+                userDetail.uid,
+              ),
+              backgroundColor: Color.fromARGB(255, 243, 211, 115),
+              child: Icon(
+                Icons.add,
+              ),
+            ),
           );
   }
 }

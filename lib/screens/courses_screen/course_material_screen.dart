@@ -81,7 +81,7 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
         Provider.of<UserProvider>(context, listen: false).getUser;
     _courseMaterials = Provider.of<courseMaterialProvider>(context,
             listen: false)
-        .getCourseMaterialByCourseAndGrade(widget.courseId, userDetail.grade as int);
+        .getCourseMaterialByCourseAndGrade(widget.courseId, userDetail.grade);
     bool isEducator = userDetail.type == "Educator";
     //print(isEducator);
     return Scaffold(

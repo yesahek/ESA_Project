@@ -13,6 +13,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../models/course.dart';
 
 class CoursesProvider with ChangeNotifier {
@@ -20,6 +21,13 @@ class CoursesProvider with ChangeNotifier {
   //course geter
   List<Course> get allItems {
     return [..._items];
+  }
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+//
+  void addCourses(newCourse) {
+    _items.add(newCourse);
+    notifyListeners();
   }
 
 // fetching courses from db and notifing the listeners
@@ -44,6 +52,28 @@ class CoursesProvider with ChangeNotifier {
     }
   }
 
+  //Add course
+  Future<String> addCourse(
+      String courseTitle, int grade, String school, String uid) async {
+    String res = "something wrong";
+    try {
+      String courseId = const Uuid().v1(); // creates unique id based on time
+      Course course = Course(
+        courseId: courseId,
+        grade: grade,
+        school: school,
+        title: courseTitle,
+      );
+      _firestore.collection("courses").doc(courseId).set(course.toJson());
+      CoursesProvider().addCourses(course);
+      res = "success";
+    } catch (err) {
+      res = err.toString();
+    }
+    notifyListeners();
+    return res;
+  }
+
   //find course by grade
   List<Course> findByGrade(int gr) {
     return _items.where((course) => course.grade == gr).toList();
@@ -58,6 +88,7 @@ class CoursesProvider with ChangeNotifier {
   List<Course> findBySchool(String school) {
     return _items.where((course) => course.school == school).toList();
   }
+  //find all schools
 
   notifyListeners();
 }
