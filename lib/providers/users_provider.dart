@@ -50,16 +50,17 @@ class UserProvider with ChangeNotifier {
     String? surnname,
     required String type,
     required String sex,
-    String? sId,
     String? photoUrl,
     required String email,
     required String password,
     required int grade,
     required String school,
     List<String>? subjects,
+    required String sId,
   }) async {
     String res = "Some error occurred";
-    // checking 
+
+    // checking
     try {
       if (email.isNotEmpty ||
           firstname.isNotEmpty ||
@@ -69,14 +70,15 @@ class UserProvider with ChangeNotifier {
           sex.isNotEmpty ||
           password.isNotEmpty ||
           school.isNotEmpty) {
-            //signuping on FirebaseAuth and store the user Credential on cred
+        //signuping on FirebaseAuth and store the user Credential on cred
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
         // print(cred.user!);
         //default profile picture link
-        String profilePicUrl = "gs://esa-project-99df9.appspot.com/playground/default.jpg";
-// storing information on firestore db using 
+        String profilePicUrl =
+            "gs://esa-project-99df9.appspot.com/playground/default.jpg";
+// storing information on firestore db using
         model.User user = model.User(
           email: email,
           firstname: firstname,
@@ -84,7 +86,7 @@ class UserProvider with ChangeNotifier {
           following: [],
           lastname: lastname,
           photoUrl: profilePicUrl,
-          sId: "",
+          sId: sId,
           sex: sex,
           surnname: surnname!,
           type: type,

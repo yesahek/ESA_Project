@@ -104,26 +104,26 @@ class _SignupScreenState extends State<SignupScreen> {
         lastname: _lastNameController.text,
         password: _passwordController.text,
         surnname: "",
+        sId: SchoolProvider.findSchoolIdByName(
+            _schoolValue == "Other" ? _customSchoolName : _schoolValue),
         sex: _sexValue.toString(),
         type: _userTypeValue,
-        sId: schoolProvider().findSchoolIdByName(_schoolValue),
         subjects: _selectedItemsCourseCode,
         grade: _gradeValue,
-        school: _schoolValue,
+        school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
       );
     } else {
       // signup user using authethods for students
-      String schoolId = schoolProvider().findSchoolIdByName(_schoolValue);
-      print(schoolId);
       res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
         password: _passwordController.text,
         surnname: "",
+        sId: SchoolProvider.findSchoolIdByName(
+            _schoolValue == "Other" ? _customSchoolName : _schoolValue),
         sex: _sexValue.toString(),
         type: _userTypeValue,
-        sId: schoolId,
         subjects: [],
         grade: _gradeValue,
         school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,

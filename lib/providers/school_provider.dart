@@ -36,7 +36,6 @@ class schoolProvider with ChangeNotifier {
     School? foundSchool = _items.firstWhere(
       (school) => school.schoolName == name,
     );
-
     // If the school is found, return its ID; otherwise, return an empty string.
     return foundSchool.schoolId;
   }
