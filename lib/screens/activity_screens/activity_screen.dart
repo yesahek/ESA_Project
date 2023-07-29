@@ -3,6 +3,7 @@ import 'package:e_sup_app/widget/my_appBar.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
+import 'quiz_screen.dart';
 // import '../../../utils/global_variables.dart';
 
 class ActivityScreen extends StatefulWidget {
@@ -48,13 +49,13 @@ class _ActivityScreenState extends State<ActivityScreen>
                   ),
                   tabs: [
                     Tab(
-                      text: "LeadBoard",
+                      text: "Quizs",
                       icon: Icon(Icons.leaderboard_outlined),
                       //iconMargin: EdgeInsets.all(5),
                       //height: 10,
                     ),
                     Tab(
-                      text: "Challenge",
+                      text: "Result",
                       icon: Icon(Icons.question_mark),
                     ),
                   ],
@@ -65,8 +66,10 @@ class _ActivityScreenState extends State<ActivityScreen>
                 child: TabBarView(
                   controller: _tabContoller,
                   children: [
-                    LeaderBoard(),
-                    Icon(Icons.directions_transit),
+                    Quiz(),
+                    Quiz(),
+                    //LeaderBoard(),
+                    //Icon(Icons.directions_transit),
                   ],
                 ),
               ),

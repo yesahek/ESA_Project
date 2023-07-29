@@ -1,7 +1,10 @@
 // ignore_for_file: unused_field
 
+import 'package:e_sup_app/models/course.dart';
+import 'package:e_sup_app/providers/courses_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //import '../resources/auth_methods.dart';
 import '../responsive/mobile_screen_layout.dart';
@@ -41,16 +44,17 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  String _schoolValue = "___Select Your School___";
-  String _sexValue = "___Select Your Gender___";
+  String _schoolValue = "";
+  String _sexValue = "";
   int _gradeValue = 0;
   String _userTypeValue = "";
+  List<Course> _course = [];
+  List _grades = [];
 
   bool _isEducator = false;
-  bool _isStaff = false;
+  bool _isAdmin = false;
   bool _isStudent = false;
-  bool _isGuest = false;
-  bool _isSchool = false;
+
   bool _isLoading = false;
 
   @override
@@ -65,17 +69,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
 //show subjects
   void _showSubjects() async {
-    final List<String> items = [
-      'Amharic',
-      'English',
-      'Matimatics',
-      'Biology',
-      'Chemistry',
-      'Physics',
-      'History',
-      'Sport',
-      'It'
-    ];
+    List<String> items = [];
+    for (int i = 0; i < _course.length; i++) {
+      items = [_course[i].title];
+    }
 
     final List<String>? results = await showDialog(
         context: context,
@@ -88,6 +85,16 @@ class _SignupScreenState extends State<SignupScreen> {
         _selectedItems = results;
       });
     }
+  }
+
+  _setCoursesAndGrades() async {
+    List<Course> _temp =
+        await Provider.of<CoursesProvider>(context, listen: false)
+            .findBySchool(_schoolValue);
+    setState(() {
+      _course = _temp;
+    });
+    // print(_course[1].title);
   }
 
 // signuping a user
@@ -153,6 +160,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<CoursesProvider>(context, listen: false).fetchCourses();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -209,10 +217,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           userTypeDropDown(),
                           // SizedBox(height: 10),
                           //if signing was a techer add sebjects filled
-                          _isEducator
-                              ? EducatorSubjects()
-                              : SizedBox(height: 10),
                           schoolDropDown(),
+
+                          _isEducator && _course.isNotEmpty
+                              ? buildGridLayoutBuilder(_course)
+                              : SizedBox(height: 10),
                           SizedBox(height: 10),
                           sexDropDown(),
                           SizedBox(height: 10),
@@ -278,26 +287,80 @@ class _SignupScreenState extends State<SignupScreen> {
 //************************************************************
 //
 //
-//
-//
-//
-////
-//Educators Subject
-  Padding EducatorSubjects() {
+// Educators Grade
+  Widget buildGridLayoutBuilder(List grade) {
     return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Wrap(
-          children: _selectedItems
-              .map(
-                (e) => Chip(
-                  label: Text(e),
-                ),
-              )
-              .toList(),
-        ),
-        ElevatedButton(onPressed: _showSubjects, child: Text("subjects"))
-      ]),
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            children: _selectedItems
+                .map(
+                  (e) => Dismissible(
+                    key: Key(e), // Provide a unique key for each Dismissible
+                    direction: DismissDirection.up, // Allow swipe up to dismiss
+                    onDismissed: (direction) {
+                      setState(() {
+                        _selectedItems
+                            .remove(e); // Remove the item from the set
+                      });
+                    },
+                    child: Chip(
+                      label: Text(e),
+                      deleteIcon: Icon(Icons.clear), // Set the close icon
+                      deleteIconColor:
+                          Colors.red, // Optional: Set the icon color
+                      onDeleted: () {
+                        setState(() {
+                          _selectedItems
+                              .remove(e); // Remove the item from the set
+                        });
+                      },
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: grade.length,
+            itemBuilder: (context, index) {
+              return ElevatedButton(
+                  child: Text(
+                    'Grade ${_course[index].grade.toString()}',
+                    style: TextStyle(color: Colors.black, fontSize: 14),
+                  ),
+                  onPressed: () async {
+                    List<String> items = [];
+                    items = ['${_course[index].title} ${_course[index].grade}'];
+                    final List<String>? results = await showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return showSubjects(items: items);
+                        });
+
+                    if (results != null) {
+                      setState(() {
+                        for (var subject in results) {
+                          if (!_selectedItems.contains(subject)) {
+                            _selectedItems.add(subject);
+                          }
+                        }
+                      });
+                    }
+                  });
+            },
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 6,
+              crossAxisSpacing: 1,
+              mainAxisSpacing: 1,
+              childAspectRatio: 8 / 5,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -324,67 +387,55 @@ class _SignupScreenState extends State<SignupScreen> {
         setState(() {
           _userTypeValue = value.toString();
         });
-        switch (_userTypeValue) {
-          case "Educator":
-            setState(() {
-              _isEducator = true;
-              _isEducator = false;
-              _isStaff = false;
-              _isStudent = false;
-              _isGuest = false;
-              _isSchool = false;
-            });
-            break;
-          case "Student":
-            setState(() {
-              _isEducator = false;
-              _isEducator = false;
-              _isStaff = false;
-              _isStudent = true;
-              _isGuest = false;
-              _isSchool = false;
-            });
-            break;
-          case "Staff":
-            setState(() {
-              _isEducator = false;
-              _isEducator = false;
-              _isStaff = true;
-              _isStudent = false;
-              _isGuest = false;
-              _isSchool = false;
-            });
-            break;
-          case "Guest":
-            setState(() {
-              _isEducator = false;
-              _isEducator = false;
-              _isStaff = false;
-              _isStudent = false;
-              _isGuest = true;
-              _isSchool = false;
-            });
-            break;
-          case "Staff":
-            setState(() {
-              _isEducator = false;
-              _isEducator = false;
-              _isStaff = false;
-              _isStudent = false;
-              _isGuest = false;
-              _isSchool = true;
-            });
-            break;
-          default:
-            setState(() {
-              _isEducator = false;
-              _isEducator = false;
-              _isStaff = false;
-              _isStudent = false;
-              _isGuest = false;
-              _isSchool = false;
-            });
-        }
+        // switch (_userTypeValue) {
+        //   case "Educator":
+        //     setState(() {
+        //       _isEducator = true;
+        //       _isEducator = false;
+        //       _isAdmin = false;
+        //       _isStudent = false;
+        //     });
+        //     break;
+        //   case "Student":
+        //     setState(() {
+        //       _isEducator = false;
+        //       _isEducator = false;
+        //       _isAdmin = false;
+        //       _isStudent = true;
+        //     });
+        //     break;
+        //   case "Admin":
+        //     setState(() {
+        //       _isEducator = false;
+        //       _isEducator = false;
+        //       _isAdmin = true;
+        //       _isStudent = false;
+        //     });
+        //     break;
+        //   case "Guest":
+        //     setState(() {
+        //       _isEducator = false;
+        //       _isEducator = false;
+        //       _isAdmin = false;
+        //       _isStudent = false;
+        //     });
+        //     break;
+        //   case "Staff":
+        //     setState(() {
+        //       _isEducator = false;
+        //       _isEducator = false;
+        //       _isAdmin = false;
+        //       _isStudent = false;
+        //     });
+        //     break;
+        //   default:
+        //     setState(() {
+        //       _isEducator = false;
+        //       _isEducator = false;
+        //       _isAdmin = false;
+        //       _isStudent = false;
+        //     });
+        // }
         if (_userTypeValue == "Educator")
           setState(() {
             _isEducator = !_isEducator;
@@ -415,6 +466,7 @@ class _SignupScreenState extends State<SignupScreen> {
       onChanged: (value) {
         setState(() {
           _schoolValue = value.toString();
+          _setCoursesAndGrades();
         });
       },
     );

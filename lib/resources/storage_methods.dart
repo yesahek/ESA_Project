@@ -16,7 +16,6 @@ class StorageMethods {
     if (file == null) {
       return "null";
     }
-
     firebase_storage.UploadTask uploadTask;
 
     // Create a Reference to the file

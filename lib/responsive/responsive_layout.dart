@@ -65,15 +65,15 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
               ))
             : LayoutBuilder(
                 builder: (context, constraints) {
-                  if (constraints.maxWidth > webScreenSize) {
-                    return widget.webScreenLayout;
-                  } else {
-                    return isApprovedUser
-                        ? widget.mobileScreenLayout
-                        : waitingScreen(
-                            name: userDetaile.firstname,
-                            school: userDetaile.school);
-                  }
+                  // if (constraints.maxWidth > webScreenSize) {
+                  //   return widget.webScreenLayout;
+                  // } else {
+                  return isApprovedUser
+                      ? widget.mobileScreenLayout
+                      : waitingScreen(
+                          name: userDetaile.firstname,
+                          school: userDetaile.school);
+                  // }
                 },
               ),
       ),

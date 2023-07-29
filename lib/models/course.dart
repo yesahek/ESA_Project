@@ -3,11 +3,12 @@ class Course {
   final String courseId;
   final String title;
   final int grade;
+  final String school;
   //final instractor;
   Course({
     required this.courseId,
     required this.title,
     required this.grade,
+    required this.school,
   });
-
 }

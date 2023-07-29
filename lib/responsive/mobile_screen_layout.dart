@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/users_provider.dart';
+import '../screens/activity_screens/activity_screen.dart';
 import '../screens/courses_screen/courses_screen.dart';
 import '../screens/home_screens/events_screen.dart';
 import '../screens/home_screens/friends_screen.dart';
@@ -56,7 +57,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       HomeScreen(),
       MaterialsScreen(),
       //FeedScreen(),
-      // ActivityScreen(),
+      ActivityScreen(),
       //LikesScreen(),
       ProfileScreen2(),
     ];
@@ -93,22 +94,22 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           // ),
           // BottomNavigationBarItem(
           //   icon: Icon(
-          //     Icons.leaderboard_outlined,
-          //     color: _page == 3 ? appColor : secondaryColor,
-          //   ),
-          //   label: '',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(
           //     Icons.favorite,
-          //     color: _page == 4 ? appColor : secondaryColor,
+          //     color: _page == 3 ? appColor : secondaryColor,
           //   ),
           //   label: '',
           // ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person,
+              Icons.leaderboard_outlined,
               color: _page == 3 ? appColor : secondaryColor,
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: _page == 4 ? appColor : secondaryColor,
             ),
             label: '',
           ),

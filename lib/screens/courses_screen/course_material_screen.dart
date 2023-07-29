@@ -81,7 +81,7 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
         Provider.of<UserProvider>(context, listen: false).getUser;
     _courseMaterials = Provider.of<courseMaterialProvider>(context,
             listen: false)
-        .getCourseMaterialByCourseAndGrade(widget.courseId, userDetail.grade);
+        .getCourseMaterialByCourseAndGrade(widget.courseId, userDetail.grade as int);
     bool isEducator = userDetail.type == "Educator";
     //print(isEducator);
     return Scaffold(
@@ -175,7 +175,7 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
                 userDetail.sId,
                 userDetail.uid,
                 widget.courseId,
-                userDetail.grade,
+                userDetail.grade as int,
               ),
               backgroundColor: Color.fromARGB(255, 243, 211, 115),
               child: Icon(
