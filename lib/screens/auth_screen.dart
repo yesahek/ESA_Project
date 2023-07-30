@@ -115,6 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
         subjects: _selectedItems,
         grade: _gradeValue,
         school: _schoolValue,
+        phone: _phoneNumberController.text,
       );
     } else {
       // signup user using authethods for students
@@ -130,6 +131,7 @@ class _AuthScreenState extends State<AuthScreen> {
         subjects: [],
         grade: _gradeValue,
         school: _schoolValue,
+         phone: _phoneNumberController.text,
       );
     }
 

@@ -7,11 +7,13 @@ import '../responsive/mobile_screen_layout.dart';
 import '../screens/home_screens/events_screen.dart';
 import '../screens/home_screens/friends_screen.dart';
 import '../screens/home_screens/messages_screen.dart';
+import '../screens/home_screens/requests_screen.dart';
 import '../screens/home_screens/saves_screen.dart';
 import '../screens/home_screens/todo_screen.dart';
 import 'colors.dart';
 
 //*******Home Screen Buttens List******* */
+//For Students
 List<HomeButtons> tools = [
   HomeButtons(
     name: "Messages",
@@ -34,11 +36,11 @@ List<HomeButtons> tools = [
     ),
   ),
   HomeButtons(
-    name: "Events",
+    name: "Notifcations",
     widget: EventsScreen(),
     notifcation: 3,
     icon: Icon(
-      Icons.event_outlined,
+      Icons.notifications_none_outlined,
       color: iconColor,
       size: 30,
     ),
@@ -89,11 +91,11 @@ List<HomeButtons> toolsForEducator = [
     ),
   ),
   HomeButtons(
-    name: "Events",
+    name: "Notifcations",
     widget: EventsScreen(),
     notifcation: 3,
     icon: Icon(
-      Icons.event_outlined,
+      Icons.notifications_none_outlined,
       color: iconColor,
       size: 30,
     ),
@@ -143,21 +145,21 @@ List<HomeButtons> toolsForAdmin = [
     ),
   ),
   HomeButtons(
-    name: "Events",
+    name: "Notifcations",
     widget: EventsScreen(),
     notifcation: 3,
     icon: Icon(
-      Icons.event_outlined,
+      Icons.notifications_none_outlined,
       color: iconColor,
       size: 30,
     ),
   ),
   HomeButtons(
-    name: "Todo",
-    widget: TodoScreen(),
+    name: "Requests",
+    widget: RequestScreen(),
     notifcation: 0,
     icon: Icon(
-      Icons.list_outlined,
+      Icons.question_mark,
       color: iconColor,
       size: 30,
     ),

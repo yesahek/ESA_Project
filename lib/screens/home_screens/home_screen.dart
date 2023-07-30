@@ -91,10 +91,10 @@ class HomeScreen extends StatelessWidget {
                                   isEducator: isEducator,
                                   isStudent: isStudent,
                                   color: Colors.red,
-                                  value: toolsForAdmin[i].notifcation,
-                                  icon: toolsForAdmin[i].icon,
+                                  value: toolsForEducator[i].notifcation,
+                                  icon: toolsForEducator[i].icon,
                                   index: i,
-                                  widget: toolsForAdmin[i].widget,
+                                  widget: toolsForEducator[i].widget,
                                 )
                               : ToosButton(
                                   isAdmin: isAdmin,
@@ -179,12 +179,21 @@ class ToosButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var Tool;
+    if (isAdmin) {
+      Tool = toolsForAdmin[index];
+    } else if (isEducator) {
+      Tool = toolsForEducator[index];
+    } else {
+      Tool = tools[index];
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => tools[index].widget,
+              builder: (BuildContext context) => Tool.widget,
             ));
       },
       child: Column(
@@ -207,7 +216,7 @@ class ToosButton extends StatelessWidget {
                   ],
                 ),
                 child: Center(
-                  child: tools[index].icon,
+                  child: Tool.icon,
                 ),
               ),
               if (value >= 1)
@@ -241,11 +250,7 @@ class ToosButton extends StatelessWidget {
             ],
           ),
           Text(
-            isEducator
-                ? toolsForEducator[index].name
-                : isAdmin
-                    ? toolsForAdmin[index].name
-                    : tools[index].name,
+            Tool.name,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,

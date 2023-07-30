@@ -1,7 +1,10 @@
 // ignore_for_file: unused_field
 
+import 'dart:typed_data';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:e_sup_app/models/course.dart';
-import 'package:e_sup_app/models/school.dart';
 import 'package:e_sup_app/providers/courses_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +66,8 @@ class _SignupScreenState extends State<SignupScreen> {
   bool _isStudent = false;
   bool _isLoading = false;
 
+  Uint8List? _image;
+
   @override
   void dispose() {
     super.dispose();
@@ -111,6 +116,7 @@ class _SignupScreenState extends State<SignupScreen> {
         subjects: _selectedItemsCourseCode,
         grade: _gradeValue,
         school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
+        phone: _phoneNumberController.text,
       );
     } else {
       // signup user using authethods for students
@@ -127,6 +133,7 @@ class _SignupScreenState extends State<SignupScreen> {
         subjects: [],
         grade: _gradeValue,
         school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
+        phone: _phoneNumberController.text,
       );
     }
 
@@ -153,6 +160,15 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
+//to select prifile picture
+  selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    // set state because we need to display the image we selected on the circle avatar
+    setState(() {
+      _image = im;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Provider.of<CoursesProvider>(context, listen: false).fetchCourses();
@@ -161,7 +177,7 @@ class _SignupScreenState extends State<SignupScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "Welcome",
@@ -170,6 +186,31 @@ class _SignupScreenState extends State<SignupScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              SizedBox(height: 40),
+              Stack(
+                children: [
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : CircleAvatar(
+                          radius: 70,
+                          backgroundImage:
+                              AssetImage('assets/Images/defaultPP.png'),
+                        ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: FloatingActionButton(
+                      onPressed: selectImage,
+                      mini: true,
+                      child: Icon(Icons.camera_alt),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
               Container(
                 padding: EdgeInsets.only(left: 35, right: 35, top: 30),
                 color: backgroundColor,
@@ -212,7 +253,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           userTypeDropDown(),
                           // SizedBox(height: 10),
                           //if signing was a techer add sebjects filled
-                          !_isAdmin && !_isStudent
+                          !_isStudent
                               ? schoolDropDown()
                               : adminButtonFormField(),
                           if (_schoolValue == "Other")
@@ -238,7 +279,9 @@ class _SignupScreenState extends State<SignupScreen> {
                               : SizedBox(height: 10),
                           SizedBox(height: 10),
                           sexDropDown(),
-                          _isEducator ? SizedBox(height: 10) : gradeDropDown(),
+                          _isEducator && _isAdmin
+                              ? SizedBox(height: 10)
+                              : gradeDropDown(),
                         ],
                       ),
                       const SizedBox(width: 30),

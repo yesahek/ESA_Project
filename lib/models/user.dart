@@ -21,6 +21,7 @@ class User {
   final String school;
   final bool status;
   final String state;
+  final String phone;
   User({
     required this.uid,
     required this.username,
@@ -39,6 +40,7 @@ class User {
     required this.school,
     required this.status,
     required this.state,
+    required this.phone,
   });
 
   Map<String, dynamic> toMap() {
@@ -60,6 +62,7 @@ class User {
       'school': school,
       'status': status,
       'state': state,
+      'phone': phone,
     };
   }
 
@@ -80,8 +83,9 @@ class User {
       following: List.from(map['following'] as List),
       grade: map['grade'] as int,
       school: map['school'] as String,
-      status: map['status'],
+      status: map['status'] as bool,
       state: map['state'] as String,
+      phone: map['phone'] as String,
     );
   }
 
@@ -103,6 +107,7 @@ class User {
         'school': school,
         'status': status,
         'state': state,
+        'phone':phone,
       };
 
   factory User.fromJson(String source) =>
@@ -129,6 +134,8 @@ class User {
       school: snapshot['school'],
       status: snapshot['status'],
       state: snapshot['state'],
+      phone: snapshot['phone'],
     );
   }
+
 }
