@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_firs
+import 'package:e_sup_app/screens/add_post_screen.dart';
+import 'package:e_sup_app/screens/add_post_to_forum_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,12 +10,8 @@ import '../../widget/my_button.dart';
 import '../../widget/post_card.dart';
 
 class forumScreen extends StatelessWidget {
-  final String courseId;
-  final String courseTitle;
   const forumScreen({
     Key? key,
-    required this.courseId,
-    required this.courseTitle,
   }) : super(key: key);
 
   @override
@@ -44,8 +42,18 @@ class forumScreen extends StatelessWidget {
               children: [
                 MyAppBar(
                   backArrow: true,
-                  title: "Forum of $courseTitle",
+                  title: "Forum of ....",
                   name: '',
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => AddPost(),
+                        ));
+                  },
+                  child: Text("Your Button Text"),
                 ),
                 Expanded(
                   flex: 6,
@@ -62,11 +70,13 @@ class forumScreen extends StatelessWidget {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Color.fromARGB(255, 243, 211, 115),
+          onPressed: () => MaterialPageRoute(
+            builder: (context) => AddPostScreen(),
+          ),
+          backgroundColor: Colors.blue,
           child: Icon(
             Icons.add,
-            color: Colors.blue,
+            color: Colors.white,
           ),
         ));
   }

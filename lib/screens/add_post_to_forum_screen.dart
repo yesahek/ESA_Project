@@ -1,6 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:e_sup_app/models/question.dart';
-import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,16 +9,8 @@ import '../utils/colors.dart';
 import '../utils/utils.dart';
 
 class AddPostScreen extends StatefulWidget {
-  final String courseId;
-  final int grade;
-  final String courseName;
-  final String userName;
   const AddPostScreen({
     Key? key,
-    required this.courseId,
-    required this.grade,
-    required this.courseName,
-    required this.userName,
   }) : super(key: key);
 
   @override

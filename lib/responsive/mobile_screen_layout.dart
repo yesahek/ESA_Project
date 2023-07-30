@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/users_provider.dart';
 import '../screens/activity_screens/activity_screen.dart';
+import '../screens/add_post_screen.dart';
 import '../screens/courses_screen/courses_screen.dart';
 import '../screens/home_screens/home_screen.dart';
 
@@ -50,9 +51,11 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     model.User user = userProvider.getUser;
     var homeScreenItems = [
       HomeScreen(),
+
       MaterialsScreen(),
       //FeedScreen(),
-      ActivityScreen(),
+      //ActivityScreen(),
+      AddPost(),
       ProfileDetailPage(
           firstName: user.firstname,
           lastName: user.lastname,

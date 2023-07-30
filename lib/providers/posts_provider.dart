@@ -18,25 +18,24 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 class PostProvider with ChangeNotifier {
   List<Post> _items = [
     Post(
-      postId: "p01",
-      description: "This is Awesome",
-      uid: "u1",
-      username: "mihret",
-      datePublished: DateTime(2017, 9, 7),
-      imageUrl:
-          "https://ichef.bbci.co.uk/news/999/cpsprodpb/15951/production/_117310488_16.jpg",
-      likes: 0,
-      question: Question(
-        questionId: "q01",
-        question: "What is this ",
-        choice: [
-          "Cat",
-          "Dog",
-          "Rat",
-        ],
-        answer: 2,
-      ),
-    ),
+        postId: "p01",
+        description: "This is Awesome",
+        uid: "u1",
+        username: "mihret",
+        datePublished: DateTime(2017, 9, 7),
+        imageUrl:
+            "https://ichef.bbci.co.uk/news/999/cpsprodpb/15951/production/_117310488_16.jpg",
+        likes: 0,
+        question: Question(
+          questionId: "q01",
+          question: "What is this ",
+          choice: [
+            "Cat",
+            "Dog",
+            "Rat",
+          ],
+          answer: 2,
+        )),
     Post(
         postId: "p01",
         description: "This is Awesome",
@@ -110,12 +109,46 @@ class PostProvider with ChangeNotifier {
   //   return res;
   // }
 
-  void addPost(newPost) {
-    _items.add(newPost);
-  }
+  // void addPost(newPost) {
+  //   _items.add(newPost);
+  // }
 
   int? checkAnswer(ind) {
     return _items.firstWhere(ind).question?.answer;
+  }
+
+//upload post to database
+  Future<String> AddPost({
+    required String uid,
+    required String description,
+    required Uint8List file,
+    required String firstName,
+  }) async {
+    String res = "Some error occurred";
+    try {
+      if (uid.isNotEmpty || description.isNotEmpty) {
+        //uploading image
+        String imageUrl =
+            await StorageMethods().uploadImageToStorage("Posts", file, false);
+        String postId = const Uuid().v1();
+        Post post = Post(
+          datePublished: DateTime.timestamp(),
+          likes: 0,
+          postId: postId,
+          uid: uid,
+          username: firstName,
+          description: description,
+          imageUrl: imageUrl,
+        );
+        await _firestore.collection("posts").doc(uid).set(
+              post.toJson(),
+            );
+        res = "success";
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
   }
 
   notifyListeners();

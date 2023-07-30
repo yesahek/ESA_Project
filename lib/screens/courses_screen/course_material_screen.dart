@@ -51,8 +51,8 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => forumScreen(
-          courseId: widget.courseId,
-          courseTitle: widget.coureTitle,
+          // courseId: widget.courseId,
+          // courseTitle: widget.coureTitle,
         ),
       ),
     );
