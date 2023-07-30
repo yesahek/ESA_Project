@@ -7,10 +7,10 @@ import 'package:e_sup_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class AddNewCourse extends StatefulWidget {
-  final String schoolName;
+  final String schoolId;
   final String uid;
   AddNewCourse(
-    this.schoolName,
+    this.schoolId,
     this.uid,
   );
   @override
@@ -21,11 +21,10 @@ class _AddNewCourseState extends State<AddNewCourse> {
   final titleController = TextEditingController();
   final GradeController = TextEditingController();
   bool _isLoading = false;
-  File? _file;
 
   void submitData() async {
     final Uid = widget.uid;
-    final SchoolName = widget.schoolName;
+    final SchoolId = widget.schoolId;
     final enterdTitle = titleController.text;
     final int enterdGrade = int.parse(GradeController.text);
 
@@ -37,7 +36,7 @@ class _AddNewCourseState extends State<AddNewCourse> {
     });
     String forSnack = "";
     String res = await CoursesProvider()
-        .addCourse(enterdTitle, enterdGrade, SchoolName, Uid);
+        .addCourse(enterdTitle, enterdGrade, SchoolId, Uid);
 
     setState(() {
       _isLoading = false;
@@ -72,7 +71,7 @@ class _AddNewCourseState extends State<AddNewCourse> {
             ),
             TextButton(
               child: Text(
-                'Add Material',
+                'Add Course',
                 style: TextStyle(
                   color: Colors.purple,
                 ),

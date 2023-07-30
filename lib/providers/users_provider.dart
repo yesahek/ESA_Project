@@ -1,7 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart' as model;
+import '../resources/storage_methods.dart';
 
 class UserProvider with ChangeNotifier {
   // User? _user;
@@ -120,6 +123,7 @@ class UserProvider with ChangeNotifier {
     List<String>? subjects,
     required String phone,
     required String sId,
+    required Uint8List file,
   }) async {
     String res = "Some error occurred";
 
@@ -133,15 +137,15 @@ class UserProvider with ChangeNotifier {
           sex.isNotEmpty ||
           password.isNotEmpty ||
           school.isNotEmpty ||
-          phone.isNotEmpty) {
+          phone.isNotEmpty ||
+          file != null) {
         //signuping on FirebaseAuth and store the user Credential on cred
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
+            //uplaoding profile picture
+        String photoUrl = await StorageMethods()
+            .uploadImageToStorage("profilePics", file, false);
 
-        // print(cred.user!);
-        //default profile picture link
-        String profilePicUrl =
-            "gs://esa-project-99df9.appspot.com/playground/default.jpg";
 // storing information on firestore db using
         model.User user = model.User(
           email: email,
@@ -149,7 +153,7 @@ class UserProvider with ChangeNotifier {
           followers: [],
           following: [],
           lastname: lastname,
-          photoUrl: profilePicUrl,
+          photoUrl: photoUrl,
           sId: sId,
           sex: sex,
           surnname: surnname!,

@@ -1,4 +1,5 @@
 import 'package:e_sup_app/models/user.dart' as model;
+import 'package:e_sup_app/screens/profile_detail_screen.dart';
 import 'package:e_sup_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +8,7 @@ import 'package:provider/provider.dart';
 import '../providers/users_provider.dart';
 import '../screens/activity_screens/activity_screen.dart';
 import '../screens/courses_screen/courses_screen.dart';
-import '../screens/home_screens/events_screen.dart';
-import '../screens/home_screens/friends_screen.dart';
 import '../screens/home_screens/home_screen.dart';
-import '../screens/home_screens/messages_screen.dart';
-import '../screens/home_screens/saves_screen.dart';
-import '../screens/home_screens/todo_screen.dart';
-import '../screens/likes_screen.dart';
-import '../screens/profile_screen2.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({super.key});
@@ -30,6 +24,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   @override
   void initState() {
     super.initState();
+
     pageController = PageController();
   }
 
@@ -53,13 +48,23 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     UserProvider userProvider =
         Provider.of<UserProvider>(context, listen: false);
     model.User user = userProvider.getUser;
-    const homeScreenItems = [
+    var homeScreenItems = [
       HomeScreen(),
       MaterialsScreen(),
       //FeedScreen(),
       ActivityScreen(),
-      //LikesScreen(),
-      ProfileScreen2(),
+      ProfileDetailPage(
+          firstName: user.firstname,
+          lastName: user.lastname,
+          type: user.type,
+          sex: user.sex,
+          photoUrl: user.photoUrl,
+          email: user.email,
+          grade: user.grade,
+          phoneNumber: user.phone,
+          shoolName: user.school,
+          userId: user.uid,
+          isEditButton: true)
     ];
 
     return Scaffold(
@@ -85,20 +90,6 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             ),
             label: '',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(
-          //     Icons.newspaper,
-          //     color: _page == 1 ? appColor : secondaryColor,
-          //   ),
-          //   label: '',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(
-          //     Icons.favorite,
-          //     color: _page == 3 ? appColor : secondaryColor,
-          //   ),
-          //   label: '',
-          // ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.leaderboard_outlined,

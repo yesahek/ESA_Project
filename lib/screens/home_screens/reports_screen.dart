@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../widget/my_appBar.dart';
 
-class TodoScreen extends StatelessWidget {
-  const TodoScreen({super.key});
+class ReportsScreen extends StatelessWidget {
+  const ReportsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class TodoScreen extends StatelessWidget {
           children: [
             MyAppBar(
               backArrow: true,
-              title: "Todo",
+              title: "Report",
               name: "",
             ),
           ],

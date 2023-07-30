@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../providers/courses_provider.dart';
 import '../../utils/colors.dart';
 import '../../widget/add_new_course.dart';
-import '../../widget/add_new_material.dart';
 import '../../widget/courses.dart';
 
 enum Course {
@@ -54,7 +53,7 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
 
   void _startAddNewCourse(
     BuildContext ctx,
-    String schoolName,
+    String schoolId,
     String uid,
   ) {
     showModalBottomSheet(
@@ -62,7 +61,7 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: AddNewCourse(schoolName, uid),
+          child: AddNewCourse(schoolId, uid),
           behavior: HitTestBehavior.opaque,
         );
       },
@@ -74,7 +73,6 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
     final userDetail =
         Provider.of<UserProvider>(context, listen: false).getUser;
     var _isEducator = userDetail.type == "Educator";
-    print(_isEducator);
     return _isLoading
         ? Center(
             child: CircularProgressIndicator(
@@ -98,56 +96,63 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                         textHint:
                             !_isEducator ? "Search Course" : "Search Subjects",
                       ),
-                      ListTile(
-                        tileColor: _course == Course.enrolled
-                            ? backgroundColor
-                            : greyBackgroundColor,
-                        title: Text(
-                          !_isEducator ? "Enrolled Courses" : "Your Subjects",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        leading: Radio(
-                          value: Course.enrolled,
-                          groupValue: _course,
-                          activeColor: secondaryColor,
-                          onChanged: (Course? val) {
-                            if (_course == Course.enrolled) {
-                              return;
-                            } else {
-                              setState(
-                                () {
-                                  _course = val!;
-                                },
-                              );
-                            }
-                          },
-                        ),
+                      SizedBox(
+                        height: 20,
                       ),
-                      ListTile(
-                        title: Text(
-                          !_isEducator ? 'All Courses' : "All Subjects",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                      if (userDetail.type != "Admin")
+                        ListTile(
+                          tileColor: _course == Course.enrolled
+                              ? backgroundColor
+                              : greyBackgroundColor,
+                          title: Text(
+                            !_isEducator ? "Enrolled Courses" : "Your Subjects",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          leading: Radio(
+                            value: Course.enrolled,
+                            groupValue: _course,
+                            activeColor: secondaryColor,
+                            onChanged: (Course? val) {
+                              if (_course == Course.enrolled) {
+                                return;
+                              } else {
+                                setState(
+                                  () {
+                                    _course = val!;
+                                  },
+                                );
+                              }
+                            },
                           ),
                         ),
-                        leading: Radio(
-                          value: Course.unEnrolled,
-                          groupValue: _course,
-                          activeColor: secondaryColor,
-                          onChanged: (Course? val) {
-                            if (_course == Course.unEnrolled) {
-                              return;
-                            } else {
-                              setState(
-                                () {
-                                  _course = val!;
-                                },
-                              );
-                            }
-                          },
-                          toggleable: _course == Course.unEnrolled,
+                      if (userDetail.type != "Admin")
+                        ListTile(
+                          title: Text(
+                            !_isEducator ? 'All Courses' : "All Subjects",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          leading: Radio(
+                            value: Course.unEnrolled,
+                            groupValue: _course,
+                            activeColor: secondaryColor,
+                            onChanged: (Course? val) {
+                              if (_course == Course.unEnrolled) {
+                                return;
+                              } else {
+                                setState(
+                                  () {
+                                    _course = val!;
+                                  },
+                                );
+                              }
+                            },
+                            toggleable: _course == Course.unEnrolled,
+                          ),
                         ),
-                      ),
+                      if (userDetail.type == "Admin")
+                        Courses(enrolled: false, grade: userDetail.grade),
                       if (_course == Course.enrolled)
                         Courses(enrolled: true, grade: userDetail.grade),
                       if (_course == Course.unEnrolled)
@@ -157,18 +162,22 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                 ),
               ),
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => _startAddNewCourse(
-                context,
-                userDetail.sId,
-                userDetail.uid,
-              ),
-              backgroundColor: Color.fromARGB(255, 243, 211, 115),
-              child: Icon(
-                Icons.add,
-              ),
-            ),
+            floatingActionButtonLocation: userDetail.type != "Student"
+                ? FloatingActionButtonLocation.endFloat
+                : null,
+            floatingActionButton: userDetail.type != "Student"
+                ? FloatingActionButton(
+                    onPressed: () => _startAddNewCourse(
+                      context,
+                      userDetail.sId,
+                      userDetail.uid,
+                    ),
+                    backgroundColor: Color.fromARGB(255, 243, 211, 115),
+                    child: Icon(
+                      Icons.add,
+                    ),
+                  )
+                : null,
           );
   }
 }

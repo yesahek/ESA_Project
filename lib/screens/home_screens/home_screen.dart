@@ -187,7 +187,6 @@ class ToosButton extends StatelessWidget {
     } else {
       Tool = tools[index];
     }
-
     return GestureDetector(
       onTap: () {
         Navigator.push(

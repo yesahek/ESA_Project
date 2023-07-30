@@ -18,25 +18,25 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 class PostProvider with ChangeNotifier {
   List<Post> _items = [
     Post(
-        postId: "p01",
-        description: "This is Awesome",
-        uid: "u1",
-        username: "mihret",
-        datePublished: DateTime(2017, 9, 7),
-        imageUrl:
-            "https://ichef.bbci.co.uk/news/999/cpsprodpb/15951/production/_117310488_16.jpg",
-        likes: 0,
-        question: Question(
-          questionId: "q01",
-          question: "What is this ",
-          choice: [
-            "Cat",
-            "Dog",
-            "Rat",
-          ],
-          answer: 2,
-        )),
-
+      postId: "p01",
+      description: "This is Awesome",
+      uid: "u1",
+      username: "mihret",
+      datePublished: DateTime(2017, 9, 7),
+      imageUrl:
+          "https://ichef.bbci.co.uk/news/999/cpsprodpb/15951/production/_117310488_16.jpg",
+      likes: 0,
+      question: Question(
+        questionId: "q01",
+        question: "What is this ",
+        choice: [
+          "Cat",
+          "Dog",
+          "Rat",
+        ],
+        answer: 2,
+      ),
+    ),
     Post(
         postId: "p01",
         description: "This is Awesome",
@@ -61,7 +61,7 @@ class PostProvider with ChangeNotifier {
     ),
   ];
 
- // List<Post> _items = [];
+  // List<Post> _items = [];
 
 // post get
   List<Post> get item {

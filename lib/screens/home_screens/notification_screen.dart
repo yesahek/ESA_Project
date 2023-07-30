@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../widget/my_appBar.dart';
 
-class EventsScreen extends StatelessWidget {
-  const EventsScreen({super.key});
+class NotificationScreen extends StatelessWidget {
+  NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class EventsScreen extends StatelessWidget {
           children: [
             MyAppBar(
               backArrow: true,
-              title: "Notification",
+              title: "Notifications",
               name: "",
             ),
           ],

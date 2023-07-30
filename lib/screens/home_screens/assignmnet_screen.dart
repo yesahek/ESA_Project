@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../widget/my_appBar.dart';
 
-class MessagesScreen extends StatelessWidget {
-  const MessagesScreen({super.key});
+class AssignmnetScreen extends StatelessWidget {
+  const AssignmnetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class MessagesScreen extends StatelessWidget {
           children: [
             MyAppBar(
               backArrow: true,
-              title: "Messages",
+              title: "Assignment",
               name: "",
             ),
           ],

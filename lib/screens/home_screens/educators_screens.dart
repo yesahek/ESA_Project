@@ -1,20 +1,14 @@
+import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/user.dart';
-import '../../providers/users_provider.dart';
 import '../../widget/my_appBar.dart';
 import '../../widget/searchBar.dart';
 import '../../widget/users_list.dart';
 
-class FriendsScreen extends StatefulWidget {
-  const FriendsScreen({super.key});
+class educatorsScreen extends StatelessWidget {
+  educatorsScreen({super.key});
 
-  @override
-  State<FriendsScreen> createState() => _FriendsScreenState();
-}
-
-class _FriendsScreenState extends State<FriendsScreen> {
-  @override
   final searchController = TextEditingController();
   bool _isLoading = false;
   Widget build(BuildContext context) {
@@ -30,18 +24,16 @@ class _FriendsScreenState extends State<FriendsScreen> {
                 children: [
                   MyAppBar(
                     backArrow: true,
-                    title: userDetail.type == "Admin" ? "Students" : "Friends",
-                    name: userDetail.firstname,
+                    title: "Educators",
+                    name: "",
                   ),
                   Search(
                     searchController: searchController,
                     textHint: "Search Student",
                   ),
-                  Divider(),
-                  SizedBox(height: 20),
                   Item(
                       schoolId: userDetail.sId,
-                      selectedUserType: "AllStudents"),
+                      selectedUserType: "AllEducators"),
                 ],
               ),
             ),

@@ -5,7 +5,6 @@ import 'package:e_sup_app/widget/users_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/course_material.dart';
 import '../../models/user.dart';
 import '../../utils/colors.dart';
 
@@ -24,9 +23,7 @@ class RequestScreen extends StatefulWidget {
 class _RequestScreenState extends State<RequestScreen> {
   Users _users = Users.student;
   final searchController = TextEditingController();
-  List<User> _AllUsersInSchool = [];
   bool _isLoading = false;
-  var _isInit = true;
 
   void initState() {
     super.initState();
@@ -34,7 +31,6 @@ class _RequestScreenState extends State<RequestScreen> {
   }
 
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     User userDetail = Provider.of<UserProvider>(context, listen: false).getUser;
     return _isLoading
         ? Center(
@@ -109,11 +105,11 @@ class _RequestScreenState extends State<RequestScreen> {
                         ),
                       ),
                       if (_users == Users.student)
-                        UserItem(
+                        Item(
                             schoolId: userDetail.sId,
                             selectedUserType: "Student"),
                       if (_users == Users.educator)
-                        UserItem(
+                        Item(
                             schoolId: userDetail.sId,
                             selectedUserType: "Educator"),
                     ],

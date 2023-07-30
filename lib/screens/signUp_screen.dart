@@ -117,6 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
         grade: _gradeValue,
         school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
         phone: _phoneNumberController.text,
+        file: _image!,
       );
     } else {
       // signup user using authethods for students
@@ -134,6 +135,7 @@ class _SignupScreenState extends State<SignupScreen> {
         grade: _gradeValue,
         school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
         phone: _phoneNumberController.text,
+        file: _image!,
       );
     }
 

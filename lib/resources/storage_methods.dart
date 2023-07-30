@@ -51,7 +51,7 @@ class StorageMethods {
       ref = ref.child(id);
     }
 
-    // putting in uint8list format -> Upload task like a future but not future
+    // putting in uint8list format 
     UploadTask uploadTask = ref.putData(file);
 
     TaskSnapshot snapshot = await uploadTask;

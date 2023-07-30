@@ -1,15 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'package:e_sup_app/screens/home_screens/students_screen.dart';
+import 'package:e_sup_app/unwanted/students_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../responsive/mobile_screen_layout.dart';
-import '../screens/home_screens/events_screen.dart';
-import '../screens/home_screens/friends_screen.dart';
-import '../screens/home_screens/messages_screen.dart';
+import '../screens/home_screens/educators_screens.dart';
+import '../screens/home_screens/students_screen.dart';
+import '../screens/home_screens/notification_screen.dart';
+import '../screens/home_screens/reports_screen.dart';
 import '../screens/home_screens/requests_screen.dart';
 import '../screens/home_screens/saves_screen.dart';
-import '../screens/home_screens/todo_screen.dart';
+import '../screens/home_screens/assignmnet_screen.dart';
 import 'colors.dart';
 
 //*******Home Screen Buttens List******* */
@@ -17,7 +18,7 @@ import 'colors.dart';
 List<HomeButtons> tools = [
   HomeButtons(
     name: "Messages",
-    widget: MessagesScreen(),
+    widget: AssignmnetScreen(),
     notifcation: 2,
     icon: Icon(
       Icons.message_outlined,
@@ -36,21 +37,21 @@ List<HomeButtons> tools = [
     ),
   ),
   HomeButtons(
-    name: "Notifcations",
-    widget: EventsScreen(),
-    notifcation: 3,
+    name: "Educators",
+    widget: educatorsScreen(),
+    notifcation: 0,
     icon: Icon(
-      Icons.notifications_none_outlined,
+      Icons.list_outlined,
       color: iconColor,
       size: 30,
     ),
   ),
   HomeButtons(
-    name: "Todo",
-    widget: TodoScreen(),
-    notifcation: 0,
+    name: "Notifcations",
+    widget: NotificationScreen(),
+    notifcation: 3,
     icon: Icon(
-      Icons.list_outlined,
+      Icons.notifications_none_outlined,
       color: iconColor,
       size: 30,
     ),
@@ -71,8 +72,8 @@ List<HomeButtons> tools = [
 
 List<HomeButtons> toolsForEducator = [
   HomeButtons(
-    name: "Messages",
-    widget: MessagesScreen(),
+    name: "assignment",
+    widget: AssignmnetScreen(),
     notifcation: 2,
     icon: Icon(
       Icons.message_outlined,
@@ -82,7 +83,7 @@ List<HomeButtons> toolsForEducator = [
   ),
   HomeButtons(
     name: "Student",
-    widget: StudentsScreen(),
+    widget: FriendsScreen(),
     notifcation: 0,
     icon: Icon(
       Icons.people_outline,
@@ -92,7 +93,7 @@ List<HomeButtons> toolsForEducator = [
   ),
   HomeButtons(
     name: "Notifcations",
-    widget: EventsScreen(),
+    widget: NotificationScreen(),
     notifcation: 3,
     icon: Icon(
       Icons.notifications_none_outlined,
@@ -101,8 +102,8 @@ List<HomeButtons> toolsForEducator = [
     ),
   ),
   HomeButtons(
-    name: "Todo",
-    widget: TodoScreen(),
+    name: "Educators",
+    widget: educatorsScreen(),
     notifcation: 0,
     icon: Icon(
       Icons.list_outlined,
@@ -125,8 +126,8 @@ List<HomeButtons> toolsForEducator = [
 //Tools for Admin
 List<HomeButtons> toolsForAdmin = [
   HomeButtons(
-    name: "Admin Messages",
-    widget: MessagesScreen(),
+    name: "Reports",
+    widget: ReportsScreen(),
     notifcation: 2,
     icon: Icon(
       Icons.message_outlined,
@@ -145,8 +146,18 @@ List<HomeButtons> toolsForAdmin = [
     ),
   ),
   HomeButtons(
+    name: "Educators",
+    widget: educatorsScreen(),
+    notifcation: 0,
+    icon: Icon(
+      Icons.list_outlined,
+      color: iconColor,
+      size: 30,
+    ),
+  ),
+  HomeButtons(
     name: "Notifcations",
-    widget: EventsScreen(),
+    widget: NotificationScreen(),
     notifcation: 3,
     icon: Icon(
       Icons.notifications_none_outlined,
