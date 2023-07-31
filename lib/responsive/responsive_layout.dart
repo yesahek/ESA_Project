@@ -24,31 +24,43 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
   late UserProvider userProvider;
   bool _isLoading = false;
   var _isInit = true;
+
   @override
   void initState() {
     super.initState();
     // addData();
   }
 
+  @override
   void didChangeDependencies() {
     if (_isInit) {
       setState(() {
         _isLoading = true;
       });
-      Provider.of<UserProvider>(context, listen: false)
+
+      // Store the context in a local variable
+      final currentContext = context;
+
+      Provider.of<UserProvider>(currentContext, listen: false)
           .refreshUser()
-          .then((_) => setState(() {
-                _isLoading = false;
-              }));
+          .then((_) {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      });
     }
     _isInit = false;
     super.didChangeDependencies();
   }
 
-  // addData() async {
-  //   userProvider = Provider.of<UserProvider>(context, listen: false);
-  //   await userProvider.refreshUser();
-  // }
+  addData() async {
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.refreshUser();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {

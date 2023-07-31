@@ -92,11 +92,5 @@ class courseMaterialProvider with ChangeNotifier {
     notifyListeners();
     return res;
   }
-
-
-
-
-
-
   notifyListeners();
 }

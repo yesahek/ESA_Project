@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_sup_app/models/question.dart';
 
 class Post {
   final String postId;
   final String description;
   final String imageUrl;
-  final likes;
+  final int likes;
   final String uid;
   final String username;
-  final DateTime datePublished;
+  final Timestamp datePublished;
   late Question? question;
   Post({
     required this.postId,

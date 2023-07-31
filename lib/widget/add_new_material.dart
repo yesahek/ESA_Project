@@ -84,18 +84,7 @@ class _AddNewMaterialState extends State<AddNewMaterial> {
               controller: titleController,
               onSubmitted: (_) => submitData(),
             ),
-            // TextField(
-            //   decoration: InputDecoration(labelText: 'grade'),
-            //   controller: gradeController,
-            //   keyboardType: TextInputType.number,
-            //   onSubmitted: (_) => submitData(),
-            // ),
-            // TextField(
-            //   decoration: InputDecoration(labelText: widget.courseId),
-            //   controller: CourseController,
-
-            //   onSubmitted: (_) => submitData(),
-            // ),
+           
             TextField(
               decoration: InputDecoration(labelText: 'Description'),
               controller: DescController,

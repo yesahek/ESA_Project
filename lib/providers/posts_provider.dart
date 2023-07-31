@@ -16,51 +16,51 @@ import '../models/course_material.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class PostProvider with ChangeNotifier {
-  List<Post> _items = [
-    Post(
-        postId: "p01",
-        description: "This is Awesome",
-        uid: "u1",
-        username: "mihret",
-        datePublished: DateTime(2017, 9, 7),
-        imageUrl:
-            "https://ichef.bbci.co.uk/news/999/cpsprodpb/15951/production/_117310488_16.jpg",
-        likes: 0,
-        question: Question(
-          questionId: "q01",
-          question: "What is this ",
-          choice: [
-            "Cat",
-            "Dog",
-            "Rat",
-          ],
-          answer: 2,
-        )),
-    Post(
-        postId: "p01",
-        description: "This is Awesome",
-        uid: "u1",
-        username: "isaac",
-        datePublished: DateTime(2017, 9, 7),
-        likes: 0,
-        question: Question(
-          questionId: 'q02',
-          question: "location",
-          choice: ["Addis Ababa", "Ethiopia", "Africa"],
-        )),
-    Post(
-      postId: "p01",
-      description: "This is Awesome",
-      uid: "u1",
-      username: "chala",
-      datePublished: DateTime(2017, 9, 7),
-      imageUrl:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJngcaGXB4w_Y_r1xyYX23oNp5_ZUc_REfYQ&usqp=CAU",
-      likes: 0,
-    ),
-  ];
+  // List<Post> _items = [
+  //   Post(
+  //       postId: "p01",
+  //       description: "This is Awesome",
+  //       uid: "u1",
+  //       username: "mihret",
+  //       datePublished: DateTime(2017, 9, 7),
+  //       imageUrl:
+  //           "https://ichef.bbci.co.uk/news/999/cpsprodpb/15951/production/_117310488_16.jpg",
+  //       likes: 0,
+  //       question: Question(
+  //         questionId: "q01",
+  //         question: "What is this ",
+  //         choice: [
+  //           "Cat",
+  //           "Dog",
+  //           "Rat",
+  //         ],
+  //         answer: 2,
+  //       )),
+  //   Post(
+  //       postId: "p01",
+  //       description: "This is Awesome",
+  //       uid: "u1",
+  //       username: "isaac",
+  //       datePublished: DateTime(2017, 9, 7),
+  //       likes: 0,
+  //       question: Question(
+  //         questionId: 'q02',
+  //         question: "location",
+  //         choice: ["Addis Ababa", "Ethiopia", "Africa"],
+  //       )),
+  //   Post(
+  //     postId: "p01",
+  //     description: "This is Awesome",
+  //     uid: "u1",
+  //     username: "chala",
+  //     datePublished: DateTime(2017, 9, 7),
+  //     imageUrl:
+  //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJngcaGXB4w_Y_r1xyYX23oNp5_ZUc_REfYQ&usqp=CAU",
+  //     likes: 0,
+  //   ),
+  // ];
 
-  // List<Post> _items = [];
+  List<Post> _items = [];
 
 // post get
   List<Post> get item {
@@ -121,29 +121,35 @@ class PostProvider with ChangeNotifier {
   Future<String> AddPost({
     required String uid,
     required String description,
-    required Uint8List file,
+    Uint8List? file,
     required String firstName,
   }) async {
     String res = "Some error occurred";
     try {
       if (uid.isNotEmpty || description.isNotEmpty) {
-        //uploading image
-        String imageUrl =
-            await StorageMethods().uploadImageToStorage("Posts", file, false);
+        String imageUrl = '';
+        // if the post does have an image check and uploading image
+        if (file != null)
+          String imageUrl =
+              await StorageMethods().uploadImageToStorage("Posts", file, true);
+        DateTime currentDate = DateTime.now();
         String postId = const Uuid().v1();
+        Timestamp firestoreTimestamp = Timestamp.fromDate(currentDate);
+        //print(imageUrl);
         Post post = Post(
-          datePublished: DateTime.timestamp(),
+          datePublished: firestoreTimestamp,
           likes: 0,
           postId: postId,
           uid: uid,
           username: firstName,
           description: description,
-          imageUrl: imageUrl,
+          imageUrl: imageUrl == '' ? "" : imageUrl,
         );
-        await _firestore.collection("posts").doc(uid).set(
+        await _firestore.collection("posts").doc(postId).set(
               post.toJson(),
             );
         res = "success";
+        notifyListeners();
       }
     } catch (err) {
       res = err.toString();
