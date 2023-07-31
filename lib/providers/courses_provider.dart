@@ -1,3 +1,12 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import '../models/course.dart';
+
+class CoursesProvider with ChangeNotifier {
+  List<Course> _items = [];
+
 //  List<Course> _items = [
 //   Course(
 //     courseId: "c001",
@@ -10,14 +19,8 @@
 //     grade: 12,
 //   ),
 //];
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:uuid/uuid.dart';
-import '../models/course.dart';
-
-class CoursesProvider with ChangeNotifier {
-  List<Course> _items = [];
+  
+  
   //course geter
   List<Course> get allItems {
     return [..._items];

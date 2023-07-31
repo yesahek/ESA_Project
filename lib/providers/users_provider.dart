@@ -35,9 +35,18 @@ class UserProvider with ChangeNotifier {
 
   Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;
-    DocumentSnapshot snap =
-        await _firestore.collection("users").doc(currentUser.uid).get();
-    return model.User.fromSnap(snap);
+
+    try {
+      DocumentSnapshot snap =
+          await _firestore.collection("users").doc(currentUser.uid).get();
+
+      return model.User.fromSnap(snap);
+    } catch (e) {
+      // Handle any errors that occur during fetching.
+      print('Error fetching user details: $e');
+      // Rethrow the error or handle it accordingly.
+      throw e;
+    }
   }
 
 //for admin to approving users
@@ -62,12 +71,10 @@ class UserProvider with ChangeNotifier {
 //for Admin Users list unApproved users
   Future<List<model.User>> getUsersBySchoolId(String SID) async {
     try {
-      // Query Firestore to get the documents where 'sId' field matches the provided SID.
       QuerySnapshot snapshot = await _firestore
           .collection("users")
           .where("sId", isEqualTo: SID)
           .get();
-
       // Create a list to collect the matching users.
       List<model.User> users = [];
 
@@ -99,6 +106,26 @@ class UserProvider with ChangeNotifier {
       return []; // Return an empty list if there's an error
     }
   }
+
+//Find and retrieve the user information
+  Future<model.User?> getUserById(String userId) async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection("users").doc(userId).get();
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        return model.User.fromSnap(userSnapshot);
+      } else {
+        print("user not Found");
+        return null;
+      }
+    } catch (e) {
+      print("Error fetching user by ID: $e");
+      return null;
+    }
+  }
+  
 
 //for checking if the user Tabel have change
   Future<void> refreshUser() async {
@@ -142,7 +169,7 @@ class UserProvider with ChangeNotifier {
         //signuping on FirebaseAuth and store the user Credential on cred
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
-            //uplaoding profile picture
+        //uplaoding profile picture
         String photoUrl = await StorageMethods()
             .uploadImageToStorage("profilePics", file, false);
 

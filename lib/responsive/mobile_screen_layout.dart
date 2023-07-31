@@ -1,4 +1,5 @@
 import 'package:e_sup_app/models/user.dart' as model;
+import 'package:e_sup_app/screens/courses_screen/forum_screen.dart';
 import 'package:e_sup_app/screens/profile_detail_screen.dart';
 import 'package:e_sup_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -55,7 +56,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       MaterialsScreen(),
       //FeedScreen(),
       //ActivityScreen(),
-      AddPost(),
+      //AddPost(),
+      forumScreen(),
       ProfileDetailPage(
           firstName: user.firstname,
           lastName: user.lastname,

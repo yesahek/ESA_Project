@@ -20,7 +20,8 @@ class _ChoiceState extends State<Choice> {
   String _correct = "✔";
   bool _isCorrect = false;
   _checkAnswer() {
-    int? Answer = widget.item.question?.answer;
+    int? Answer = widget.item.answer;
+    // int? Answer = widget.item.question?.answer;
     bool result = Answer == widget.ind;
 
     setState(() {

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:e_sup_app/models/question.dart';
 import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,16 +29,16 @@ class _AddPostState extends State<AddPost> {
     });
   }
 
-  void _submit() {}
-
-  TextEditingController _captionController = TextEditingController();
-  TextEditingController _questionController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _AskQuestionController = TextEditingController();
+  TextEditingController _AController = TextEditingController();
+  TextEditingController _BController = TextEditingController();
+  TextEditingController _CController = TextEditingController();
+  TextEditingController _DController = TextEditingController();
   bool _isPhotoSelected = false; // For checking if a photo is selected
   bool _isAskingQuestion = false;
-  bool _isD = false;
-  bool _isC = false;
-  bool _isB = false;
-  bool _isA = false;
+  int _choices = 0;
+  int _answer = 0;
 
   void _pickPhoto() async {
     Uint8List im = await pickImage(ImageSource.gallery);
@@ -54,339 +55,379 @@ class _AddPostState extends State<AddPost> {
   }
 
   Future<void> _addPost() async {
+    String res = '';
     setState(() {
       _isLoading = true;
     });
 
     String forSnack = "";
 
-    String res = await PostProvider().AddPost(
-      description: _captionController.text,
-      file: _isPhotoSelected ? _image : null,
-      firstName: "iy",
-      uid: "3YHmBpPYugNMdz5FHNj1f6C3Rbj2",
-    );
-    setState(() {
-      _isLoading = false;
-    });
+    if (_isPhotoSelected ||
+        _descriptionController.text.isNotEmpty ||
+        _AskQuestionController.text.isNotEmpty) {
+      res = await PostProvider().AddPost(
+        description: _descriptionController.text,
+        file: _isPhotoSelected ? _image : null,
+        firstName: "iy",
+        uid: "3YHmBpPYugNMdz5FHNj1f6C3Rbj2",
+        question: _AskQuestionController.text,
+        choiceA: _AController.text,
+        choiceB: _BController.text,
+        choiceC: _CController.text,
+        choiceD: _DController.text,
+        answer: _answer,
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      res = "Empity";
+    }
     if (res == "success") {
       forSnack = "post uploaded successfuly";
+    } else if (res == "Empity") {
+      forSnack = "One of Three is required (Image, Question, Text)";
     } else {
       forSnack = "something wrong";
     }
     showSnackBar(context, forSnack);
     setState(() {
-      _captionController.clear();
-      _questionController.clear();
+      _descriptionController.clear();
+      _AskQuestionController.clear();
       _isPhotoSelected = false;
       _isAskingQuestion = false;
+      _choices = 0;
+      _AController.clear();
+      _BController.clear();
+      _CController.clear();
+      _DController.clear();
     });
     setState(() {
       _isLoading = false;
     });
   }
 
+  _toggleChoices(int add) {
+    setState(() {
+      _choices += add;
+    });
+  }
+
+  _clear() {
+    setState(() {
+      _descriptionController.clear();
+      _AskQuestionController.clear();
+      _AController.clear();
+      _BController.clear();
+      _CController.clear();
+      _DController.clear();
+      _isPhotoSelected = false;
+      _isAskingQuestion = false;
+      _choices = 0;
+      _answer = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _isLoading
-        ? Center(
-            child: CircularProgressIndicator(
-            color: Colors.blueAccent,
-          ))
-        : Scaffold(
-            body: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
+    if (_isLoading) {
+      return Center(
+          child: CircularProgressIndicator(
+        color: Colors.blueAccent,
+      ));
+    } else {
+      return Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MyAppBar(backArrow: true, title: "Forum", name: ""),
+                        if (_isPhotoSelected)
+                          Container(
+                            height: 200,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: MemoryImage(_image!),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        SizedBox(height: 16),
+                        TextField(
+                          controller: _descriptionController,
+                          maxLines: null,
+                          decoration: InputDecoration(
+                            hintText: 'Share something....',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            MyAppBar(backArrow: true, title: "Forum", name: ""),
-                            if (_isPhotoSelected)
-                              Container(
-                                height: 200,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: MemoryImage(_image!),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            SizedBox(height: 16),
-                            TextField(
-                              controller: _captionController,
-                              maxLines: null,
-                              decoration: InputDecoration(
-                                hintText: 'Share something....',
-                                border: InputBorder.none,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ElevatedButton.icon(
-                                      onPressed: _toggleQuestion,
-                                      icon: Icon(Icons.question_mark),
-                                      label: Text("Ask"),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    if (_isAskingQuestion)
-                                      Expanded(
-                                        child: TextField(
-                                          controller: _questionController,
-                                          decoration: InputDecoration(
-                                              labelText: 'Question'),
-                                        ),
-                                      ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                if (_isAskingQuestion)
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 30),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        //Choice A
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 5, horizontal: 10),
-                                              height: 35,
-                                              width: 35,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: appColor,
-                                                    blurRadius: 2,
-                                                    spreadRadius: 2,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: (Text(
-                                                  "A",
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                )),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    labelText: 'Choice A'),
-                                              ),
-                                            ),
-                                          ],
-                                        ), //
-                                        //Choice B
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 5, horizontal: 10),
-                                              height: 35,
-                                              width: 35,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: appColor,
-                                                    blurRadius: 2,
-                                                    spreadRadius: 2,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: (Text(
-                                                  "B",
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                )),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    labelText: 'Choice B'),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //Choice C
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 5, horizontal: 10),
-                                              height: 35,
-                                              width: 35,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: appColor,
-                                                    blurRadius: 2,
-                                                    spreadRadius: 2,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: (Text(
-                                                  "C",
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                )),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    labelText: 'Choice C'),
-                                              ),
-                                            ),
-                                          ],
-                                        ), //
-                                        //Choice D
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.symmetric(
-                                                  vertical: 5, horizontal: 10),
-                                              height: 35,
-                                              width: 35,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: appColor,
-                                                    blurRadius: 2,
-                                                    spreadRadius: 2,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: (Text(
-                                                  "D",
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                )),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: TextField(
-                                                decoration: InputDecoration(
-                                                    labelText: 'Choice D'),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        //choices add
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              left: 18, top: 10),
-                                          height: 35,
-                                          width: 35,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: appColor,
-                                                blurRadius: 2,
-                                                spreadRadius: 2,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(
-                                            child: IconButton(
-                                              onPressed: () {},
-                                              icon: Icon(
-                                                Icons.add,
-                                                size: 20,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                              ],
-                            ),
-                            SizedBox(height: 20),
-                            if (_isAskingQuestion)
-                              TextField(
-                                controller: _questionController,
-                                maxLines: null,
-                                decoration: InputDecoration(
-                                  hintText: 'Ask a question...',
-                                  border: InputBorder.none,
-                                ),
-                              ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 ElevatedButton.icon(
-                                  onPressed: _pickPhoto,
-                                  icon: Icon(Icons.photo),
-                                  label: Text('Select Image'),
-                                ),
-                                ElevatedButton.icon(
                                   onPressed: _toggleQuestion,
-                                  icon: Icon(_isAskingQuestion
-                                      ? Icons.text_fields
-                                      : Icons.question_answer),
-                                  label: Text(
-                                      _isAskingQuestion ? 'Text' : 'Question'),
+                                  icon: Icon(Icons.question_mark),
+                                  label: Text("Ask"),
                                 ),
-                                ElevatedButton.icon(
-                                  onPressed: _addPost,
-                                  icon: Icon(Icons.post_add),
-                                  label: Text('Post'),
+                                SizedBox(
+                                  width: 10,
                                 ),
+                                if (_isAskingQuestion)
+                                  Expanded(
+                                    child: TextField(
+                                      controller: _AskQuestionController,
+                                      decoration: InputDecoration(
+                                          labelText: 'Ask a question....'),
+                                    ),
+                                  ),
                               ],
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            if (_isAskingQuestion)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 30),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    //Choice A
+                                    if (_choices >= 2)
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: appColor,
+                                                  blurRadius: 2,
+                                                  spreadRadius: 2,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child: (Text(
+                                                "A",
+                                                style: TextStyle(fontSize: 20),
+                                              )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: TextField(
+                                              controller: _AController,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Choice A'),
+                                            ),
+                                          ),
+                                        ],
+                                      ), //
+                                    //Choice B
+                                    if (_choices >= 2)
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: appColor,
+                                                  blurRadius: 2,
+                                                  spreadRadius: 2,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child: (Text(
+                                                "B",
+                                                style: TextStyle(fontSize: 20),
+                                              )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: TextField(
+                                              controller: _BController,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Choice B'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    //Choice C
+                                    if (_choices >= 3)
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: appColor,
+                                                  blurRadius: 2,
+                                                  spreadRadius: 2,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child: (Text(
+                                                "C",
+                                                style: TextStyle(fontSize: 20),
+                                              )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: TextField(
+                                              controller: _CController,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Choice C'),
+                                            ),
+                                          ),
+                                        ],
+                                      ), //
+                                    //Choice D
+                                    if (_choices >= 4)
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 5, horizontal: 10),
+                                            height: 35,
+                                            width: 35,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: appColor,
+                                                  blurRadius: 2,
+                                                  spreadRadius: 2,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Center(
+                                              child: (Text(
+                                                "D",
+                                                style: TextStyle(fontSize: 20),
+                                              )),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: TextField(
+                                              controller: _DController,
+                                              decoration: InputDecoration(
+                                                  labelText: 'Choice D'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    //choices add
+                                    if (_choices < 4)
+                                      Container(
+                                        margin:
+                                            EdgeInsets.only(left: 18, top: 10),
+                                        height: 35,
+                                        width: 35,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: appColor,
+                                              blurRadius: 2,
+                                              spreadRadius: 2,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Center(
+                                          child: IconButton(
+                                            onPressed: () {
+                                              if (_choices == 0) {
+                                                _toggleChoices(2);
+                                              } else {
+                                                _toggleChoices(1);
+                                              }
+                                            },
+                                            icon: Icon(
+                                              Icons.add,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: _pickPhoto,
+                              icon: Icon(Icons.photo),
+                              label: Text('Select Image'),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: _addPost,
+                              icon: Icon(Icons.post_add),
+                              label: Text('Post'),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: _clear,
+                              icon: Icon(Icons.clear),
+                              label: Text('Clear'),
                             ),
                           ],
                         ),
-                      ),
+                      ],
                     ),
-                    Divider(),
-                  ],
+                  ),
                 ),
-              ),
+                Divider(),
+              ],
             ),
-          );
+          ),
+        ),
+      );
+    }
   }
 }
