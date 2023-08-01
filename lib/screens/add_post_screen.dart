@@ -1,23 +1,28 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:e_sup_app/models/question.dart';
 import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
+import '../models/user.dart';
+import '../providers/users_provider.dart';
 import '../utils/colors.dart';
 import '../utils/utils.dart';
 import '../widget/my_appBar.dart';
 
 class AddPost extends StatefulWidget {
-  const AddPost({super.key});
+  final courseId;
+  AddPost({super.key, required this.courseId});
 
   @override
   State<AddPost> createState() => _AddPostState();
 }
 
 class _AddPostState extends State<AddPost> {
+  late User userData;
+
   Uint8List? _image;
   String _caption = '';
   var _isLoading = false;
@@ -66,10 +71,11 @@ class _AddPostState extends State<AddPost> {
         _descriptionController.text.isNotEmpty ||
         _AskQuestionController.text.isNotEmpty) {
       res = await PostProvider().AddPost(
+        coureseId: widget.courseId,
         description: _descriptionController.text,
         file: _isPhotoSelected ? _image : null,
-        firstName: "iy",
-        uid: "3YHmBpPYugNMdz5FHNj1f6C3Rbj2",
+        firstName: userData.firstname,
+        uid: userData.uid,
         question: _AskQuestionController.text,
         choiceA: _AController.text,
         choiceB: _BController.text,
@@ -130,6 +136,7 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+    userData = Provider.of<UserProvider>(context, listen: false).getUser;
     if (_isLoading) {
       return Center(
           child: CircularProgressIndicator(

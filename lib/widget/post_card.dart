@@ -1,5 +1,6 @@
 import 'package:e_sup_app/models/post.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
+import 'package:e_sup_app/screens/profile_detail_screen.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../utils/colors.dart';
@@ -33,6 +34,7 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    //print(widget.item.choices![0] == "");
     return _isLoading
         ? Center(
             child: CircularProgressIndicator(
@@ -50,41 +52,62 @@ class _PostCardState extends State<PostCard> {
                     vertical: 4,
                     horizontal: 16,
                   ).copyWith(right: 0),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 16,
-                        backgroundImage: NetworkImage(
-                          poster.photoUrl,
-                          //"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU",
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 8,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                ProfileDetailPage(
+                              email: poster.email,
+                              firstName: poster.firstname,
+                              grade: poster.grade,
+                              lastName: poster.lastname,
+                              phoneNumber: poster.phone,
+                              photoUrl: poster.photoUrl,
+                              sex: poster.sex,
+                              shoolName: poster.school,
+                              type: poster.type,
+                              userId: poster.uid,
+                            ),
+                          ));
+                    },
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 16,
+                          backgroundImage: NetworkImage(
+                            poster.photoUrl,
+                            //"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU",
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.item.username,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: 8,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.item.username,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.more_vert,
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.more_vert,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 //Content section
@@ -128,7 +151,7 @@ class _PostCardState extends State<PostCard> {
                         ],
                       ),
                       // item.question?.question == null
-                      widget.item.question == null
+                      widget.item.question == ''
                           ? Text(widget.item.description!)
                           : Container(
                               //color: Colors.blueGrey,
@@ -149,7 +172,8 @@ class _PostCardState extends State<PostCard> {
                                     ),
                                   ),
                                   //item.question?.choice == null
-                                  widget.item.choices == null
+
+                                  widget.item.choices![0] == ""
                                       ? Divider()
                                       : ListView.builder(
                                           physics: ScrollPhysics(),
@@ -183,7 +207,7 @@ class _PostCardState extends State<PostCard> {
                       onPressed: () {},
                       icon: Icon(
                         Icons.favorite,
-                        color: Colors.red,
+                        //color: Colors.red,
                       ),
                     ),
 
@@ -196,12 +220,12 @@ class _PostCardState extends State<PostCard> {
                     ),
 
                     //share button
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.send,
-                      ),
-                    ),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: Icon(
+                    //     Icons.send,
+                    //   ),
+                    // ),
 
                     //save post button
                     Expanded(
@@ -232,7 +256,7 @@ class _PostCardState extends State<PostCard> {
                               fontWeight: FontWeight.w800,
                             ),
                         child: Text(
-                          "20 Likes",
+                          widget.item.likes.toString(),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
@@ -263,24 +287,24 @@ class _PostCardState extends State<PostCard> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: const Text(
-                            "View all 100 Comments",
-                            style:
-                                TextStyle(fontSize: 16, color: secondaryColor),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Text(
-                          "20/12/2015",
-                          style: TextStyle(fontSize: 16, color: secondaryColor),
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {},
+                      //   child: Container(
+                      //     padding: const EdgeInsets.symmetric(vertical: 4),
+                      //     child: const Text(
+                      //       "View all  Comments",
+                      //       style:
+                      //           TextStyle(fontSize: 16, color: secondaryColor),
+                      //     ),
+                      //   ),
+                      // ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(vertical: 4),
+                      //   child: Text(
+                      //     widget.item.datePublished.toString(),
+                      //     style: TextStyle(fontSize: 16, color: secondaryColor),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

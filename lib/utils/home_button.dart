@@ -17,9 +17,9 @@ import 'colors.dart';
 //For Students
 List<HomeButtons> tools = [
   HomeButtons(
-    name: "Messages",
+    name: "Assignmnet",
     widget: AssignmnetScreen(),
-    notifcation: 2,
+    notifcation: 0,
     icon: Icon(
       Icons.message_outlined,
       color: iconColor,
@@ -49,7 +49,7 @@ List<HomeButtons> tools = [
   HomeButtons(
     name: "Notifcations",
     widget: NotificationScreen(),
-    notifcation: 3,
+    notifcation: 0,
     icon: Icon(
       Icons.notifications_none_outlined,
       color: iconColor,
@@ -74,7 +74,7 @@ List<HomeButtons> toolsForEducator = [
   HomeButtons(
     name: "assignment",
     widget: AssignmnetScreen(),
-    notifcation: 2,
+    notifcation: 0,
     icon: Icon(
       Icons.message_outlined,
       color: iconColor,
@@ -94,7 +94,7 @@ List<HomeButtons> toolsForEducator = [
   HomeButtons(
     name: "Notifcations",
     widget: NotificationScreen(),
-    notifcation: 3,
+    notifcation: 0,
     icon: Icon(
       Icons.notifications_none_outlined,
       color: iconColor,
@@ -128,7 +128,7 @@ List<HomeButtons> toolsForAdmin = [
   HomeButtons(
     name: "Reports",
     widget: ReportsScreen(),
-    notifcation: 2,
+    notifcation: 0,
     icon: Icon(
       Icons.message_outlined,
       color: iconColor,
@@ -158,7 +158,7 @@ List<HomeButtons> toolsForAdmin = [
   HomeButtons(
     name: "Notifcations",
     widget: NotificationScreen(),
-    notifcation: 3,
+    notifcation: 0,
     icon: Icon(
       Icons.notifications_none_outlined,
       color: iconColor,

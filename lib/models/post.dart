@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
   final String postId;
+  final String courseId;
   final String? description;
   final String? imageUrl;
   final int likes;
@@ -17,6 +18,7 @@ class Post {
   //late Question? question;
   Post({
     required this.postId,
+    required this.courseId,
     this.description,
     this.imageUrl,
     required this.likes,
@@ -29,6 +31,7 @@ class Post {
   });
   Map<String, dynamic> toJson() => {
         'id': postId,
+        'courseId': courseId,
         'description': description,
         'imageUrl': imageUrl,
         'likes': likes,
@@ -43,6 +46,7 @@ class Post {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'postId': postId,
+      'courseId': courseId,
       'description': description,
       'imageUrl': imageUrl,
       'likes': likes,

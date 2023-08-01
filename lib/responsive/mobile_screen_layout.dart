@@ -55,9 +55,9 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
       MaterialsScreen(),
       //FeedScreen(),
-      //ActivityScreen(),
+      ActivityScreen(),
       //AddPost(),
-      forumScreen(),
+      //forumScreen(),
       ProfileDetailPage(
           firstName: user.firstname,
           lastName: user.lastname,

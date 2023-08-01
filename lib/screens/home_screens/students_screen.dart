@@ -26,23 +26,26 @@ class _FriendsScreenState extends State<FriendsScreen> {
           ))
         : Scaffold(
             body: SafeArea(
-              child: Column(
-                children: [
-                  MyAppBar(
-                    backArrow: true,
-                    title: userDetail.type == "Admin" ? "Students" : "Friends",
-                    name: userDetail.firstname,
-                  ),
-                  Search(
-                    searchController: searchController,
-                    textHint: "Search Student",
-                  ),
-                  Divider(),
-                  SizedBox(height: 20),
-                  Item(
-                      schoolId: userDetail.sId,
-                      selectedUserType: "AllStudents"),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    MyAppBar(
+                      backArrow: true,
+                      title:
+                          userDetail.type == "Admin" ? "Students" : "Friends",
+                      name: userDetail.firstname,
+                    ),
+                    Search(
+                      searchController: searchController,
+                      textHint: "Search Student",
+                    ),
+                    Divider(),
+                    SizedBox(height: 20),
+                    Item(
+                        schoolId: userDetail.sId,
+                        selectedUserType: "AllStudents"),
+                  ],
+                ),
               ),
             ),
           );

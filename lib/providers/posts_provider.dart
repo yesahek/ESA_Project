@@ -82,6 +82,7 @@ class PostProvider with ChangeNotifier {
 
 //upload post to database
   Future<String> AddPost({
+    required String coureseId,
     required String uid,
     String? description,
     Uint8List? file,
@@ -110,6 +111,7 @@ class PostProvider with ChangeNotifier {
         Timestamp firestoreTimestamp = Timestamp.fromDate(currentDate);
         //print(imageUrl);
         Post post = Post(
+          courseId: coureseId,
           datePublished: firestoreTimestamp,
           likes: 0,
           postId: postId,
@@ -150,6 +152,7 @@ class PostProvider with ChangeNotifier {
         Map<String, dynamic> data = doc.data();
         print(_items.length);
         return Post(
+          courseId: data['courseId'],
           uid: data['uid']!,
           postId: data['id']!,
           username: data['username']!,
