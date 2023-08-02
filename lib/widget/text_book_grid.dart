@@ -1,4 +1,5 @@
 // import 'package:e_sup_app/screens/pdf_view_screen.dart';
+import 'package:e_sup_app/screens/pdf_view_screen.dart';
 import 'package:e_sup_app/widget/text_book_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,20 +26,21 @@ class TextBookGrid extends StatelessWidget {
         ),
         itemBuilder: (ctx, i) => GestureDetector(
           onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => PdfViewerScreen(
-            //       fileName: textBooks.item[i].textBookName,
-            //       fileUrl: textBooks.item[i].textBookFile,
-            //     ),
-            //   ),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => pdfPage(
+                  fileUrl: textBooks.item[i].textBookFile,
+                  courseTitle: textBooks.item[i].textBookName,
+                ),
+              ),
+            );
           },
           child: TextBookItem(
             bookId: textBooks.item[i].textBookId,
             bookTitle: textBooks.item[i].textBookName,
             bookCover: textBooks.item[i].textBookCover,
+            fileUrl: textBooks.item[i].textBookFile,
           ),
         ),
       ),

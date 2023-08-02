@@ -14,7 +14,6 @@ class FriendsScreen extends StatefulWidget {
 }
 
 class _FriendsScreenState extends State<FriendsScreen> {
-  @override
   final searchController = TextEditingController();
   bool _isLoading = false;
   Widget build(BuildContext context) {

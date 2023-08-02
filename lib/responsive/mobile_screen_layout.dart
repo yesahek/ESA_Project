@@ -1,5 +1,4 @@
 import 'package:e_sup_app/models/user.dart' as model;
-import 'package:e_sup_app/screens/courses_screen/forum_screen.dart';
 import 'package:e_sup_app/screens/profile_detail_screen.dart';
 import 'package:e_sup_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/users_provider.dart';
 import '../screens/activity_screens/activity_screen.dart';
-import '../screens/add_post_screen.dart';
+import '../screens/activity_screens/quiz_screen2.dart';
 import '../screens/courses_screen/courses_screen.dart';
 import '../screens/home_screens/home_screen.dart';
 
@@ -56,6 +55,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       MaterialsScreen(),
       //FeedScreen(),
       ActivityScreen(),
+      // QuizScreenExample(),
       //AddPost(),
       //forumScreen(),
       ProfileDetailPage(

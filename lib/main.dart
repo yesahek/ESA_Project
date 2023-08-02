@@ -1,4 +1,4 @@
-import 'package:e_sup_app/models/assignment.dart';
+
 import 'package:e_sup_app/providers/assignment_provider.dart';
 import 'package:e_sup_app/providers/leaders.dart';
 import 'package:e_sup_app/providers/posts_provider.dart';

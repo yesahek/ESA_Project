@@ -103,6 +103,8 @@ class ProfileScreen2 extends StatelessWidget {
             //   childAspectRatio: 1,
             // ),
             itemBuilder: (context, index) {
+              return null;
+            
               // DocumentSnapshot snap =
               //     (snapshot.data! as dynamic).docs[index];
 

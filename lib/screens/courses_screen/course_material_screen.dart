@@ -23,7 +23,6 @@ class courseMaterialScreen extends StatefulWidget {
 
 class _courseMaterialScreenState extends State<courseMaterialScreen> {
   final materialController = TextEditingController();
-  bool _isLoading = false;
   var _isInit = true;
   List<courseMaterial> _courseMaterials = [];
 
@@ -59,12 +58,10 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       setState(() {
-        _isLoading = true;
       });
       Provider.of<courseMaterialProvider>(context, listen: false)
           .fetchCourseMaterials()
           .then((_) => setState(() {
-                _isLoading = false;
               }));
     }
     _isInit = false;
@@ -172,7 +169,7 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
                 userDetail.sId,
                 userDetail.uid,
                 widget.courseId,
-                userDetail.grade as int,
+                userDetail.grade,
               ),
               backgroundColor: Color.fromARGB(255, 243, 211, 115),
               child: Icon(

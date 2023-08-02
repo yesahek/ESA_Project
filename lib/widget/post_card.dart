@@ -19,7 +19,6 @@ class _PostCardState extends State<PostCard> {
   var _isLoading = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getPoster();
   }
@@ -163,7 +162,7 @@ class _PostCardState extends State<PostCard> {
                               child: Column(
                                 children: [
                                   Text(
-                                    widget.item.question![1]!.toString() + " ?",
+                                    widget.item.question![1]!.toString(),
                                     //item.question!.question + " ?",
                                     style: TextStyle(
                                       fontSize: 25,
@@ -200,47 +199,47 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 //Like , Comment Section
-                Row(
-                  children: [
-                    //Like button
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.favorite,
-                        //color: Colors.red,
-                      ),
-                    ),
+                // Row(
+                //   children: [
+                //     //Like button
+                //     IconButton(
+                //       onPressed: () {},
+                //       icon: Icon(
+                //         Icons.favorite,
+                //         //color: Colors.red,
+                //       ),
+                //     ),
 
-                    // Comment button
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.comment_outlined,
-                      ),
-                    ),
+                // Comment button
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: Icon(
+                //     Icons.comment_outlined,
+                //   ),
+                // ),
 
-                    //share button
-                    // IconButton(
-                    //   onPressed: () {},
-                    //   icon: Icon(
-                    //     Icons.send,
-                    //   ),
-                    // ),
+                //share button
+                // IconButton(
+                //   onPressed: () {},
+                //   icon: Icon(
+                //     Icons.send,
+                //   ),
+                // ),
 
-                    //save post button
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.bookmark_border,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                //save post button
+                //     Expanded(
+                //       child: Align(
+                //         alignment: Alignment.bottomRight,
+                //         child: IconButton(
+                //           onPressed: () {},
+                //           icon: Icon(
+                //             Icons.bookmark_border,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 //Description and number of comments
 
                 Container(

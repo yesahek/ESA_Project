@@ -1,28 +1,26 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'dart:io';
 
-import 'package:e_sup_app/providers/assignment_provider.dart';
-
-import 'package:path/path.dart' as path;
+import 'package:e_sup_app/providers/text_books.dart';
 import 'package:e_sup_app/utils/utils.dart';
+import 'package:e_sup_app/widget/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_document_picker/flutter_document_picker.dart';
+import 'package:path/path.dart' as path;
 
-import 'my_button.dart';
-
-class AddNewAssignment extends StatefulWidget {
-  final String uid;
-  AddNewAssignment(
-    this.uid,
+class AddNewTextBook extends StatefulWidget {
+  final int grade;
+  AddNewTextBook(
+    this.grade,
   );
   @override
-  State<AddNewAssignment> createState() => _AddNewAssignmentState();
+  State<AddNewTextBook> createState() => _AddNewTextBookState();
 }
 
-class _AddNewAssignmentState extends State<AddNewAssignment> {
+class _AddNewTextBookState extends State<AddNewTextBook> {
   final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
+  final BookController = TextEditingController();
+  final GradeController = TextEditingController();
   bool _isLoading = false;
   File? _file;
 
@@ -45,25 +43,24 @@ class _AddNewAssignmentState extends State<AddNewAssignment> {
   }
 
   void submitData() async {
-    final Uid = widget.uid;
-    final String enterdTitle = titleController.text;
-    final String enterdDescription = descriptionController.text;
+    final enterdTitle = titleController.text;
+    final enterdGrade = GradeController.text;
 
-    if (enterdTitle.isEmpty ) {
+    if (enterdTitle.isEmpty) {
       return;
     }
     setState(() {
       _isLoading = true;
     });
     String forSnack = "";
-    String res = await assignmentProvider().uploadAssignment(
-        titleController.text, enterdDescription, 12, "courseId",Uid, _file!, DateTime.now(),);
+    String res =
+        await TextBooks().uploadTextBook(enterdTitle, enterdGrade, _file!);
 
     setState(() {
       _isLoading = false;
     });
     if (res == "success") {
-      forSnack = "Assignment Added successfuly";
+      forSnack = "file uploaded successfuly";
     } else {
       forSnack = "something wrong";
     }
@@ -86,10 +83,11 @@ class _AddNewAssignmentState extends State<AddNewAssignment> {
               onSubmitted: (_) => submitData(),
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'description'),
-              controller: descriptionController,
+              decoration: InputDecoration(labelText: 'Grade'),
+              controller: GradeController,
               onSubmitted: (_) => submitData(),
-            ),MyButton(
+            ),
+            MyButton(
               onTap: _isLoading ? () {} : _selectPdf,
               content: _isLoading
                   ? Text("Uploading ......")
@@ -97,7 +95,7 @@ class _AddNewAssignmentState extends State<AddNewAssignment> {
             ),
             TextButton(
               child: Text(
-                'Add Assignment',
+                'Add TextBook',
                 style: TextStyle(
                   color: Colors.purple,
                 ),

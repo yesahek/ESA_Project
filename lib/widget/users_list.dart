@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:e_sup_app/providers/users_provider.dart';
-import 'package:e_sup_app/screens/courses_screen/course_material_screen.dart';
 import 'package:e_sup_app/screens/profile_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../models/user.dart' as model;
 import 'course_item.dart';
 
+// ignore: must_be_immutable
 class Item extends StatefulWidget {
   final String schoolId;
   final String selectedUserType;
@@ -114,7 +114,7 @@ class _UserItemState extends State<Item> {
                       },
                       child: courseItem(
                         title: _items[i].firstname,
-                        grade: userDetail.grade,
+                        grade: _items[i].grade,
                       ),
                     ),
                     Divider(),

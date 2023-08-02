@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:io';
 
 import 'package:e_sup_app/providers/courses_provider.dart';
 import 'package:e_sup_app/utils/utils.dart';
@@ -20,7 +19,6 @@ class AddNewCourse extends StatefulWidget {
 class _AddNewCourseState extends State<AddNewCourse> {
   final titleController = TextEditingController();
   final GradeController = TextEditingController();
-  bool _isLoading = false;
 
   void submitData() async {
     final Uid = widget.uid;
@@ -32,14 +30,12 @@ class _AddNewCourseState extends State<AddNewCourse> {
       return;
     }
     setState(() {
-      _isLoading = true;
     });
     String forSnack = "";
     String res = await CoursesProvider()
         .addCourse(enterdTitle, enterdGrade, SchoolId, Uid);
 
     setState(() {
-      _isLoading = false;
     });
     if (res == "success") {
       forSnack = "Course Added successfuly";

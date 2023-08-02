@@ -22,7 +22,6 @@ class forumScreen extends StatefulWidget {
 }
 
 class _forumScreenState extends State<forumScreen> {
-  var _isLoading = true;
   @override
   void initState() {
     super.initState();
@@ -31,17 +30,15 @@ class _forumScreenState extends State<forumScreen> {
 
   fetchData() async {
     await Provider.of<PostProvider>(context, listen: false).fetchPosts();
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final postData = Provider.of<PostProvider>(context, listen: false);
+    final postData = Provider.of<PostProvider>(context, listen: false)
+        .findByCourseId(widget.courseId);
     // final searchController = TextEditingController();
-    final String textHint = "search post";
+    // final String textHint = "search post";
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -59,7 +56,8 @@ class _forumScreenState extends State<forumScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => AddPost(courseId: widget.courseId),
+                        builder: (BuildContext context) =>
+                            AddPost(courseId: widget.courseId),
                       ));
                 },
                 child: Container(
@@ -75,9 +73,9 @@ class _forumScreenState extends State<forumScreen> {
               Expanded(
                 flex: 6,
                 child: ListView.builder(
-                  itemCount: postData.item.length,
+                  itemCount: postData.length,
                   itemBuilder: (context, index) => PostCard(
-                    postData.item[index],
+                    postData[index],
                   ),
                 ),
               ),

@@ -172,4 +172,9 @@ class PostProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+ List<Post> findByCourseId(String courseId) {
+    return _items.where((posts) => posts.courseId  == courseId).toList();
+  }
+
 }

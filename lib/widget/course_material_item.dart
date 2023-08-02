@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:e_sup_app/screens/book_reader_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/pdf_view_screen.dart';
@@ -42,10 +41,6 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
         MaterialPageRoute(
           builder: (context) => pdfPage(
               courseTitle: widget.courseName,
-              firstName: widget.author,
-              materialTitle: widget.title,
-              author: widget.author,
-              courseName: widget.courseName,
               fileUrl: widget.fileUrl),
         ),
       );

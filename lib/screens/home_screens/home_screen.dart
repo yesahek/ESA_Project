@@ -14,8 +14,27 @@ import '../../widget/searchBar.dart';
 import '../../widget/text_book_grid.dart';
 
 // ignore: must_be_immutable
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+//Add new material button
+  // void _startAddNewTextBook(BuildContext ctx, int grade) {
+  //   showModalBottomSheet(
+  //     context: ctx,
+  //     builder: (_) {
+  //       return GestureDetector(
+  //         onTap: () {},
+  //         child: AddNewTextBook(grade),
+  //         behavior: HitTestBehavior.opaque,
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -129,14 +148,14 @@ class HomeScreen extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Text(
-                          "More >>",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w100,
-                          ),
-                        ),
+                        // Text(
+                        //   "More >>",
+                        //   style: TextStyle(
+                        //     color: Colors.blue,
+                        //     fontSize: 18,
+                        //     fontWeight: FontWeight.w100,
+                        //   ),
+                        // ),
                       ],
                     ),
                     Divider(
@@ -151,6 +170,20 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
+      // floatingActionButtonLocation:
+      //     isEducator ? FloatingActionButtonLocation.endFloat : null,
+      // floatingActionButton: !isEducator && !isStudent
+      //     ? FloatingActionButton(
+      //         onPressed: () => _startAddNewTextBook(
+      //           context,
+      //           userDetail.grade as int,
+      //         ),
+      //         backgroundColor: Colors.blue,
+      //         child: Icon(
+      //           Icons.add,
+      //         ),
+      //       )
+      //     : null,
     );
   }
 }

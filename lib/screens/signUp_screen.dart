@@ -1,7 +1,6 @@
 // ignore_for_file: unused_field
 
 import 'dart:typed_data';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:e_sup_app/models/course.dart';
@@ -100,40 +99,57 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() {
       _isLoading = true;
     });
+
+    // Check if any of the required fields are empty
+    if (_emailController.text.isEmpty ||
+        _firstNameController.text.isEmpty ||
+        _lastNameController.text.isEmpty ||
+        _passwordController.text.isEmpty ||
+        _phoneNumberController.text.isEmpty ||
+        _image == null) {
+      // Show an error message to the user
+      showSnackBar(context, "all fields are required");
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+
     String res = '';
+    String schoolId = SchoolProvider.findSchoolIdByName(
+        _schoolValue == "Other" ? _customSchoolName : _schoolValue);
+
     if (isEducator) {
-      // signup for Techers using auth_methods
+      // signup for Teachers using auth_methods
       res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
         password: _passwordController.text,
         surnname: "",
-        sId: SchoolProvider.findSchoolIdByName(
-            _schoolValue == "Other" ? _customSchoolName : _schoolValue),
+        sId: schoolId,
         sex: _sexValue.toString(),
         type: _userTypeValue,
         subjects: _selectedItemsCourseCode,
         grade: _gradeValue,
-        school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
+        school: _schoolValue,
         phone: _phoneNumberController.text,
         file: _image!,
       );
     } else {
-      // signup user using authethods for students
+      // signup user using auth_methods for students
       res = await UserProvider().signUpUser(
         email: _emailController.text,
         firstname: _firstNameController.text,
         lastname: _lastNameController.text,
         password: _passwordController.text,
         surnname: "",
-        sId: SchoolProvider.findSchoolIdByName(
-            _schoolValue == "Other" ? _customSchoolName : _schoolValue),
+        sId: schoolId,
         sex: _sexValue.toString(),
         type: _userTypeValue,
         subjects: [],
         grade: _gradeValue,
-        school: _schoolValue == "Other" ? _customSchoolName : _schoolValue,
+        school: _schoolValue,
         phone: _phoneNumberController.text,
         file: _image!,
       );
@@ -262,11 +278,10 @@ class _SignupScreenState extends State<SignupScreen> {
                                   _course.isNotEmpty
                               ? buildGridLayoutBuilder(_course)
                               : SizedBox(height: 10),
-                          SizedBox(height: 10),
+                          // SizedBox(height: 10),
                           sexDropDown(),
-                          _isEducator && _isAdmin
-                              ? SizedBox(height: 10)
-                              : gradeDropDown(),
+                          if (!_isEducator && !_isAdmin) gradeDropDown(),
+                          SizedBox(height: 10),
                         ],
                       ),
                       const SizedBox(width: 30),
@@ -419,7 +434,7 @@ class _SignupScreenState extends State<SignupScreen> {
             itemBuilder: (context, index) {
               return ElevatedButton(
                   child: Text(
-                    'Grade ${_course[index].grade.toString()}',
+                    '${_course[index].grade.toString()}',
                     style: TextStyle(color: Colors.black, fontSize: 14),
                   ),
                   onPressed: () async {
@@ -485,7 +500,7 @@ class _SignupScreenState extends State<SignupScreen> {
             });
           } else if (_userTypeValue == "Admin")
             setState(() {
-              _schools.add("Other");
+              //  _schools.add("Other");
               _isAdmin = true;
             });
         });

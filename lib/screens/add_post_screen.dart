@@ -1,4 +1,4 @@
-import 'dart:io';
+
 import 'dart:typed_data';
 
 import 'package:e_sup_app/providers/posts_provider.dart';
@@ -24,7 +24,7 @@ class _AddPostState extends State<AddPost> {
   late User userData;
 
   Uint8List? _image;
-  String _caption = '';
+ // String _caption = '';
   var _isLoading = false;
 
   Future getImage() async {

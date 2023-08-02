@@ -19,7 +19,6 @@ class AssignmnetScreen extends StatefulWidget {
 
 class _AssignmnetScreenState extends State<AssignmnetScreen> {
   late User userDetail;
-  bool _isLoading = false;
 
   var _isInit = true;
   List<Assignment> _assignments = [];
@@ -50,13 +49,11 @@ class _AssignmnetScreenState extends State<AssignmnetScreen> {
   Future<void> didChangeDependencies() async {
     if (_isInit) {
       setState(() {
-        _isLoading = true;
       });
 
       _assignments = await assignmentProvider()
           .fetchAssignmentsForEducator(userDetail.uid);
       setState(() {
-        _isLoading = false;
       });
     }
     _isInit = false;
@@ -65,7 +62,7 @@ class _AssignmnetScreenState extends State<AssignmnetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _isEducator = userDetail.type == "Educator";
+    //var _isEducator = userDetail.type == "Educator";
     return Scaffold(
       body: SafeArea(
         child: Column(

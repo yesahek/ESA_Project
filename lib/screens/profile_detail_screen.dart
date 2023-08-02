@@ -3,6 +3,7 @@ import 'package:e_sup_app/widget/my_appBar.dart';
 import 'package:flutter/material.dart';
 import '../providers/users_provider.dart';
 
+// ignore: must_be_immutable
 class ProfileDetailPage extends StatefulWidget {
   final String firstName;
   final String lastName;

@@ -6,6 +6,7 @@ import '../../widget/my_appBar.dart';
 import '../../widget/searchBar.dart';
 import '../../widget/users_list.dart';
 
+// ignore: must_be_immutable
 class educatorsScreen extends StatelessWidget {
   educatorsScreen({super.key});
 

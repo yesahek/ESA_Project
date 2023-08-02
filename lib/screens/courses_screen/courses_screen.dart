@@ -169,7 +169,7 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                 ? FloatingActionButton(
                     onPressed: () => _startAddNewCourse(
                       context,
-                      userDetail.sId,
+                      userDetail.school,
                       userDetail.uid,
                     ),
                     backgroundColor: Color.fromARGB(255, 243, 211, 115),

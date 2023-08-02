@@ -43,7 +43,7 @@ class UserProvider with ChangeNotifier {
       return model.User.fromSnap(snap);
     } catch (e) {
       // Handle any errors that occur during fetching.
-      print('Error fetching user details: $e');
+      print('Error fetching user details: ');
       // Rethrow the error or handle it accordingly.
       throw e;
     }
@@ -62,7 +62,7 @@ class UserProvider with ChangeNotifier {
       res = "success";
     } catch (e) {
       // Handle any errors that occur during the update process
-      print('Error updating profile: $e');
+      print('Error updating profile: ');
       res = "Error updating profile";
     }
     return res;
@@ -87,7 +87,7 @@ class UserProvider with ChangeNotifier {
       return users;
     } catch (e) {
       // Handle any errors that occur during fetching.
-      print('Error fetching user details: $e');
+      print('Error fetching user details: ');
       // Rethrow the error or handle it accordingly.
       throw e;
     }
@@ -102,7 +102,7 @@ class UserProvider with ChangeNotifier {
           users.where((user) => user.status == false).toList();
       return filteredUsers;
     } catch (e) {
-      print("Error: $e");
+      print("Error: can't get schoolId");
       return []; // Return an empty list if there's an error
     }
   }
@@ -113,19 +113,16 @@ class UserProvider with ChangeNotifier {
       DocumentSnapshot userSnapshot =
           await _firestore.collection("users").doc(userId).get();
       if (userSnapshot.exists) {
-        Map<String, dynamic> userData =
-            userSnapshot.data() as Map<String, dynamic>;
         return model.User.fromSnap(userSnapshot);
       } else {
         print("user not Found");
         return null;
       }
     } catch (e) {
-      print("Error fetching user by ID: $e");
+      print("Error fetching user by ID:");
       return null;
     }
   }
-  
 
 //for checking if the user Tabel have change
   Future<void> refreshUser() async {
@@ -165,6 +162,7 @@ class UserProvider with ChangeNotifier {
           password.isNotEmpty ||
           school.isNotEmpty ||
           phone.isNotEmpty ||
+          // ignore: unnecessary_null_comparison
           file != null) {
         //signuping on FirebaseAuth and store the user Credential on cred
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
@@ -226,10 +224,18 @@ class UserProvider with ChangeNotifier {
         res = "Please enter all the fields";
       }
     } catch (err) {
-      return err.toString();
+      return res;
     }
     notifyListeners();
     return res;
+  }
+
+  void resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      print('Error sending password reset email:');
+    }
   }
 
 //signOut
