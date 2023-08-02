@@ -2,6 +2,7 @@
 import 'package:e_sup_app/screens/book_reader_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/pdf_view_screen.dart';
 import '../utils/colors.dart';
 
 class courseMaterialItem extends StatefulWidget {
@@ -39,11 +40,17 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => bookReaderScreen(
-              courseTitle: widget.courseName, firstName: widget.author, materialTitle: widget.title),
+          builder: (context) => pdfPage(
+              courseTitle: widget.courseName,
+              firstName: widget.author,
+              materialTitle: widget.title,
+              author: widget.author,
+              courseName: widget.courseName,
+              fileUrl: widget.fileUrl),
         ),
       );
     }
+
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
       margin: EdgeInsets.only(bottom: 16),

@@ -111,16 +111,16 @@ List<HomeButtons> toolsForEducator = [
       size: 30,
     ),
   ),
-  HomeButtons(
-    name: "Saves",
-    widget: SavesScreen(),
-    notifcation: 0,
-    icon: Icon(
-      Icons.bookmark_outline,
-      color: iconColor,
-      size: 30,
-    ),
-  ),
+  // HomeButtons(
+  //   name: "Saves",
+  //   widget: SavesScreen(),
+  //   notifcation: 0,
+  //   icon: Icon(
+  //     Icons.bookmark_outline,
+  //     color: iconColor,
+  //     size: 30,
+  //   ),
+  // ),
 ];
 
 //Tools for Admin

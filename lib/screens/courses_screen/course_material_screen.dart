@@ -1,13 +1,10 @@
 import 'package:e_sup_app/models/course_material.dart';
 import 'package:e_sup_app/providers/course_materials_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
-import 'package:e_sup_app/screens/forum.dart';
-import 'package:e_sup_app/widget/course_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/user.dart' as model;
 
-import '../../utils/colors.dart';
 import '../../widget/add_new_material.dart';
 import '../../widget/course_material_item.dart';
 import '../../widget/my_appBar.dart';

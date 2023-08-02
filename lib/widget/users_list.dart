@@ -82,47 +82,46 @@ class _UserItemState extends State<Item> {
             child: CircularProgressIndicator(
             color: Colors.blueAccent,
           ))
-        : SingleChildScrollView(
-            child: Column(
-              children: [
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: _items.length,
-                  itemBuilder: (_, i) => Column(
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProfileDetailPage(
-                                firstName: _items[i].firstname,
-                                email: _items[i].email,
-                                grade: _items[i].grade,
-                                lastName: _items[i].lastname,
-                                photoUrl: _items[i].photoUrl,
-                                sex: _items[i].sex,
-                                type: _items[i].type,
-                                phoneNumber: _items[i].phone,
-                                shoolName: _items[i].school,
-                                userId: _items[i].uid,
-                                isForApproval: true,
-                              ),
+        : Column(
+            children: [
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: _items.length,
+                itemBuilder: (_, i) => Column(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileDetailPage(
+                              firstName: _items[i].firstname,
+                              email: _items[i].email,
+                              grade: _items[i].grade,
+                              lastName: _items[i].lastname,
+                              photoUrl: _items[i].photoUrl,
+                              sex: _items[i].sex,
+                              type: _items[i].type,
+                              phoneNumber: _items[i].phone,
+                              shoolName: _items[i].school,
+                              userId: _items[i].uid,
+                              isForApproval:
+                                  userDetail.type == "Admin" ? true : false,
                             ),
-                          );
-                        },
-                        child: courseItem(
-                          title: _items[i].firstname,
-                          grade: userDetail.grade,
-                        ),
+                          ),
+                        );
+                      },
+                      child: courseItem(
+                        title: _items[i].firstname,
+                        grade: userDetail.grade,
                       ),
-                      Divider(),
-                    ],
-                  ),
+                    ),
+                    Divider(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
   }
 }

@@ -1,9 +1,14 @@
+import 'package:e_sup_app/providers/assignment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/assignment.dart';
+import '../../models/user.dart';
 import '../../providers/users_provider.dart';
 import '../../widget/add_new_assignmet.dart';
+import '../../widget/course_item.dart';
 import '../../widget/my_appBar.dart';
+import '../courses_screen/course_material_screen.dart';
 
 class AssignmnetScreen extends StatefulWidget {
   const AssignmnetScreen({super.key});
@@ -13,8 +18,19 @@ class AssignmnetScreen extends StatefulWidget {
 }
 
 class _AssignmnetScreenState extends State<AssignmnetScreen> {
+  late User userDetail;
+  bool _isLoading = false;
 
-void _startAddNewAssignment(
+  var _isInit = true;
+  List<Assignment> _assignments = [];
+
+  @override
+  void initState() {
+    super.initState();
+    userDetail = Provider.of<UserProvider>(context, listen: false).getUser;
+  }
+
+  void _startAddNewAssignment(
     BuildContext ctx,
     String uid,
   ) {
@@ -31,9 +47,24 @@ void _startAddNewAssignment(
   }
 
   @override
+  Future<void> didChangeDependencies() async {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      _assignments = await assignmentProvider()
+          .fetchAssignmentsForEducator(userDetail.uid);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
-     final userDetail =
-        Provider.of<UserProvider>(context, listen: false).getUser;
     var _isEducator = userDetail.type == "Educator";
     return Scaffold(
       body: SafeArea(
@@ -41,59 +72,60 @@ void _startAddNewAssignment(
           children: [
             MyAppBar(
               backArrow: true,
-              title: "Assignment",
+              title: "Assignments",
               name: "",
             ),
             SingleChildScrollView(
-      // child: Column(
-      //   children: [
-      //     ListView.builder(
-      //       scrollDirection: Axis.vertical,
-      //       shrinkWrap: true,
-      //       itemCount: _items.length,
-      //       itemBuilder: (_, i) => Column(
-      //         children: [
-      //           TextButton(
-      //             onPressed: () {
-      //               Navigator.push(
-      //                 context,
-      //                 MaterialPageRoute(
-      //                   builder: (context) =>
-      //                       // courseMaterialScreen(_items[i].courseId,_items[i].title),
-      //                 ),
-      //               );
-      //             },
-      //             child: courseItem(
-      //               title: _items[i].title,
-      //               grade: _items[i].grade,
-      //             ),
-      //           ),
-      //           Divider(),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
-    ),
-
+              child: Column(
+                children: [
+                  ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: _assignments.length,
+                    itemBuilder: (_, i) => Column(
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => courseMaterialScreen(
+                                  _assignments[i].courseId,
+                                  _assignments[i].assignmentTitle,
+                                ),
+                              ),
+                            );
+                          },
+                          child: courseItem(
+                            title: _assignments[i].assignmentTitle,
+                            grade: 00,
+                          ),
+                        ),
+                        Divider(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
-         floatingActionButtonLocation: userDetail.type != "Student"
-                ? FloatingActionButtonLocation.endFloat
-                : null,
-            floatingActionButton: userDetail.type != "Student"
-                ? FloatingActionButton(
-                    onPressed: () => _startAddNewAssignment(
-                      context,
-                      userDetail.uid,
-                    ),
-                    backgroundColor: Color.fromARGB(255, 243, 211, 115),
-                    child: Icon(
-                      Icons.add,
-                    ),
-                  )
-                : null,
-          );
+      floatingActionButtonLocation: userDetail.type != "Student"
+          ? FloatingActionButtonLocation.endFloat
+          : null,
+      floatingActionButton: userDetail.type != "Student"
+          ? FloatingActionButton(
+              onPressed: () => _startAddNewAssignment(
+                context,
+                userDetail.uid,
+              ),
+              backgroundColor: Color.fromARGB(255, 243, 211, 115),
+              child: Icon(
+                Icons.add,
+              ),
+            )
+          : null,
+    );
   }
 }

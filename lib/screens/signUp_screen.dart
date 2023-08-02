@@ -253,26 +253,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       Column(
                         children: [
                           userTypeDropDown(),
-                          // SizedBox(height: 10),
-                          //if signing was a techer add sebjects filled
                           !_isStudent
                               ? schoolDropDown()
                               : adminButtonFormField(),
-                          if (_schoolValue == "Other")
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: TextField(
-                                decoration:
-                                    InputDecoration(labelText: "Custom School"),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _customSchoolName = value;
-                                  });
-                                },
-                              ),
-                            ),
-
                           !_isAdmin &&
                                   !_isStudent &&
                                   _isEducator &&

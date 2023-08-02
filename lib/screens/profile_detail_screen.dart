@@ -1,4 +1,3 @@
-
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:e_sup_app/widget/my_appBar.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +133,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        if (widget.isForApproval)
+                        if (widget.isForApproval && !widget.isEditButton)
                           ElevatedButton(
                             onPressed: _accept,
                             child: Text('Accept'),
@@ -144,7 +143,7 @@ class _ProfileDetailPageState extends State<ProfileDetailPage> {
                             onPressed: _editProfile,
                             child: Text('Edit'),
                           ),
-                        
+
                         //   ElevatedButton(
                         //     onPressed: () {
                         //       Navigator.pop(context);

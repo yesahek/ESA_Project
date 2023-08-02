@@ -23,6 +23,33 @@ class assignmentProvider with ChangeNotifier {
     notifyListeners();
   }
 
+//fetch and set assignments
+  Future<void> fetchCourseAssignments() async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance.collection('Course Materials').get();
+      _items = snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data();
+        return Assignment(
+          assignmentId: doc.id,
+          educatorId: data['educatorId'],
+          courseId: data['courseId'],
+          date: data['date'],
+          fileType: data['fileType'],
+          fileUrl: data['fileUrl'],
+          assignmentTitle: data['assignmentTitle'],
+          description: data['description'],
+          dueDate: data['dueDate'],
+        );
+      }).toList();
+      //print(_items.length);
+      notifyListeners();
+    } catch (e) {
+      // Handle any errors that occur during fetching.
+      print('Error fetching courses: $e');
+    }
+  }
+
 //upload Assignment
   Future<String> uploadAssignment(String title, String description, int grade,
       String courseId, String uid, File file, DateTime submitDate) async {
@@ -59,5 +86,57 @@ class assignmentProvider with ChangeNotifier {
     }
     notifyListeners();
     return res;
+  }
+
+  Future<List<Assignment>> fetchAssignmentsForEducator(
+      String educatorUid) async {
+    try {
+      // Fetch the user document for the educator
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(educatorUid)
+          .get();
+
+      // Check if the user exists and their type is "Educator"
+      if (userSnapshot.exists && userSnapshot.get("type") == "Educator") {
+        List<String> subjectCodes = List.from(userSnapshot.get("subjectes"));
+        List<Assignment> assignments = [];
+
+        // Fetch assignments for each subject code in the subjectCodes list
+        for (String subjectCode in subjectCodes) {
+          QuerySnapshot assignmentSnapshot = await FirebaseFirestore.instance
+              .collection("assignment")
+              .where("courseId", isEqualTo: subjectCode)
+              .get();
+
+          // Add assignments to the assignments list
+          assignments.addAll(assignmentSnapshot.docs.map((doc) {
+            Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+            Timestamp dateTimestamp = data['date'] as Timestamp;
+            Timestamp dueDateTimestamp = data['dueDate'] as Timestamp;
+
+            return Assignment(
+              assignmentId: doc.id,
+              educatorId: data['educatorId'],
+              assignmentTitle: data['assignmentTitle'],
+              courseId: data['courseId'],
+              date: dateTimestamp,
+              dueDate: dueDateTimestamp,
+              fileType: data['fileType'],
+              fileUrl: data['fileUrl'],
+              description: data['description'],
+            );
+          }));
+        }
+
+        return assignments;
+      } else {
+        print("Educator not found");
+        return [];
+      }
+    } catch (e) {
+      print("Error fetching assignments: $e");
+      return [];
+    }
   }
 }
