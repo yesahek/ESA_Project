@@ -1,14 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class Question {
-  final String questionId;
-  final String question;
-  final List? choice;
-  int ?answer;
-  Question({
+  final String id;
+  final String quizId;
+  final String questionText;
+  final List<String> options;
+  final int correctOption;
 
-    required this.questionId,
-    required this.question,
-    this.choice = null,
-    this.answer = null,
+  Question({
+    required this.id,
+    required this.quizId,
+    required this.questionText,
+    required this.options,
+    required this.correctOption,
   });
 }

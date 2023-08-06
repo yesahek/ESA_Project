@@ -35,7 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
   //     },
   //   );
   // }
-
+  List<String> announsements = [
+    'https://firebasestorage.googleapis.com/v0/b/esa-project-99df9.appspot.com/o/playground%2FIMG_20230803_031441_592.jpg?alt=media&token=8e745e5f-6bb0-4cb9-a046-958899420c4e',
+    'https://firebasestorage.googleapis.com/v0/b/esa-project-99df9.appspot.com/o/playground%2FIMG_20230803_031242_963.jpg?alt=media&token=06064f88-698b-477d-9f6a-e665cbdd29bc',
+    'https://firebasestorage.googleapis.com/v0/b/esa-project-99df9.appspot.com/o/playground%2FIMG_20230803_024744_175.jpg?alt=media&token=f7fa6895-19da-4cf6-b0ac-f8e3edfc7170',
+    'https://firebasestorage.googleapis.com/v0/b/esa-project-99df9.appspot.com/o/playground%2FIMG_20230803_024733_196.jpg?alt=media&token=c86000ea-fc8b-42a0-8fe4-554f90bd4fe5'
+  ];
   @override
   Widget build(BuildContext context) {
     UserProvider userProvider =
@@ -68,17 +73,19 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
+              Expanded(
                 //width: 100,
-                height: 150,
+                //height: 210,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  //shrinkWrap: true,
-                  itemCount: 5,
+                  shrinkWrap: true,
+                  itemCount: 4,
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   itemBuilder: (BuildContext context, int index) {
                     Divider();
-                    return const AnnounsementCard();
+                    return AnnounsementCard(
+                      imageUrl: announsements[index],
+                    );
                   },
                 ),
               ),

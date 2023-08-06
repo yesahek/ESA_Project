@@ -191,7 +191,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     Provider.of<CoursesProvider>(context, listen: false).fetchCourses();
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -266,24 +266,18 @@ class _SignupScreenState extends State<SignupScreen> {
                         icon: Icons.password,
                       ),
                       const SizedBox(height: 10),
-                      Column(
-                        children: [
-                          userTypeDropDown(),
-                          !_isStudent
-                              ? schoolDropDown()
-                              : adminButtonFormField(),
-                          !_isAdmin &&
-                                  !_isStudent &&
-                                  _isEducator &&
-                                  _course.isNotEmpty
-                              ? buildGridLayoutBuilder(_course)
-                              : SizedBox(height: 10),
-                          // SizedBox(height: 10),
-                          sexDropDown(),
-                          if (!_isEducator && !_isAdmin) gradeDropDown(),
-                          SizedBox(height: 10),
-                        ],
-                      ),
+                      userTypeDropDown(),
+                      !_isStudent ? schoolDropDown() : adminButtonFormField(),
+                      !_isAdmin &&
+                              !_isStudent &&
+                              _isEducator &&
+                              _course.isNotEmpty
+                          ? buildGridLayoutBuilder(_course)
+                          : SizedBox(height: 10),
+                      // SizedBox(height: 10),
+                      sexDropDown(),
+                      if (!_isEducator && !_isAdmin) gradeDropDown(),
+                      SizedBox(height: 10),
                       const SizedBox(width: 30),
                       MyButton(
                         onTap: () {

@@ -3,6 +3,7 @@ import 'package:e_sup_app/providers/assignment_provider.dart';
 import 'package:e_sup_app/providers/leaders.dart';
 import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:e_sup_app/providers/course_materials_provider.dart';
+import 'package:e_sup_app/providers/quiz_provider.dart';
 import 'package:e_sup_app/providers/school_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/responsive/responsive_layout.dart';
@@ -68,6 +69,9 @@ class MyApp extends StatelessWidget {
         ),
          ChangeNotifierProvider.value(
           value: assignmentProvider(),
+        ),
+         ChangeNotifierProvider.value(
+          value: QuizProvider(),
         ),
       ],
       child: MaterialApp(
