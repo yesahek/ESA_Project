@@ -267,18 +267,11 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 10),
                       userTypeDropDown(),
-                      !_isStudent ? schoolDropDown() : adminButtonFormField(),
-                      !_isAdmin &&
-                              !_isStudent &&
-                              _isEducator &&
-                              _course.isNotEmpty
-                          ? buildGridLayoutBuilder(_course)
-                          : SizedBox(height: 10),
-                      // SizedBox(height: 10),
                       sexDropDown(),
-                      if (!_isEducator && !_isAdmin) gradeDropDown(),
-                      SizedBox(height: 10),
-                      const SizedBox(width: 30),
+                      schoolDropDown(),
+                      if (_isEducator && !_isStudent && !_isAdmin)
+                        EducatorsGradeList(_course),
+                      if (_isStudent) gradeDropDown(),
                       MyButton(
                         onTap: () {
                           if (_signUpFormKey.currentState!.validate()) {
@@ -334,59 +327,14 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-//Admin dropDown button
-  DropdownButtonFormField<String> adminButtonFormField() {
-    return DropdownButtonFormField(
-      icon: const Icon(
-        Icons.arrow_drop_down_circle,
-        color: Colors.deepPurple,
-      ),
-      decoration: InputDecoration(
-        labelText: "School",
-        prefixIcon: Icon(
-          Icons.home_max_sharp,
-          color: Colors.deepPurple,
-        ),
-      ),
-      items: _schools
-          .map((e) => DropdownMenuItem(
-                child: Text(e),
-                value: e,
-              ))
-          .toList(),
-      value: _schoolValue,
-      onChanged: (value) {
-        setState(() {
-          _schoolValue = value.toString();
-
-          // Check if "Other" is selected
-          if (_schoolValue == "Other") {
-            _customSchoolController.text = ""; // Clear the text field
-          }
-
-          _setCoursesAndGrades();
-        });
-      },
-    );
-  }
-
-  TextField customSchoolTextField() {
-    return TextField(
-      controller: _customSchoolController,
-      decoration: InputDecoration(labelText: "Custom School"),
-      onChanged: (value) {
-        setState(() {
-          _customSchoolName = value;
-        });
-      },
-    );
-  }
-
 //************************************************************
 //
 //
 // Educators Grade
-  Widget buildGridLayoutBuilder(List grade) {
+  Widget EducatorsGradeList(List grade) {
+    final List availableGrades =
+        grade.map((course) => course.grade).toSet().toList();
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -424,11 +372,12 @@ class _SignupScreenState extends State<SignupScreen> {
           GridView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: grade.length,
+            itemCount: availableGrades.length,
             itemBuilder: (context, index) {
               return ElevatedButton(
                   child: Text(
-                    '${_course[index].grade.toString()}',
+                    "${availableGrades[index].toString()}",
+                    // '${_course[index].grade.toString()}',
                     style: TextStyle(color: Colors.black, fontSize: 14),
                   ),
                   onPressed: () async {
@@ -491,12 +440,24 @@ class _SignupScreenState extends State<SignupScreen> {
           if (_userTypeValue == "Educator") {
             setState(() {
               _isEducator = true;
+              _isStudent = false;
+              _isAdmin = false;
             });
-          } else if (_userTypeValue == "Admin")
+          }
+          if (_userTypeValue == "Admin") {
             setState(() {
-              //  _schools.add("Other");
               _isAdmin = true;
+              _isStudent = false;
+              _isEducator = false;
             });
+          }
+          if (_userTypeValue == "Student") {
+            setState(() {
+              _isStudent = true;
+              _isAdmin = false;
+              _isEducator == false;
+            });
+          }
         });
   }
 
@@ -528,7 +489,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-// Dropdown widget for
+// Dropdown widget for sex
   DropdownButtonFormField<String> sexDropDown() {
     return DropdownButtonFormField(
       icon: const Icon(
