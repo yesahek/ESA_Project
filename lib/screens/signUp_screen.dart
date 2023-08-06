@@ -334,6 +334,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget EducatorsGradeList(List grade) {
     final List availableGrades =
         grade.map((course) => course.grade).toSet().toList();
+    final List availableCourse = grade.map((course) => course).toSet().toList();
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -382,14 +383,16 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   onPressed: () async {
                     List<String> items = [];
-                    items = ['${_course[index].title} ${_course[index].grade}'];
-                    final List<String>? results = await showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return showSubjects(items: items);
-                        });
+                    items = [_course[index].title];
 
-                    if (results != null) {
+                    List<String>? results = await showDialog<List<String>>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return showSubjects(items: items);
+                      },
+                    );
+
+                    if (results != null && results.isNotEmpty) {
                       setState(() {
                         for (var subject in results) {
                           if (!_selectedItems.contains(subject)) {
