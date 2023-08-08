@@ -27,22 +27,6 @@ class Courses extends StatefulWidget {
 
 class _CoursesState extends State<Courses> {
   List<Course> _items = [];
-  List<Course> _items2 = [];
-
-  //var userData;
-  @override
-  void initState() {
-    super.initState();
-    //  setUserDetail();
-  }
-
-  // Future<void> setUserDetail() async {
-  //   User userData =
-  //       await Provider.of<UserProvider>(context, listen: false).getUser;
-  //   _items2 = Provider.of<CoursesProvider>(context, listen: false)
-  //       .findByCourseIds(userData.subjects);
-  //   print("${userData.subjects.length} from setUser");
-  // }
 
   @override
   Widget build(BuildContext context) {
