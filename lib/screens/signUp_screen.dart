@@ -331,10 +331,11 @@ class _SignupScreenState extends State<SignupScreen> {
 //
 //
 // Educators Grade
-  Widget EducatorsGradeList(List grade) {
-    final List availableGrades =
-        grade.map((course) => course.grade).toSet().toList();
-    final List availableCourse = grade.map((course) => course).toSet().toList();
+  Widget EducatorsGradeList(List<Course> courses) {
+    final List<int> availableGrades = courses
+        .map((course) => course.grade)
+        .toSet()
+        .toList(); // Get unique available grades
 
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -345,24 +346,21 @@ class _SignupScreenState extends State<SignupScreen> {
             children: _selectedItems
                 .map(
                   (e) => Dismissible(
-                    key: Key(e), // Provide a unique key for each Dismissible
-                    direction: DismissDirection.up, // Allow swipe up to dismiss
+                    key: Key(e),
+                    direction: DismissDirection.up,
                     onDismissed: (direction) {
                       setState(() {
-                        _selectedItems
-                            .remove(e); // Remove the item from the set
+                        _selectedItems.remove(e);
                       });
                     },
                     child: Chip(
                       label: Text(e),
-                      deleteIcon: Icon(Icons.clear), // Set the close icon
-                      deleteIconColor:
-                          Colors.red, // Optional: Set the icon color
+                      deleteIcon: Icon(Icons.clear),
+                      deleteIconColor: Colors.red,
                       onDeleted: () {
                         setState(() {
-                          _selectedItems.remove(e) &&
-                              _selectedItemsCourseCode.remove(e);
-                          ; // Remove the item from the set
+                          _selectedItems.remove(e);
+                          _selectedItemsCourseCode.remove(e);
                         });
                       },
                     ),
@@ -374,36 +372,42 @@ class _SignupScreenState extends State<SignupScreen> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: availableGrades.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (context, gradeIndex) {
+              final grade = availableGrades[gradeIndex];
+              final availableCoursesForGrade =
+                  courses.where((course) => course.grade == grade).toList();
+
               return ElevatedButton(
-                  child: Text(
-                    "${availableGrades[index].toString()}",
-                    // '${_course[index].grade.toString()}',
-                    style: TextStyle(color: Colors.black, fontSize: 14),
-                  ),
-                  onPressed: () async {
-                    List<String> items = [];
-                    items = [_course[index].title];
+                child: Text(
+                  "${grade.toString()} ",
+                  style: TextStyle(color: Colors.black, fontSize: 14),
+                ),
+                onPressed: () async {
+                  List<String> items = availableCoursesForGrade
+                      .map((course) => course.title)
+                      .toList();
+                  // print(items);
+                  List<String>? results = await showDialog<List<String>>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return showSubjects(items: items);
+                    },
+                  );
 
-                    List<String>? results = await showDialog<List<String>>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return showSubjects(items: items);
-                      },
-                    );
-
-                    if (results != null && results.isNotEmpty) {
-                      setState(() {
-                        for (var subject in results) {
-                          if (!_selectedItems.contains(subject)) {
-                            _selectedItems.add(subject);
-                            _selectedItemsCourseCode
-                                .add(_course[index].courseId);
-                          }
+                  if (results != null && results.isNotEmpty) {
+                    setState(() {
+                      for (var subject in results) {
+                        if (!_selectedItems.contains(subject)) {
+                          _selectedItems.add(subject);
+                          _selectedItemsCourseCode.add(availableCoursesForGrade
+                              .firstWhere((course) => course.title == subject)
+                              .courseId);
                         }
-                      });
-                    }
-                  });
+                      }
+                    });
+                  }
+                },
+              );
             },
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 6,

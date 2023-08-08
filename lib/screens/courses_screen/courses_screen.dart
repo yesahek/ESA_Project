@@ -152,11 +152,11 @@ class _MaterialsScreenState extends State<MaterialsScreen> {
                           ),
                         ),
                       if (userDetail.type == "Admin")
-                        Courses(enrolled: false, grade: userDetail.grade),
+                        Courses(enrolled: false, grade: userDetail.grade, courses: userDetail.subjects),
                       if (_course == Course.enrolled)
-                        Courses(enrolled: true, grade: userDetail.grade),
+                        Courses(enrolled: true, grade: userDetail.grade,courses: userDetail.subjects),
                       if (_course == Course.unEnrolled)
-                        Courses(enrolled: false, grade: userDetail.grade),
+                        Courses(enrolled: false, grade: userDetail.grade,courses: userDetail.subjects),
                     ],
                   ),
                 ),

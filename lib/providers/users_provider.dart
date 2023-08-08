@@ -19,7 +19,7 @@ class UserProvider with ChangeNotifier {
     sId: '',
     photoUrl: '',
     email: '',
-    subjectes: [],
+    subjects: [],
     followers: [],
     following: [],
     grade: 0,
@@ -39,7 +39,6 @@ class UserProvider with ChangeNotifier {
     try {
       DocumentSnapshot snap =
           await _firestore.collection("users").doc(currentUser.uid).get();
-
       return model.User.fromSnap(snap);
     } catch (e) {
       // Handle any errors that occur during fetching.
@@ -185,7 +184,7 @@ class UserProvider with ChangeNotifier {
           type: type,
           uid: cred.user!.uid,
           username: '',
-          subjectes: subjects!,
+          subjects: subjects!,
           grade: grade,
           school: school,
           status: false,
@@ -224,6 +223,19 @@ class UserProvider with ChangeNotifier {
         res = "Please enter all the fields";
       }
     } catch (err) {
+      if (err.toString() ==
+          "[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted.") {
+        res = "User name not found";
+      } else if (err.toString() ==
+          '[firebase_auth/wrong-password] The password is invalid or the user does not have a password.') {
+        res = "The password is Wrong or Invalid";
+      } else if (err.toString() ==
+          "[firebase_auth/network-request-failed] A network AuthError (such as timeout, interrupted connection or unreachable host) has occurred.") {
+        res = "Network Problem";
+      }
+      print(res);
+      print(err.toString());
+
       return res;
     }
     notifyListeners();

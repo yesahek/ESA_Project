@@ -14,7 +14,7 @@ class User {
   final String sId;
   final String photoUrl;
   final String email;
-  final List<String> subjectes;
+  final List subjects;
   final List followers;
   final List following;
   final int grade;
@@ -33,7 +33,7 @@ class User {
     required this.sId,
     required this.photoUrl,
     required this.email,
-    required this.subjectes,
+    required this.subjects,
     required this.followers,
     required this.following,
     required this.grade,
@@ -55,7 +55,7 @@ class User {
       'sId': sId,
       'photoUrl': photoUrl,
       'email': email,
-      'subjectes': subjectes,
+      'subjects': subjects,
       'followers': followers,
       'following': following,
       'grade': grade,
@@ -78,7 +78,7 @@ class User {
       sId: map['sId'] as String,
       photoUrl: map['photoUrl'] as String,
       email: map['email'] as String,
-      subjectes: List<String>.from(map['subjectes'] as List<String>),
+      subjects: List<String>.from(map['subjects'] as List<String>),
       followers: List.from(map['followers'] as List),
       following: List.from(map['following'] as List),
       grade: map['grade'] as int,
@@ -102,12 +102,12 @@ class User {
         'email': email,
         'followers': followers,
         'following': following,
-        'subjects': subjectes,
+        'subjects': subjects,
         'grade': grade,
         'school': school,
         'status': status,
         'state': state,
-        'phone':phone,
+        'phone': phone,
       };
 
   factory User.fromJson(String source) =>
@@ -115,7 +115,6 @@ class User {
 
   static User fromSnap(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
-
     return User(
       uid: snapshot['uid'],
       username: snapshot['username'],
@@ -127,7 +126,7 @@ class User {
       sId: snapshot['sId'],
       photoUrl: snapshot['photoUrl'],
       email: snapshot['email'],
-      subjectes: snapshot['subjectes'] ?? [],
+      subjects: snapshot['subjects'] ?? [],
       followers: snapshot['followers'] ?? [],
       following: snapshot['following'] ?? [],
       grade: snapshot['grade'],
@@ -137,5 +136,4 @@ class User {
       phone: snapshot['phone'],
     );
   }
-
 }

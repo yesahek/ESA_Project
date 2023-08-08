@@ -4,18 +4,21 @@ import 'package:e_sup_app/screens/courses_screen/course_material_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/user.dart';
 import '../providers/courses_provider.dart';
+import '../providers/users_provider.dart';
 import 'course_item.dart';
 
 class Courses extends StatefulWidget {
   final bool enrolled;
   final int grade;
+  final List courses;
 
   const Courses({
-
     Key? key,
     required this.enrolled,
     required this.grade,
+    required this.courses,
   }) : super(key: key);
 
   @override
@@ -24,10 +27,30 @@ class Courses extends StatefulWidget {
 
 class _CoursesState extends State<Courses> {
   List<Course> _items = [];
+  List<Course> _items2 = [];
+
+  //var userData;
+  @override
+  void initState() {
+    super.initState();
+    //  setUserDetail();
+  }
+
+  // Future<void> setUserDetail() async {
+  //   User userData =
+  //       await Provider.of<UserProvider>(context, listen: false).getUser;
+  //   _items2 = Provider.of<CoursesProvider>(context, listen: false)
+  //       .findByCourseIds(userData.subjects);
+  //   print("${userData.subjects.length} from setUser");
+  // }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.enrolled) {
+    User userData = Provider.of<UserProvider>(context, listen: false).getUser;
+    if (userData.type == "Educator" && widget.enrolled) {
+      _items = Provider.of<CoursesProvider>(context, listen: false)
+          .findByCourseIds(widget.courses);
+    } else if (userData.type != "Educator" && widget.enrolled) {
       _items = Provider.of<CoursesProvider>(context, listen: false)
           .findByGrade(widget.grade);
     } else {
@@ -47,8 +70,8 @@ class _CoursesState extends State<Courses> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            courseMaterialScreen(_items[i].courseId,_items[i].title),
+                        builder: (context) => courseMaterialScreen(
+                            _items[i].courseId, _items[i].title),
                       ),
                     );
                   },

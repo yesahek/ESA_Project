@@ -41,4 +41,6 @@ class Course {
 
   factory Course.fromJson(String source) =>
       Course.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  where(bool Function(dynamic course) param0) {}
 }
