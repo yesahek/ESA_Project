@@ -54,9 +54,11 @@ class _CoursesState extends State<Courses> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => courseMaterialScreen(
-                            _items[i].courseId, _items[i].title),
-                      ),
+                          builder: (context) => courseMaterialScreen(
+                                _items[i].courseId,
+                                _items[i].title,
+                                _items[i].grade,
+                              )),
                     );
                   },
                   child: courseItem(

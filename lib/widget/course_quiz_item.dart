@@ -1,37 +1,24 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../screens/pdf_view_screen.dart';
+import '../models/quiz.dart' as model;
+import '../screens/activity_screens/quiz_starter_screen.dart';
 import '../utils/colors.dart';
 
-class courseMaterialItem extends StatefulWidget {
-  final String materialId;
-  final String fileUrl;
-  final DateTime date;
-  final String title;
-  final String author;
-  final String courseId;
-  final int gr;
-  final String fileType;
+class courseQuizItem extends StatefulWidget {
+  final model.Quiz quiz;
   final String courseName;
-  const courseMaterialItem({
+  courseQuizItem({
     Key? key,
-    required this.materialId,
-    required this.fileUrl,
-    required this.date,
-    required this.title,
-    required this.author,
-    required this.courseId,
-    required this.gr,
-    required this.fileType,
+    required this.quiz,
     required this.courseName,
   }) : super(key: key);
 
   @override
-  State<courseMaterialItem> createState() => _courseMaterialItemState();
+  State<courseQuizItem> createState() => _courseQuizItemState();
 }
 
-class _courseMaterialItemState extends State<courseMaterialItem> {
+class _courseQuizItemState extends State<courseQuizItem> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -39,8 +26,7 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              pdfPage(courseTitle: widget.courseName, fileUrl: widget.fileUrl),
+          builder: (context) => QuizStarter(quiz: widget.quiz),
         ),
       );
     }
@@ -52,29 +38,29 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
         margin: EdgeInsets.only(bottom: 16),
         width: size.width - 48,
         decoration: BoxDecoration(
+          border: Border.all(color: Colors.green, width: 2),
           color: Colors.white,
           borderRadius: BorderRadius.circular(38.5),
-          border: Border.all(color: Colors.orange, width: 2),
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(0, 10),
-              blurRadius: 33,
-              color: Color(0xFFD3D3D3).withOpacity(.84),
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     offset: Offset(0, 10),
+          //     blurRadius: 33,
+          //     // color: Colors.red,
+          //   ),
+          //],
         ),
         child: Row(
           children: [
             Icon(
-              Icons.menu_book,
-              color: Colors.orange,
+              Icons.question_mark,
+              color: Colors.green,
               size: 25,
             ),
             RichText(
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: " - ${widget.title}",
+                    text: "Quiz  ",
                     style: TextStyle(
                       fontSize: 16,
                       color: kBlackColor,
@@ -82,7 +68,7 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
                     ),
                   ),
                   TextSpan(
-                    //text: widget.courseName,
+                    text: " - ${widget.courseName}",
                     style: TextStyle(color: kLightBlackColor),
                   ),
                 ],

@@ -50,6 +50,9 @@ dependencies:
   image_picker: ^1.0.1
   syncfusion_flutter_pdfviewer: ^21.2.10
   pdf: ^3.10.4
+  flutter_speed_dial: ^7.0.0
+  youtube_player_flutter: ^8.1.2
+  flutter_quill: ^6.4.4
 
 dev_dependencies:
   flutter_test:
@@ -80,7 +83,9 @@ flutter:
     - assets/Images/book.jpg
     - assets/Images/default.jpg 
     - assets/Images/defaultPP.png
-    - assets/OS Chapter Four.pdf
+    - assets/OS Chapter Four.pdf 
+    - assets/Images/courseScreenImg.jpg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

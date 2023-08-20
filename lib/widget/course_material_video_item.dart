@@ -1,37 +1,30 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:e_sup_app/screens/video_player_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/pdf_view_screen.dart';
 import '../utils/colors.dart';
 
-class courseMaterialItem extends StatefulWidget {
+class courseVideoItem extends StatefulWidget {
   final String materialId;
-  final String fileUrl;
-  final DateTime date;
+  final String videoUrl;
   final String title;
-  final String author;
   final String courseId;
-  final int gr;
-  final String fileType;
   final String courseName;
-  const courseMaterialItem({
+  const courseVideoItem({
     Key? key,
     required this.materialId,
-    required this.fileUrl,
-    required this.date,
+    required this.videoUrl,
     required this.title,
-    required this.author,
     required this.courseId,
-    required this.gr,
-    required this.fileType,
     required this.courseName,
   }) : super(key: key);
 
   @override
-  State<courseMaterialItem> createState() => _courseMaterialItemState();
+  State<courseVideoItem> createState() => _courseVideoItemState();
 }
 
-class _courseMaterialItemState extends State<courseMaterialItem> {
+class _courseVideoItemState extends State<courseVideoItem> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -40,7 +33,7 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
         context,
         MaterialPageRoute(
           builder: (context) =>
-              pdfPage(courseTitle: widget.courseName, fileUrl: widget.fileUrl),
+              VideoPlayerScreen(widget.videoUrl, widget.title),
         ),
       );
     }
@@ -52,9 +45,9 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
         margin: EdgeInsets.only(bottom: 16),
         width: size.width - 48,
         decoration: BoxDecoration(
+          border: Border.all(color: Colors.red, width: 2),
           color: Colors.white,
           borderRadius: BorderRadius.circular(38.5),
-          border: Border.all(color: Colors.orange, width: 2),
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 10),
@@ -66,8 +59,8 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
         child: Row(
           children: [
             Icon(
-              Icons.menu_book,
-              color: Colors.orange,
+              Icons.play_arrow_sharp,
+              color: Colors.red,
               size: 25,
             ),
             RichText(
@@ -82,7 +75,7 @@ class _courseMaterialItemState extends State<courseMaterialItem> {
                     ),
                   ),
                   TextSpan(
-                    //text: widget.courseName,
+                    //text: "    ${widget.courseName}",
                     style: TextStyle(color: kLightBlackColor),
                   ),
                 ],

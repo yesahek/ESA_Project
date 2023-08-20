@@ -12,7 +12,8 @@ class AddNewMaterial extends StatefulWidget {
   final String uid;
   final String courseId;
   final int grade;
-  AddNewMaterial(this.sId, this.uid, this.courseId, this.grade);
+  final isVideo;
+  AddNewMaterial(this.sId, this.uid, this.courseId, this.grade, this.isVideo);
   @override
   State<AddNewMaterial> createState() => _AddNewMaterialState();
 }
@@ -21,8 +22,9 @@ class _AddNewMaterialState extends State<AddNewMaterial> {
   final titleController = TextEditingController();
   final CourseController = TextEditingController();
   final DescController = TextEditingController();
+  final videoUrlController = TextEditingController();
   bool _isLoading = false;
-  File? _file;
+  File? _file = null;
 
   Future<void> _selectPdf() async {
     try {
@@ -56,13 +58,51 @@ class _AddNewMaterialState extends State<AddNewMaterial> {
     });
     String forSnack = "";
     String res = await courseMaterialProvider().uploadCourseMaterial(
-        enterdTitle, description, widget.grade, CourseId, widget.uid, _file!);
+        enterdTitle, description, widget.grade, CourseId, widget.uid, false);
+    _file!;
 
     setState(() {
       _isLoading = false;
     });
     if (res == "success") {
       forSnack = "file uploaded successfuly";
+    } else {
+      forSnack = "something wrong";
+    }
+    showSnackBar(context, forSnack);
+    Navigator.of(context).pop();
+  }
+
+  //video upload
+  void submitVideo() async {
+    final enterdTitle = titleController.text;
+
+    final CourseId = widget.courseId;
+    final description = DescController.text;
+    final videoUrl = videoUrlController.text;
+
+    if (enterdTitle.isEmpty || CourseId.isEmpty) {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+    String forSnack = "";
+    String res = await courseMaterialProvider().uploadCourseMaterial(
+      enterdTitle,
+      description,
+      widget.grade,
+      CourseId,
+      widget.uid,
+      true,
+      videoUrl,
+    );
+
+    setState(() {
+      _isLoading = false;
+    });
+    if (res == "success") {
+      forSnack = "video uploaded successfuly";
     } else {
       forSnack = "something wrong";
     }
@@ -84,26 +124,34 @@ class _AddNewMaterialState extends State<AddNewMaterial> {
               controller: titleController,
               onSubmitted: (_) => submitData(),
             ),
-           
             TextField(
               decoration: InputDecoration(labelText: 'Description'),
               controller: DescController,
               onSubmitted: (_) => submitData(),
             ),
-            MyButton(
-              onTap: _isLoading ? () {} : _selectPdf,
-              content: _isLoading
-                  ? Text("Uploading ......")
-                  : Text("Browse PDF....."),
-            ),
-            TextButton(
-              child: Text(
-                'Add Material',
-                style: TextStyle(
-                  color: Colors.purple,
-                ),
+            if (widget.isVideo)
+              TextField(
+                decoration: InputDecoration(labelText: 'Url'),
+                controller: videoUrlController,
+                onSubmitted: (_) => submitData(),
               ),
-              onPressed: submitData,
+            if (!widget.isVideo)
+              MyButton(
+                onTap: _isLoading ? () {} : _selectPdf,
+                content: _isLoading
+                    ? Text("Uploading ......")
+                    : Text("Browse PDF....."),
+              ),
+            TextButton(
+              child: widget.isVideo
+                  ? Text("Add Video")
+                  : Text(
+                      'Add Material',
+                      style: TextStyle(
+                        color: Colors.purple,
+                      ),
+                    ),
+              onPressed: widget.isVideo ? submitVideo : submitData,
             ),
           ],
         ),

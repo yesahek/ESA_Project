@@ -1,11 +1,20 @@
 class Quiz {
-  final String id;
   final String title;
-  final String description;
+  final List<Question> questions;
 
-  Quiz({
-    required this.id,
-    required this.title,
-    required this.description,
-  });
+  Quiz({required this.title, required this.questions});
+}
+
+class Question {
+  final String questionText;
+  final List<Answer> answers;
+
+  Question({required this.questionText, required this.answers});
+}
+
+class Answer {
+  final String text;
+  final int score;
+
+  Answer({required this.text, required this.score});
 }

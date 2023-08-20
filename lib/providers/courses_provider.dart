@@ -84,7 +84,7 @@ class CoursesProvider with ChangeNotifier {
 
 
 //find course by course Id
-  List<Course> findByCourseId(int cId) {
+  List<Course> findByCourseId(String cId) {
     return _items.where((course) => course.courseId == cId).toList();
   }
 //find list of course by Ids

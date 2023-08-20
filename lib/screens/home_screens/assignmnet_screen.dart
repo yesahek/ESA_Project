@@ -89,6 +89,7 @@ class _AssignmnetScreenState extends State<AssignmnetScreen> {
                                 builder: (context) => courseMaterialScreen(
                                   _assignments[i].courseId,
                                   _assignments[i].assignmentTitle,
+                                  00
                                 ),
                               ),
                             );

@@ -1,10 +1,10 @@
-
 import 'package:e_sup_app/providers/assignment_provider.dart';
 import 'package:e_sup_app/providers/leaders.dart';
 import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:e_sup_app/providers/course_materials_provider.dart';
 import 'package:e_sup_app/providers/quiz_provider.dart';
 import 'package:e_sup_app/providers/school_provider.dart';
+import 'package:e_sup_app/providers/stream_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/responsive/responsive_layout.dart';
 import 'package:e_sup_app/responsive/web_screen_layout.dart';
@@ -67,11 +67,14 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: schoolProvider(),
         ),
-         ChangeNotifierProvider.value(
+        ChangeNotifierProvider.value(
           value: assignmentProvider(),
         ),
-         ChangeNotifierProvider.value(
+        ChangeNotifierProvider.value(
           value: QuizProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: streamProvider(),
         ),
       ],
       child: MaterialApp(
