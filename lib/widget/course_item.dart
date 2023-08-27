@@ -44,7 +44,7 @@ class courseItem extends StatelessWidget {
                   ),
                 ),
                 TextSpan(
-                  text: "-- grade $grade",
+                  //text: "-- grade $grade",
                   style: TextStyle(color: kLightBlackColor),
                 ),
               ],

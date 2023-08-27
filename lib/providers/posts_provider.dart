@@ -150,7 +150,7 @@ class PostProvider with ChangeNotifier {
           await FirebaseFirestore.instance.collection('posts').get();
       _items = snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data();
-        print(_items.length);
+       // print(_items.length);
         return Post(
           courseId: data['courseId'],
           uid: data['uid']!,

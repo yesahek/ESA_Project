@@ -1,17 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_sup_app/models/course.dart';
 import 'package:e_sup_app/providers/courses_provider.dart';
 import 'package:e_sup_app/providers/quiz_provider.dart';
 import 'package:e_sup_app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/quiz.dart';
 
 // ignore: must_be_immutable
 class QuizUploader extends StatefulWidget {
+  String uid;
   String courseId;
-  QuizUploader(this.courseId);
+  QuizUploader(
+    this.uid,
+    this.courseId,
+  );
 
   @override
   _QuizUploaderState createState() => _QuizUploaderState();
@@ -127,7 +132,7 @@ class _QuizUploaderState extends State<QuizUploader> {
     if (questions.isNotEmpty) {
       try {
         Quiz quiz = Quiz(title: titleController.text, questions: questions);
-        res = await QuizProvider().addQuiz(widget.courseId, quiz);
+        res = await QuizProvider().addQuiz(widget.uid,widget.courseId, quiz);
       } catch (e) {
         print(e.toString());
         res = e.toString();

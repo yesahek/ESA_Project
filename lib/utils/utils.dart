@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../widget/my_button.dart';
+import '../widget/textField.dart';
 // file picking up from user storage
 // pickFile( MediaSource source) async{
 //   final pathToFile = await FlutterDocumentPicker.openDocument();
@@ -20,3 +23,6 @@ pickImage(ImageSource source) async {
     return await file.readAsBytes();
   }
 }
+
+
+

@@ -114,7 +114,7 @@ Future<Quiz> getQuizByDocId(String quizId) async {
 
   final CollectionReference quizzesCollection =
       FirebaseFirestore.instance.collection('quizzes');
-  addQuiz(String courseId, Quiz quiz) async {
+  addQuiz(String uid ,String courseId, Quiz quiz) async {
     String res = "";
     try {
       DocumentReference newDocRef = await quizzesCollection.add({
@@ -137,6 +137,7 @@ Future<Quiz> getQuizByDocId(String quizId) async {
       Timestamp firestoreTimestamp = Timestamp.fromDate(currentDate);
       String streamId = const Uuid().v1();
       model.Stream newStream = model.Stream(
+        authorId: uid,
           streamId: streamId,
           collection: "quizzes",
           courseId: courseId,

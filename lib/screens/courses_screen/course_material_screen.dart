@@ -1,5 +1,7 @@
 import 'package:e_sup_app/models/course_material.dart';
+import 'package:e_sup_app/models/lesson.dart';
 import 'package:e_sup_app/providers/course_materials_provider.dart';
+import 'package:e_sup_app/providers/lesson_provider.dart';
 import 'package:e_sup_app/providers/users_provider.dart';
 import 'package:e_sup_app/widget/course_material_video_item.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +14,14 @@ import '../../providers/quiz_provider.dart';
 import '../../providers/stream_provider.dart';
 import '../../widget/add_new_material.dart';
 import '../../widget/course_material_item.dart';
+import '../../widget/course_material_lesson_item.dart';
 import '../../widget/course_quiz_item.dart';
 import '../../widget/my_appBar.dart';
-import '../../widget/my_button.dart';
 import '../../widget/searchBar.dart';
 import '../activity_screens/quiz_uploader.dart';
 import 'forum_screen.dart';
 import '../../models/stream.dart' as model;
-import 'lesson_write.dart';
+import 'lesson_write_screen.dart';
 
 class courseMaterialScreen extends StatefulWidget {
   final courseId;
@@ -65,6 +67,14 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
     );
   }
 
+  _deleteMaterial(int i) async {
+    await Provider.of<streamProvider>(context, listen: false).deleteStream(
+        _courseStream[i].streamId,
+        _courseStream[i].docId,
+        _courseStream[i].collection);
+    _refreshCourseMaterials;
+  }
+
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -78,6 +88,10 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
     }
     _isInit = false;
     super.didChangeDependencies();
+  }
+
+  _refreshCourseMaterials() async {
+    didChangeDependencies();
   }
 
   @override
@@ -159,11 +173,40 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: _courseStream.length,
-                    itemBuilder: (_, i) => Column(
-                      children: [
-                        Divider(),
-                        FutureBuilder<Widget>(
-                          future: courseMT(_courseStream[i]),
+                    itemBuilder: (_, i) {
+                      final currentCourseMaterial = _courseStream[i++];
+                      return Dismissible(
+                        key: Key(currentCourseMaterial.streamId),
+                        direction: DismissDirection.endToStart,
+                        onDismissed: (direction) async {
+                          if (currentCourseMaterial.authorId ==
+                              userDetail.uid) {
+                           await _deleteMaterial(i);
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Deleted'),
+                                ),
+                              );
+                              setState(() {
+                                _courseStream.removeAt(i);
+                              });
+                            }
+                          }
+                        },
+                        background: Container(
+                          alignment: Alignment.centerRight,
+                          color: Colors.red,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        child: FutureBuilder<Widget>(
+                          future: courseMT(currentCourseMaterial),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -175,9 +218,8 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
                             }
                           },
                         ),
-                        Divider(),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -209,7 +251,8 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => QuizUploader(widget.courseId),
+                      builder: (context) =>
+                          QuizUploader(userDetail.uid, widget.courseId),
                     ),
                   ),
                 ),
@@ -228,7 +271,11 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LessonWrite(),
+                      builder: (context) => LessonWrite(
+                        autherId: userDetail.uid,
+                        courseId: widget.courseId,
+                        grade: widget.courseGrade,
+                      ),
                     ),
                   ),
                 ),
@@ -241,6 +288,7 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
   Future<Widget> courseMT(model.Stream courseStream) async {
     String docId = courseStream.docId;
     courseMaterial _courseMaterial;
+    lesson _lesson;
     if (courseStream.collection == "Course Materials") {
       _courseMaterial =
           await Provider.of<courseMaterialProvider>(context, listen: false)
@@ -259,7 +307,6 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
     } else if (courseStream.collection == "quizzes") {
       Quiz _quiz = await Provider.of<QuizProvider>(context, listen: false)
           .getQuizByDocId(docId);
-      print(_quiz.questions[0].questionText);
       return courseQuizItem(
         courseName: widget.coureTitle,
         quiz: _quiz,
@@ -274,6 +321,19 @@ class _courseMaterialScreenState extends State<courseMaterialScreen> {
         materialId: _courseMaterial.courseId,
         title: _courseMaterial.title,
         videoUrl: _courseMaterial.fileUrl,
+      );
+    } else if (courseStream.collection == "lessons") {
+      // _courseMaterial =
+      //     await Provider.of<courseMaterialProvider>(context, listen: false)
+      //         .getCourseMaterialByDocId(docId);
+      _lesson = await Provider.of<lessonProvider>(context, listen: false)
+          .getCourseLessonByDocId(docId);
+      return courseLessonItem(
+        courseId: _lesson.courseId,
+        courseName: widget.coureTitle,
+        materialId: _lesson.courseId,
+        title: _lesson.title,
+        content: _lesson.content,
       );
     }
     // Return an empty Container if the condition is not met

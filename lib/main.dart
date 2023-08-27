@@ -1,5 +1,6 @@
 import 'package:e_sup_app/providers/assignment_provider.dart';
 import 'package:e_sup_app/providers/leaders.dart';
+import 'package:e_sup_app/providers/lesson_provider.dart';
 import 'package:e_sup_app/providers/posts_provider.dart';
 import 'package:e_sup_app/providers/course_materials_provider.dart';
 import 'package:e_sup_app/providers/quiz_provider.dart';
@@ -75,6 +76,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: streamProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: lessonProvider(),
         ),
       ],
       child: MaterialApp(

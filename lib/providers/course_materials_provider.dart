@@ -33,7 +33,6 @@ class courseMaterialProvider with ChangeNotifier {
           .get();
       _items = snapshot.docs.map((doc) {
         Map<String, dynamic> data = doc.data();
-
         return courseMaterial(
           id: doc.id,
           authorId: data['authorId'],
@@ -131,6 +130,7 @@ class courseMaterialProvider with ChangeNotifier {
       // register on streams db
       String streamId = const Uuid().v1();
       model.Stream newStream = model.Stream(
+        authorId: uid,
         streamId: streamId,
         collection: isVideo ? "videos" : "Course Materials",
         courseId: courseId,

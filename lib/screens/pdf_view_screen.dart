@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+//import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../widget/my_appBar.dart';
 
@@ -17,7 +17,7 @@ class pdfPage extends StatefulWidget {
 }
 
 class _pdfPage extends State<pdfPage> {
-  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
+ // final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
 
   @override
   void initState() {
@@ -38,12 +38,12 @@ class _pdfPage extends State<pdfPage> {
                 title: widget.courseTitle,
                 name: ''
               ),
-              Expanded(
-                child: SfPdfViewer.network(
-                  widget.fileUrl,
-                  key: _pdfViewerKey,
-                ),
-              ),
+              // Expanded(
+              //   child: SfPdfViewer.network(
+              //     widget.fileUrl,
+              //     key: _pdfViewerKey,
+              //   ),
+              // ),
             ],
           ),
         ),
